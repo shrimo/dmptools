@@ -10,12 +10,11 @@ REQUIREMENTS:
 
 INSTALL:
 - clone dmptools: git clone git://github.com/michael-ha/dmptools.git
-- in command shell go to the root of the dmptools and run 'python install.py'
+- in command shell go to the root of the dmptools and run 'python install.py' or execute install.py from an explorer.
 or
 - clone dmptools: git clone git://github.com/michael-ha/dmptools.git
 - open Sublime Text
 - project > open > dmptools.sublime-project
-- open dmptools/installFromSublime.py
 - tools > build system > dmptools
 - tools > build
 
