@@ -165,7 +165,7 @@ def toggleVertexColorDisplay():
 def headsUpDisplayMessage(message):
     """function that displays a custom heads up display message"""
     cmds.headsUpMessage(message,
-                    verticalOffset=400,
+                    verticalOffset=350,
                     horizontalOffset=0)
 
 def shortestEdgePath():
