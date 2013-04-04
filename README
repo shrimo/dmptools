@@ -9,15 +9,16 @@ REQUIREMENTS:
 - python2.5+ installed in c:/python27
 
 INSTALL:
+
+without Sublime Text editor:
 - clone dmptools: git clone git://github.com/michael-ha/dmptools.git
-- in command shell go to the root of the dmptools and run 'python install.py' or execute install.py from an explorer.
-or
+- execute install.py from an the dmptools root OR in command shell run 'python install.py' from the root of the dmptools
+
+with Sublime Text editor:
 - clone dmptools: git clone git://github.com/michael-ha/dmptools.git
 - open Sublime Text
 - project > open > dmptools.sublime-project
 - tools > build system > dmptools
 - tools > build
 
-RESULT:
-In Maya you should now see a new shelf
-In Nuke you should now see a new toolbar
+In Maya or Nuke type "import dmptools" if there's no error, then it's good :)

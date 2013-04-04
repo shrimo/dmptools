@@ -1,6 +1,11 @@
 import maya.cmds as cmds
 import maya.mel as mel
 
+"""
+attempt to export fbx from a maya scene to frostbite
+
+"""
+
 # source dead space combine script
 mel.eval('source "D:/tools_pf/maya/mel/MODEL_vgm_combine.mel";')
 

@@ -11,12 +11,96 @@ import time
 import subprocess
 import fnmatch
 
-from dmptools.presets import PresetsManager
+from dmptools.settings import SettingsManager
 
 # globals
 normalAngle = 85
 perspNear = 1
 perspFar = 20000
+
+def openScriptEditor():
+    mel.eval("ScriptEditor;")
+
+def combine():
+    """
+    clean combine
+
+    """
+    selection = cmds.ls(sl=True, type='mesh', dag=True)
+    if not selection or selection < 2:
+        cmds.warning('Please select at least 2 meshes!')
+
+    # get full path
+    meshFull = cmds.listRelatives(selection[0], p=True, f=True)
+    # get parent
+    meshParent = cmds.listRelatives(meshFull, p=True, f=True)
+    meshInWorld = []
+    if meshParent:
+        meshParent0 = meshParent[0]
+        meshInWorld.append(cmds.parent(meshFull, world=True)[0])
+    else:
+        meshInWorld = meshFull
+    # replace 1st mesh in sel by mesh in world
+    selection[0] = meshInWorld[0]
+    # get pivots
+    pivots = cmds.xform(meshInWorld[0], q=True, ws=True, a=True, rotatePivot=True)
+    # combine & rename
+    newMesh = cmds.polyUnite(selection, o=True)
+    newMeshName = cmds.rename(newMesh[0], meshInWorld[0])
+    # set pivot
+    cmds.xform(newMeshName, rotatePivot=pivots)
+    # reparent
+    if meshParent:
+        newMeshName = cmds.parent(newMeshName, meshParent, a=True)
+
+    # delete history
+    cmds.delete(newMeshName, ch=True, hi='none')
+
+def faceSeparate():
+    """
+    clean separate
+
+    """
+    faces = cmds.ls(sl=True, fl=True)
+    temp = faces[0].split('.')
+
+    if not faces or len(temp) == 1:
+        cmds.error('Select at lease one face!')
+
+    temp = faces[0].split('.')
+    mesh = temp[0]
+    temp = cmds.duplicate(mesh, n=mesh, rr=True)
+    newMesh = temp[0]
+    new = cmds.ls(newMesh+'.f[*]', fl=True)
+
+    ii = 0
+    newFaceDelete = []
+
+    for face in new:
+        hit = False
+        temp = new[ii].split('.')
+        newFace = temp[1]
+        o = 0
+        for f in faces:
+            temp = faces[o].split('.')
+            oldFace = temp[1]
+            o = o+1
+            if newFace == oldFace:
+                hit = True
+                break
+        if not hit:
+            newFaceDelete.append(new[ii])
+        ii = ii+1
+    cmds.delete(newFaceDelete)
+    cmds.delete(faces)
+    cmds.select(newMesh)
+    cmds.xform(cp=True)
+
+def openNodeEditor():
+    mel.eval('NodeEditorWindow;')
+
+def createNodeWindow():
+    mel.eval('CreateNodeWindow;')
 
 def createCameraUVProj():
     sel = cmds.ls(sl=True)
@@ -43,7 +127,7 @@ def averageNormals():
                                 distance=0.1,
                                 replaceNormalXYZ=(1,0,0))
        
-def setPerspPreset():
+def setPerspSetting():
     if cmds.ls('perspShape'):
         cmds.setAttr('perspShape.nearClipPlane', perspNear)
         cmds.setAttr('perspShape.farClipPlane', perspFar)
@@ -56,9 +140,9 @@ def selectObjectsFromShader(shader):
     """
     cmds.hyperShade(objects=shader)
 
-def setUserPreset():
+def setUserSetting():
     
-    # ask for a preset name
+    # ask for a Setting name
     result = cmds.promptDialog(
                     title='Save selection',
                     message='Enter Name:',
@@ -69,39 +153,39 @@ def setUserPreset():
     
     if result == 'OK':
         inputText = cmds.promptDialog(query=True, text=True)
-        presets = PresetsManager()
-        presets.addPreset(inputText, cmds.ls(sl=True))
-        print presets.getPreset('faceSelection')
+        settings = SettingsManager()
+        settings.addSetting(inputText, cmds.ls(sl=True))
+        print settings.getSetting('faceSelection')
 
-def getUserPreset():
-    presets = PresetsManager()
-    allPresets = presets.getPresets()
+def getUserSetting():
+    settings = SettingsManager()
+    allSettings = settings.getSettings()
     lines = []
-    for item in allPresets:
+    for item in allSettings:
         lines.append(item.keys()[0])
     
-    if cmds.window('PresetsWindow', exists=True):
-        cmds.deleteUI('PresetsWindow', window=True)
+    if cmds.window('settingsWindow', exists=True):
+        cmds.deleteUI('settingsWindow', window=True)
 
-    window = cmds.window('PresetsWindow')
+    window = cmds.window('settingsWindow')
     cmds.paneLayout()
-    cmds.textScrollList('PresetsList',
+    cmds.textScrollList('settingsList',
                         numberOfRows=8,
                         allowMultiSelection=True,
                         append=lines,
-                        dcc=selectPreset)
+                        dcc=selectSetting)
     
-    cmds.showWindow('PresetsWindow')
+    cmds.showWindow('settingsWindow')
 
-def selectPreset():
-    presetText = cmds.textScrollList('PresetsList',
+def selectSetting():
+    settingText = cmds.textScrollList('settingsList',
                         q=True,
                         si=True)
-    presets = PresetsManager()
+    settings = SettingsManager()
     try:
-        cmds.select(presets.getPreset(presetText[0])[0])
+        cmds.select(settings.getSetting(settingText[0])[0])
     except:
-        print 'failed to select preset...'
+        print 'failed to select setting...'
 
 def makeTube():
     """
@@ -221,18 +305,33 @@ def unwrapTerrain(sel):
     for i in range(4):
         unfoldAndRotate(sel)
 
-def setDefaultColors():
+def defaultScriptEditorColors():
     """
     set the default maya environment color scheme
     """
-
-    # script editor
     cmds.displayRGBColor('syntaxKeywords', 0.0, 1.0, 0.0)
     cmds.displayRGBColor('syntaxText', 0.78431373834609985, 0.78431373834609985, 0.78431373834609985)
     cmds.displayRGBColor('syntaxStrings', 1.0, 1.0, 0.0)
     cmds.displayRGBColor('syntaxComments', 1.0, 0.0, 0.0)
     cmds.displayRGBColor('syntaxCommands', 0.0, 1.0, 1.0)
     cmds.displayRGBColor('syntaxBackground', 0.16470588743686676, 0.16470588743686676, 0.16470588743686676)
+
+def customScriptEditorColors():
+    """
+    set custom maya environment color scheme
+    """
+    cmds.displayRGBColor('syntaxKeywords', 0.14, 0.9, 0.14)
+    cmds.displayRGBColor('syntaxText', 0.84, 0.84, 0.84)
+    cmds.displayRGBColor('syntaxStrings', 0.09, 0.4, 0.1)
+    cmds.displayRGBColor('syntaxComments', 0.45, 0.45, 0.45)
+    cmds.displayRGBColor('syntaxCommands', 0.75, 0.75, 0.27)
+    cmds.displayRGBColor('syntaxBackground', 0.15, 0.15, 0.15)
+
+
+def setDefaultColors():
+    """
+    set the default maya environment color scheme
+    """
 
     # background
     cmds.displayRGBColor('background', 0.63099998235702515, 0.63099998235702515, 0.63099998235702515)
@@ -249,16 +348,8 @@ def setDefaultColors():
 
 def setCustomColors():
     """
-    set custom maya environment color scheme
+    set the custom maya environment color scheme
     """
-    
-    # script editor
-    cmds.displayRGBColor('syntaxKeywords', 0.14, 0.9, 0.14)
-    cmds.displayRGBColor('syntaxText', 0.84, 0.84, 0.84)
-    cmds.displayRGBColor('syntaxStrings', 0.09, 0.4, 0.1)
-    cmds.displayRGBColor('syntaxComments', 0.45, 0.45, 0.45)
-    cmds.displayRGBColor('syntaxCommands', 0.75, 0.75, 0.27)
-    cmds.displayRGBColor('syntaxBackground', 0.15, 0.15, 0.15)
     
     # background
     cmds.displayRGBColor('background', 0.6, 0.6, 0.6)
@@ -389,7 +480,7 @@ def newScriptEditor():
 
 def launchConsole():
     """launch console2 from maya"""
-    presets = PresetsManager()
+    settings = SettingsManager()
     
     # get the console path from default
     defaultConsolePath = [
@@ -398,9 +489,9 @@ def launchConsole():
         ]
     for path in defaultConsolePath:
         if os.path.exists(path):
-            presets.addPreset('terminator', path)
+            settings.addSetting('terminator', path)
 
-    consolePath = presets.getPreset('terminator')
+    consolePath = settings.getSetting('terminator')
     if consolePath and os.path.exists(consolePath[0]):
         # launch console
         subprocess.Popen(consolePath[0])
@@ -413,8 +504,8 @@ def launchConsole():
         if filedialog:
             consolePath = str(filedialog[0])
             if os.path.exists(consolePath):
-                # setting preset
-                presets.addPreset('terminator', consolePath)
+                # setting Setting
+                settings.addSetting('terminator', consolePath)
                 # launch console
                 subprocess.Popen(consolePath)
         else:
@@ -422,7 +513,7 @@ def launchConsole():
 
 def launchSublimeText():
     """launch sublime text from maya"""
-    presets = PresetsManager()
+    settings = SettingsManager()
     
     # get the sublime text path from default
     defaultSublimePath = [
@@ -432,9 +523,9 @@ def launchSublimeText():
         ]
     for path in defaultSublimePath:
         if os.path.exists(path):
-            presets.addPreset('sublime_text_path', path)
+            settings.addSetting('sublime_text_path', path)
 
-    sublimeTextPath = presets.getPreset('sublime_text_path')
+    sublimeTextPath = settings.getSetting('sublime_text_path')
     if sublimeTextPath and os.path.exists(sublimeTextPath[0]):
         # launch sublime text
         subprocess.Popen(sublimeTextPath[0])
@@ -447,8 +538,8 @@ def launchSublimeText():
         if filedialog:
             sublimeTextPath = str(filedialog[0])
             if os.path.exists(sublimeTextPath):
-                # setting preset
-                presets.addPreset('sublime_text_path', sublimeTextPath)
+                # setting Setting
+                settings.addSetting('sublime_text_path', sublimeTextPath)
                 # launch sublime text
                 subprocess.Popen(sublimeTextPath)
         else:
@@ -456,7 +547,7 @@ def launchSublimeText():
 
 def launchNuke():
     """launch nuke from maya"""
-    presets = PresetsManager()
+    settings = SettingsManager()
 
     # get the nuke text path from default
     defaultNukePath = [
@@ -467,10 +558,10 @@ def launchNuke():
         ]
     for path in defaultNukePath:
         if os.path.exists(path):
-            presets.addPreset('nuke_path', path)
+            settings.addSetting('nuke_path', path)
             
-    # get the nuke path preset if exists
-    nukePath = presets.getPreset('nuke_path')
+    # get the nuke path Setting if exists
+    nukePath = settings.getSetting('nuke_path')
     if nukePath:
         if os.path.exists(nukePath[0]):
             # launch nuke
@@ -486,8 +577,8 @@ def launchNuke():
         if filedialog:
             nukePath = str(filedialog[0])
             if os.path.exists(nukePath):
-                # setting preset
-                presets.addPreset('nuke_path', nukePath)
+                # setting Setting
+                settings.addSetting('nuke_path', nukePath)
                 # launch nuke
                 subprocess.Popen(nukePath+" --nukex")
             else:
@@ -631,47 +722,46 @@ def bufMove():
     cmds.selectMode(object=True)
     sel = cmds.ls(sl=True)
     # enter the move mode and set on vertex
-    sel = cmds.ls(sl=True)
-    shape = cmds.listRelatives(sel[0])
-    print cmds.nodeType(shape)
-    if cmds.nodeType(shape) == 'nurbsCurve':
-        try:
-            cmds.delete(sel, ch=True)
-            cmds.selectMode(component=True)
-            activePanel = cmds.getPanel(withFocus=True)
-            cmds.modelEditor(activePanel, e=True, manipulators=False)
-            cmds.setToolTo('moveSuperContext')
-            cmds.selectType(alc=0)
-            cmds.selectType(controlVertex=1)
-            cmds.selectPref(clickDrag=True)
-        except:
-            pass
+    if sel:
+        shape = cmds.listRelatives(sel[0])
+        if cmds.nodeType(shape) == 'nurbsCurve':
+            try:
+                cmds.delete(sel, ch=True)
+                cmds.selectMode(component=True)
+                activePanel = cmds.getPanel(withFocus=True)
+                cmds.modelEditor(activePanel, e=True, manipulators=False)
+                cmds.setToolTo('moveSuperContext')
+                cmds.selectType(alc=0)
+                cmds.selectType(controlVertex=1)
+                cmds.selectPref(clickDrag=True)
+            except:
+                pass
 
-    if cmds.nodeType(shape) == 'mesh':
-        try:
-            cmds.delete(sel, ch=True)
-            cmds.selectMode(component=True)
-            activePanel = cmds.getPanel(withFocus=True)
-            cmds.modelEditor(activePanel, e=True, manipulators=False)
-            cmds.setToolTo('moveSuperContext')
-            cmds.selectType(alc=0)
-            cmds.selectType(vertex=1)
-            cmds.selectPref(clickDrag=True)
-        except:
-            pass
-    else:
-        try:
-            cmds.delete(sel, ch=True)
-            cmds.selectMode(component=True)
-            activePanel = cmds.getPanel(withFocus=True)
-            cmds.modelEditor(activePanel, e=True, manipulators=False)
-            cmds.setToolTo('moveSuperContext')
-            cmds.selectType(alc=0)
-            cmds.selectType(vertex=1)
-            cmds.selectPref(clickDrag=True)
-        except:
-            pass
-    #cmds.selectPref(useDepth = True)
+        if cmds.nodeType(shape) == 'mesh':
+            try:
+                cmds.delete(sel, ch=True)
+                cmds.selectMode(component=True)
+                activePanel = cmds.getPanel(withFocus=True)
+                cmds.modelEditor(activePanel, e=True, manipulators=False)
+                cmds.setToolTo('moveSuperContext')
+                cmds.selectType(alc=0)
+                cmds.selectType(vertex=1)
+                cmds.selectPref(clickDrag=True)
+            except:
+                pass
+        else:
+            try:
+                cmds.delete(sel, ch=True)
+                cmds.selectMode(component=True)
+                activePanel = cmds.getPanel(withFocus=True)
+                cmds.modelEditor(activePanel, e=True, manipulators=False)
+                cmds.setToolTo('moveSuperContext')
+                cmds.selectType(alc=0)
+                cmds.selectType(vertex=1)
+                cmds.selectPref(clickDrag=True)
+            except:
+                pass
+        #cmds.selectPref(useDepth = True)
 
 def bufMoveMulti():
     """enter the Buf move vertex mode"""
@@ -717,6 +807,7 @@ def importScene():
 def isolateSelection():
     """isolate selection"""
     activePanel = cmds.getPanel(wf = True)
+    mel.eval('isoSelectAutoAddNewObjs '+activePanel+' true;')
     mel.eval("enableIsolateSelect {0} {1};".format(activePanel, str(not cmds.isolateSelect(activePanel, q=True, state=True)).lower()))    
 
 def hideSel():

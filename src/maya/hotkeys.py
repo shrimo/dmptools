@@ -1,360 +1,86 @@
-# hotkeys list
-HOTKEYS = \
-[
-    {
-        'name':'createCameraUVProj',
-        'key':'P',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.createCameraUVProj()");'
-    },
-    {
-        'name':'switchColors',
-        'key':'c',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchColors()");'
-    },
-    {
-        'name':'softEdgeSelection',
-        'key':'N',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.softEdgeSelection()");'
-    },
-    {
-        'name':'invertSelection',
-        'key':'I',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.invertSelection()");'
-    },
-    {
-        'name':'showHotkeysList',
-        'key':'H',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.createHotkeys as createHotkeys;\
-            reload(createHotkeys);createHotkeys.showHotkeysList()");'
-    },
-    {
-        'name':'createHotkeys',
-        'key':'H',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.createHotkeys as createHotkeys;\
-            reload(createHotkeys);createHotkeys.main()");'
-    },
-    {
-        'name':'bufMove',
-        'key':'a',
-        'alt':False,
-        'ctrl':False,
-        'release':True,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMove()");',
-        'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");'
-    },
-    {
-        'name':'bufMoveMulti',
-        'key':'q',
-        'alt':False,
-        'ctrl':False,
-        'release':True,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveMulti()");',
-        'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");'
-    },
-    {
-        'name':'hideSelectionSwitch',
-        'key':'h',
-        'alt':False,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.hideSelSwitch()");'
-    },
-    {
-        'name':'isolateSelection',
-        'key':'h',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.isolateSelection()");',
-    },
-    {
-        'name':'toggleNormals',
-        'key':'n',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.toggleNormals()");',
-    },
-    {
-        'name':'setWireframe',
-        'key':'w',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setWireframe()");',
-    },
-    {
-        'name':'setBackfaceCulling',
-        'key':'B',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setBackfaceCulling()");',
-    },
-    {
-        'name':'setDefaultMaterial',
-        'key':'d',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setDefaultMaterial()");',
-    },
-    {
-        'name':'cameraPanTool',
-        'key':'z',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.cameraPanTool()");',
-    },
-    {
-        'name':'cameraZoomTool',
-        'key':'Z',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.cameraZoomTool()");',
-    },
-    {
-        'name':'resetPanZoom',
-        'key':'Z',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.resetPanZoom()");',
-    },
-    {
-        'name':'selectNgones',
-        'key':'q',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchSelectNgones()");',
-    },
-    {
-        'name':'selectTriangles',
-        'key':'p',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchSelectTriangles()");',
-    },
-    {
-        'name':'switchLight',
-        'key':'l',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchLight()");'
-    },
-    {
-        'name':'switchHighlightedSelection',
-        'key':'f',
-        'alt':True,
-        'ctrl':False,'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchHighlightedSelection()");'
-    },
-    {
-        'name':'askFlushUndo',
-        'key':'f',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.askFlushUndo()");'
-    },
-    {
-        'name':'saveAs',
-        'key':'S',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'SaveSceneAs;'
-    },
-    {
-        'name':'freezeHistory',
-        'key':'F',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.freezeHistory()");'
-    },
-    {
-        'name':'freezeHistoryCenterPivot',
-        'key':'F',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.freezeCenterPivot()");'
-    },
-    {
-        'name':'centerPivot',
-        'key':'F',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.centerPivot()");'
-    },
-    {
-        'name':'setDefaultRenderer',
-        'key':'1',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setDefaultRenderer()");'
-    },
-    {
-        'name':'setHardwareRenderer',
-        'key':'2',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setHardwareRenderer()");'
-    },
-    {
-        'name':'setViewport2Renderer',
-        'key':'3',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setViewport2Renderer()");'
-    },
-    {
-        'name':'launchConsole',
-        'key':'x',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchConsole()");'
-    },
-    {
-        'name':'mergeVertex',
-        'key':'m',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeVertex()");'
-    },
-    {
-        'name':'openUvTextureEditor',
-        'key':'2',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openUvTextureEditor()");'
-    },
-    {
-        'name':'openHypershade',
-        'key':'1',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openHypershade()");'
-    },
-    {
-        'name':'proMode',
-        'key':'F11',
-        'alt':False,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.proMode()");'
-    },
-    {
-        'name':'unselectAll',
-        'key':'space',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.unselectAll()");'
-    },
-    {
-        'name':'switchObjectTumble',
-        'key':'Q',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchObjectTumble()");'
-    },
-    {
-        'name':'toggleVertexColorDisplay',
-        'key':'C',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");'
-    },
-    {
-        'name':'shortestEdgePath',
-        'key':'Q',
-        'alt':True,
-        'ctrl':True,
-        'release':True,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.shortestEdgePath()");',
-        'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");'
-    },
-    {
-        'name':'mergeUVs',
-        'key':'X',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeUVs()");'
-    },
-]
-# end of hotkeys
+#==========================================================================
+#
+# createHotkeys.py
+# michael.havart@gmail.com
+#
+# create Maya hotkeys instead of typing them in the maya hotkey menu.
+#
+#==========================================================================
+
+import maya.cmds as cmds
+import os
+
+import dmptools.items as items
+
+# hotkeys files path
+CMD_FILE = cmds.internalVar(userPrefDir=True)+'userRunTimeCommands.mel'
+HOTKEY_FILE = cmds.internalVar(userPrefDir=True)+'userHotkeys.mel'
+COMMAND_NAME_FILE = cmds.internalVar(userPrefDir=True)+'userNamedCommands.mel'
+HOTKEYS_ITEMS = items.hotkeysItems
+
+def setHotkey(hotkey):
+    """
+    create a hotkey from a given hotkey dict
+    """
+    # get hotkey dict data
+    name = hotkey['name']
+    key = hotkey['key']
+    alt = hotkey['alt']
+    ctl = hotkey['ctrl']
+    release = hotkey['release']
+    command = hotkey['command']
+    if release:
+        releaseName = name+"Release"
+        releaseCommand = hotkey['releaseCommand']
+    
+    #create hotkey command
+    cmds.nameCommand(name, sourceType="mel", annotation=name, command=command)
+    if release:
+        cmds.nameCommand(releaseName, sourceType="mel", annotation=releaseName, command=releaseCommand)
+    
+    # set hotkey
+    cmds.hotkey(k=key, alt=alt, ctl=ctl, name=name)    
+    #print 'set hotkey:', name, key, alt, ctrl, command
+
+    if release:
+        cmds.hotkey(k=key, alt=alt, ctl=ctl, releaseName=releaseName)
+        #print 'set hotkey release:', releaseName, key, alt, ctrl, releaseCommand
+
+def showHotkeysList():
+    """shows the current user hotkeys mapping and its name
+    """
+
+    reload(items)
+    lines = []
+    for key in HOTKEYS_ITEMS:
+        lines.append('key:  '+str(key['key'])+'  ctrl:  '+str(key['ctrl'])+'  alt:  '+str(key['alt'])+'  '+str(key['name']))
+
+    window = cmds.window('hotkeysWindow')
+    cmds.paneLayout()
+    cmds.textScrollList(numberOfRows=8,
+                        allowMultiSelection=True,
+                        append=lines,)
+    cmds.showWindow()
+
+def main():
+    """
+        delete the old maya hotkey files
+        and install the new ones from the HOTKEYS list
+    """
+    print '- creating dmptools hotkeys...'
+    # delete old hotkeys
+    if os.path.exists(CMD_FILE):
+        os.remove(CMD_FILE)
+    if os.path.exists(HOTKEY_FILE):
+        os.remove(HOTKEY_FILE)
+    if os.path.exists(COMMAND_NAME_FILE):
+        os.remove(COMMAND_NAME_FILE)
+    # create hotkeys
+    for hotKey in HOTKEYS_ITEMS:
+            setHotkey(hotKey)
+    # save hotkeys pref files
+    cmds.savePrefs(hotkeys=True)
+    print '> done.'
+
+if __name__ == '__main__':
+    main()

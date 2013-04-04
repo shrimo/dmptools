@@ -12,7 +12,7 @@ class Exporter(object):
     """
     def __init__(self, items={}, outputFile='', framerange={}):
         # get  utils stuff
-        self.temp_path = UTILS.temp_path
+        self.tempPath = UTILS.tempPath
         self.os = UTILS.os
         # get the stuff to export and the outputFile
         self.items = items
@@ -26,7 +26,7 @@ class Exporter(object):
         self.currTime = timeInfo['current']
         self.timeStr = timeInfo['str']
         # get the nuke.exe path
-        self.nukeexe = UTILS.nukeexe
+        self.nukePath = UTILS.nukePath
         
     def startExport(self):
         """
@@ -35,10 +35,10 @@ class Exporter(object):
         """
         print "----------------| start |----------------"
         # python tmp file used to generate the nk file
-        pyFile = self.temp_path+"/"+self.outputFile.split('/')[-1].split('.')[-2]+"_"+self.currTime+".py"
+        pyFile = self.tempPath+"/"+self.outputFile.split('/')[-1].split('.')[-2]+"_"+self.currTime+".py"
         # nuke command to generate the nk file from the py file
         if self.os == 'nt':
-            generateNukeScript = '"'+self.nukeexe+'" -t '+pyFile+''
+            generateNukeScript = '"'+self.nukePath+'" -t '+pyFile+''
         if self.os == 'posix':
             generateNukeScript = 'nuke -t '+pyFile+' &'
 
@@ -47,7 +47,7 @@ class Exporter(object):
         
         self.filePy.write("# this python file is generated automatically by the mayaToNuke.py tool.\n")
         self.filePy.write("# it will be processed by mayapy and will create a .nk file.\n\n")
-        self.filePy.write("# path of nuke binary: "+self.nukeexe+"\n")
+        self.filePy.write("# path of nuke binary: "+self.nukePath+"\n")
         self.filePy.write("# name of the python file: "+pyFile+"\n")
         self.filePy.write("# name of the nuke file: "+self.outputFile+"\n")
         self.filePy.write("# command to execute: "+generateNukeScript+"\n")
@@ -108,13 +108,22 @@ class Exporter(object):
                 print "nuke "+self.outputFile
                 print "os.system('nuke "+self.outputFile+" &')"
 
-                cmds.confirmDialog(t = 'Success !', m = 'The nuke script has been generated.\nSee script editor for more informations.')
+                result = cmds.confirmDialog(t='Success !',
+                                    b=['Okay', 'Script Editor'],
+                                    m='The nuke script has been generated.\nSee script editor for more informations.')
+                if result == 'Script Editor':
+                    UTILS.openScriptEditor()
             else:
                 print 'failed to generate the nuke file...'
                 print '### debug python file:'
                 print "os.system('scite "+pyFile+" &')"
                 
-                cmds.confirmDialog(t = 'Error !', m = 'The nuke script has NOT been generated.\nSee script editor for more informations.')
+                result = cmds.confirmDialog(t='Error !',
+                                    b=['Okay', 'Script Editor'],
+                                    m='The nuke script has NOT been generated.\nSee script editor for more informations.')
+                if result == 'Script Editor':
+                    UTILS.openScriptEditor()
+
         else:
             cmds.confirmDialog(t = 'Warning', m = 'There is nothing to export !')          
         

@@ -4,9 +4,10 @@ import time
 
 import maya.cmds as cmds
 
-from dmptools.presets import PresetsManager
+import dmptools.mayaCommands as mayaCommands
+from dmptools.settings import SettingsManager
 
-PRESETS = PresetsManager()
+SETTINGS = SettingsManager()
 
 class Utils(object):
     """
@@ -18,8 +19,8 @@ class Utils(object):
         self.platform = sys.platform
         self.user = os.getenv('USERNAME')
         self.computer = os.getenv('COMPUTERNAME')
-        self.temp_path = os.getenv('TEMP')
-        self.nukeexe = self.getNukeExe()
+        self.tempPath = os.getenv('TEMP')
+        self.nukePath = self.getNukeExe()
         # maya display infos
         self.panelsDisplay = {}
         self.modelPanelObjects = [
@@ -36,10 +37,10 @@ class Utils(object):
                     'planes', 'polymeshes',
                     'strokes', 'subdivSurfaces',
                     ]
-        # set presets
-        PRESETS.addPreset('user', self.user)
-        PRESETS.addPreset('os', self.os)
-        PRESETS.addPreset('platform', self.platform)
+        # set settings
+        SETTINGS.addSetting('user', self.user)
+        SETTINGS.addSetting('os', self.os)
+        SETTINGS.addSetting('platform', self.platform)
         
     def getTime(self):
         # get time
@@ -139,13 +140,13 @@ class Utils(object):
                             ]
         for path in defaultNukePath:
             if os.path.exists(path):
-                PRESETS.addPreset('nukeexe', path)
+                SETTINGS.addSetting('nukePath', path)
         
-        # get the nuke path preset if exists
-        nukeexe = PRESETS.getPreset('nukeexe')
-        if nukeexe:
-            if os.path.exists(nukeexe[0]):
-                return nukeexe[0]
+        # get the nuke path setting if exists
+        nukePath = SETTINGS.getSetting('nukePath')
+        if nukePath:
+            if os.path.exists(nukePath[0]):
+                return nukePath[0]
             else:
                 raise UserWarning('No exe found !')
         else:
@@ -155,12 +156,14 @@ class Utils(object):
                             dir='C:\\Program Files\\',
                             ff='*.exe')
             if filedialog:
-                nukeexe = str(filedialog[0])
-                if os.path.exists(nukeexe):
-                    # setting preset
-                    PRESETS.addPreset('nukeexe', nukeexe)
-                    return nukeexe
+                nukePath = str(filedialog[0])
+                if os.path.exists(nukePath):
+                    # setting setting
+                    SETTINGS.addSetting('nukePath', nukePath)
+                    return nukePath
                 else:
                     raise UserWarning('No exe found !')
             else:
                 raise UserWarning('No exe found !')
+    def openScriptEditor(self):
+        mayaCommands.openScriptEditor()
