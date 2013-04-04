@@ -20,5 +20,3 @@ with Sublime Text editor:
 - project > open > dmptools.sublime-project
 - tools > build system > dmptools
 - tools > build
-
-In Maya or Nuke type "import dmptools" if there's no error, then it's good :)
