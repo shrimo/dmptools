@@ -485,13 +485,6 @@ shelfItems = [
         'annotation':'Show the hotkeys list window'
     },
     {
-        'name':'Separator0',
-        'iconLabel':'',
-        'command':'print "| soft >"',
-        'icon':'textureEditorOpenBar.png',
-        'annotation':'| soft >'
-    },
-    {
         'name':'Terminator',
         'iconLabel':'',
         'command':'import dmptools.mayaCommands as mayaCommands;\
@@ -514,13 +507,6 @@ shelfItems = [
             reload(mayaCommands);mayaCommands.launchNuke()',
         'icon':'Nuke.xpm',
         'annotation':'Launch Nuke.'
-    },
-    {
-        'name':'Separator1',
-        'iconLabel':'',
-        'command':'print "< soft | tools >"',
-        'icon':'textureEditorOpenBar.png',
-        'annotation':'< soft | tools >'
     },
     {
         'name':'newScriptEditor',
