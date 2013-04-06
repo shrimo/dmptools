@@ -1,6 +1,12 @@
 # markingMenu items list
-markingMenuItems = \
-[
+markingMenuItems = [
+    {
+        'name':'separator',
+        'annotation':None,
+        'subMenu':None,
+        'position':None,
+        'command':None
+    },
     {
         'name':'MayaToNuke',
         'annotation':'Launch Maya to Nuke bridge.',
@@ -90,8 +96,7 @@ markingMenuItems = \
 ]
 
 # hotkeys list
-hotkeysItems = \
-[
+hotkeysItems = [
     {
         'name':'dmptoolsMarkingMenu',
         'key':'n',
@@ -101,7 +106,7 @@ hotkeysItems = \
         'command':'python("import dmptools.markingMenu as markingMenu;\
             reload(markingMenu);markingMenu.createMenu()");',
         'releaseCommand':'python("import dmptools.markingMenu as markingMenu;\
-            reload(markingMenu);markingMenu.deleteMarkingMenu()");'
+            reload(markingMenu);markingMenu.deleteMarkingMenu()");',
     },
     {
         'name':'openNodeEditor',
@@ -110,7 +115,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openNodeEditor()");'
+            reload(mayaCommands);mayaCommands.openNodeEditor()");',
     },
     {
         'name':'createCameraUVProj',
@@ -119,7 +124,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.createCameraUVProj()");'
+            reload(mayaCommands);mayaCommands.createCameraUVProj()");',
     },
     {
         'name':'switchColors',
@@ -128,7 +133,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchColors()");'
+            reload(mayaCommands);mayaCommands.switchColors()");',
     },
     {
         'name':'softEdgeSelection',
@@ -137,7 +142,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.softEdgeSelection()");'
+            reload(mayaCommands);mayaCommands.softEdgeSelection()");',
     },
     {
         'name':'invertSelection',
@@ -146,7 +151,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.invertSelection()");'
+            reload(mayaCommands);mayaCommands.invertSelection()");',
     },
     {
         'name':'showHotkeysList',
@@ -154,8 +159,8 @@ hotkeysItems = \
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools.createHotkeys as createHotkeys;\
-            reload(createHotkeys);createHotkeys.showHotkeysList()");'
+        'command':'python("import dmptools.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.showHotkeysList()");',
     },
     {
         'name':'createHotkeys',
@@ -163,8 +168,8 @@ hotkeysItems = \
         'alt':True,
         'ctrl':True,
         'release':False,
-        'command':'python("import dmptools.createHotkeys as createHotkeys;\
-            reload(createHotkeys);createHotkeys.main()");'
+        'command':'python("import dmptools.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.main()");',
     },
     {
         'name':'bufMove',
@@ -175,7 +180,7 @@ hotkeysItems = \
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.bufMove()");',
         'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");'
+            reload(mayaCommands);mayaCommands.bufMoveRelease()");',
     },
     {
         'name':'bufMoveMulti',
@@ -186,7 +191,7 @@ hotkeysItems = \
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.bufMoveMulti()");',
         'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");'
+            reload(mayaCommands);mayaCommands.bufMoveRelease()");',
     },
     {
         'name':'hideSelectionSwitch',
@@ -195,7 +200,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.hideSelSwitch()");'
+            reload(mayaCommands);mayaCommands.hideSelSwitch()");',
     },
     {
         'name':'isolateSelection',
@@ -294,7 +299,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchLight()");'
+            reload(mayaCommands);mayaCommands.switchLight()");',
     },
     {
         'name':'switchHighlightedSelection',
@@ -302,7 +307,7 @@ hotkeysItems = \
         'alt':True,
         'ctrl':False,'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchHighlightedSelection()");'
+            reload(mayaCommands);mayaCommands.switchHighlightedSelection()");',
     },
     {
         'name':'askFlushUndo',
@@ -311,7 +316,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.askFlushUndo()");'
+            reload(mayaCommands);mayaCommands.askFlushUndo()");',
     },
     {
         'name':'saveAs',
@@ -319,7 +324,7 @@ hotkeysItems = \
         'alt':False,
         'ctrl':True,
         'release':False,
-        'command':'SaveSceneAs;'
+        'command':'SaveSceneAs;',
     },
     {
         'name':'freezeHistory',
@@ -328,7 +333,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.freezeHistory()");'
+            reload(mayaCommands);mayaCommands.freezeHistory()");',
     },
     {
         'name':'freezeHistoryCenterPivot',
@@ -337,7 +342,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.freezeCenterPivot()");'
+            reload(mayaCommands);mayaCommands.freezeCenterPivot()");',
     },
     {
         'name':'centerPivot',
@@ -346,7 +351,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.centerPivot()");'
+            reload(mayaCommands);mayaCommands.centerPivot()");',
     },
     {
         'name':'setDefaultRenderer',
@@ -355,7 +360,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setDefaultRenderer()");'
+            reload(mayaCommands);mayaCommands.setDefaultRenderer()");',
     },
     {
         'name':'setHardwareRenderer',
@@ -364,7 +369,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setHardwareRenderer()");'
+            reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
     },
     {
         'name':'setViewport2Renderer',
@@ -373,7 +378,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setViewport2Renderer()");'
+            reload(mayaCommands);mayaCommands.setViewport2Renderer()");',
     },
     {
         'name':'launchConsole',
@@ -382,7 +387,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchConsole()");'
+            reload(mayaCommands);mayaCommands.launchConsole()");',
     },
     {
         'name':'mergeVertex',
@@ -391,7 +396,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeVertex()");'
+            reload(mayaCommands);mayaCommands.mergeVertex()");',
     },
     {
         'name':'openUvTextureEditor',
@@ -400,7 +405,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openUvTextureEditor()");'
+            reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
     },
     {
         'name':'openHypershade',
@@ -409,7 +414,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openHypershade()");'
+            reload(mayaCommands);mayaCommands.openHypershade()");',
     },
     {
         'name':'proMode',
@@ -418,7 +423,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.proMode()");'
+            reload(mayaCommands);mayaCommands.proMode()");',
     },
     {
         'name':'unselectAll',
@@ -427,7 +432,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.unselectAll()");'
+            reload(mayaCommands);mayaCommands.unselectAll()");',
     },
     {
         'name':'switchObjectTumble',
@@ -436,7 +441,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchObjectTumble()");'
+            reload(mayaCommands);mayaCommands.switchObjectTumble()");',
     },
     {
         'name':'toggleVertexColorDisplay',
@@ -445,7 +450,7 @@ hotkeysItems = \
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");'
+            reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");',
     },
     {
         'name':'shortestEdgePath',
@@ -456,7 +461,7 @@ hotkeysItems = \
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.shortestEdgePath()");',
         'releaseCommand':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");'
+            reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");',
     },
     {
         'name':'mergeUVs',
@@ -465,7 +470,7 @@ hotkeysItems = \
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeUVs()");'
+            reload(mayaCommands);mayaCommands.mergeUVs()");',
     },
 ]
 
@@ -473,19 +478,22 @@ hotkeysItems = \
 shelfItems = [
     {
         'name':'HotkeysList',
-        'command':'import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.showHotkeysList()',
-        'icon':'textureEditorOpenBar.png',
+        'iconLabel':'hotkey',
+        'command':'import dmptools.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.showHotkeysList()',
+        'icon':'pythonFamily.png',
         'annotation':'Show the hotkeys list window'
     },
     {
         'name':'Separator0',
+        'iconLabel':'',
         'command':'print "| soft >"',
         'icon':'textureEditorOpenBar.png',
         'annotation':'| soft >'
     },
     {
         'name':'Terminator',
+        'iconLabel':'',
         'command':'import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchConsole()',
         'icon':'Console.xpm',
@@ -493,6 +501,7 @@ shelfItems = [
     },
     {
         'name':'SublimeText',
+        'iconLabel':'',
         'command':'import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchSublimeText()',
         'icon':'SublimeText.xpm',
@@ -500,6 +509,7 @@ shelfItems = [
     },
     {
         'name':'Nuke',
+        'iconLabel':'',
         'command':'import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchNuke()',
         'icon':'Nuke.xpm',
@@ -507,12 +517,14 @@ shelfItems = [
     },
     {
         'name':'Separator1',
+        'iconLabel':'',
         'command':'print "< soft | tools >"',
         'icon':'textureEditorOpenBar.png',
         'annotation':'< soft | tools >'
     },
     {
         'name':'newScriptEditor',
+        'iconLabel':'',
         'command':'import dmptools.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.newScriptEditor()',
         'icon':'text.png',
@@ -520,6 +532,7 @@ shelfItems = [
     },
     {
         'name':'mayaToNuke',
+        'iconLabel':'',
         'command':'import dmptools.mayaToNuke.launcher as mayaToNukeLauncher;\
             mayaToNukeLauncher.main()',
         'icon':'MayaToNuke.xpm',
@@ -527,6 +540,7 @@ shelfItems = [
     },
     {
         'name':'ratioCalculator',
+        'iconLabel':'',
         'command':'import dmptools.ratioCalculator as ratioCalculator;\
             ratioCalculator.main()',
         'icon':'RatioCalculator.xpm',

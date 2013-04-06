@@ -1,2 +1,2 @@
 /c/python27/python.exe /c/python27/scripts/epydoc.py --html /c/users/mika/documents/maya/scripts/dmptools/* /c/users/mika/nuke/dmptools/* \
--o /c/workspace/dmptools/doc --name "dmptools documentation"
+-o /c/users/mika/documents/github/dmptools/doc --name "dmptools documentation"

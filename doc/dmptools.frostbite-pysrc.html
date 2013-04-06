@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>dmptools.frostbite</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="dmptools-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >dmptools documentation</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="dmptools-module.html">Package&nbsp;dmptools</a> ::
+        Module&nbsp;frostbite
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="dmptools.frostbite-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="dmptools.frostbite-module.html">Module dmptools.frostbite</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">maya</tt><tt class="py-op">.</tt><tt class="py-name">cmds</tt> <tt class="py-keyword">as</tt> <tt class="py-name">cmds</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">maya</tt><tt class="py-op">.</tt><tt class="py-name">mel</tt> <tt class="py-keyword">as</tt> <tt class="py-name">mel</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-string">attempt to export fbx from a maya scene to frostbite</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-string"></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-comment"># source dead space combine script</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-name">mel</tt><tt class="py-op">.</tt><tt class="py-name">eval</tt><tt class="py-op">(</tt><tt class="py-string">'source "D:/tools_pf/maya/mel/MODEL_vgm_combine.mel";'</tt><tt class="py-op">)</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable dmptools.frostbite.fileName=dmptools.frostbite-module.html#fileName"><a title="dmptools.frostbite.fileName" class="py-name" href="#" onclick="return doclink('link-0', 'fileName', 'link-0');">fileName</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">file</tt><tt class="py-op">(</tt><tt class="py-name">q</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">sceneName</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable dmptools.frostbite.selection=dmptools.frostbite-module.html#selection"><a title="dmptools.frostbite.selection" class="py-name" href="#" onclick="return doclink('link-1', 'selection', 'link-1');">selection</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">ls</tt><tt class="py-op">(</tt><tt class="py-name">sl</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt id="link-2" class="py-name"><a title="dmptools.frostbite.selection" class="py-name" href="#" onclick="return doclink('link-2', 'selection', 'link-1');">selection</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">file</tt><tt class="py-op">(</tt><tt class="py-name">save</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">force</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt id="link-3" class="py-name" targets="Variable dmptools.frostbite.assetName=dmptools.frostbite-module.html#assetName"><a title="dmptools.frostbite.assetName" class="py-name" href="#" onclick="return doclink('link-3', 'assetName', 'link-3');">assetName</a></tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name"><a title="dmptools.frostbite.selection" class="py-name" href="#" onclick="return doclink('link-4', 'selection', 'link-1');">selection</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">"_"</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt id="link-5" class="py-name" targets="Variable dmptools.frostbite.outputPath=dmptools.frostbite-module.html#outputPath"><a title="dmptools.frostbite.outputPath" class="py-name" href="#" onclick="return doclink('link-5', 'outputPath', 'link-5');">outputPath</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"D:/projects/AO4FB/Dev/Data/Raw/DSX_levels/Mesh/"</tt><tt class="py-op">+</tt><tt id="link-6" class="py-name"><a title="dmptools.frostbite.assetName" class="py-name" href="#" onclick="return doclink('link-6', 'assetName', 'link-3');">assetName</a></tt><tt class="py-op">+</tt><tt class="py-string">".fbx"</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt id="link-7" class="py-name"><a title="dmptools.frostbite.outputPath" class="py-name" href="#" onclick="return doclink('link-7', 'outputPath', 'link-5');">outputPath</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"C:/Users/mhavart/Documents/maya/projects/default/scenes/ds4/"</tt><tt class="py-op">+</tt><tt id="link-8" class="py-name"><a title="dmptools.frostbite.assetName" class="py-name" href="#" onclick="return doclink('link-8', 'assetName', 'link-3');">assetName</a></tt><tt class="py-op">+</tt><tt class="py-string">".fbx"</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt id="link-9" class="py-name" targets="Variable dmptools.frostbite.asset=dmptools.frostbite-module.html#asset"><a title="dmptools.frostbite.asset" class="py-name" href="#" onclick="return doclink('link-9', 'asset', 'link-9');">asset</a></tt> <tt class="py-op">=</tt> <tt id="link-10" class="py-name"><a title="dmptools.frostbite.selection" class="py-name" href="#" onclick="return doclink('link-10', 'selection', 'link-1');">selection</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt id="link-11" class="py-name" targets="Variable dmptools.frostbite.assetParent=dmptools.frostbite-module.html#assetParent"><a title="dmptools.frostbite.assetParent" class="py-name" href="#" onclick="return doclink('link-11', 'assetParent', 'link-11');">assetParent</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">listRelatives</tt><tt class="py-op">(</tt><tt id="link-12" class="py-name"><a title="dmptools.frostbite.asset" class="py-name" href="#" onclick="return doclink('link-12', 'asset', 'link-9');">asset</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt id="link-13" class="py-name" targets="Function dmptools.arcSystem.main()=dmptools.arcSystem-module.html#main,Function dmptools.checkColors.main()=dmptools.checkColors-module.html#main,Function dmptools.extractMultiple.main()=dmptools.extractMultiple-module.html#main,Variable dmptools.frostbite.main=dmptools.frostbite-module.html#main,Function dmptools.hotkeys.main()=dmptools.hotkeys-module.html#main,Function dmptools.mayaToNuke.launcher.main()=dmptools.mayaToNuke.launcher-module.html#main,Function dmptools.ratioCalculator.main()=dmptools.ratioCalculator-module.html#main,Function dmptools.shelf.main()=dmptools.shelf-module.html#main,Function dmptools.symmetry.main()=dmptools.symmetry-module.html#main"><a title="dmptools.arcSystem.main
+dmptools.checkColors.main
+dmptools.extractMultiple.main
+dmptools.frostbite.main
+dmptools.hotkeys.main
+dmptools.mayaToNuke.launcher.main
+dmptools.ratioCalculator.main
+dmptools.shelf.main
+dmptools.symmetry.main" class="py-name" href="#" onclick="return doclink('link-13', 'main', 'link-13');">main</a></tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name"><a title="dmptools.frostbite.assetParent" class="py-name" href="#" onclick="return doclink('link-14', 'assetParent', 'link-11');">assetParent</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt id="link-15" class="py-name" targets="Variable dmptools.frostbite.collision=dmptools.frostbite-module.html#collision"><a title="dmptools.frostbite.collision" class="py-name" href="#" onclick="return doclink('link-15', 'collision', 'link-15');">collision</a></tt> <tt class="py-op">=</tt> <tt id="link-16" class="py-name"><a title="dmptools.frostbite.assetParent" class="py-name" href="#" onclick="return doclink('link-16', 'assetParent', 'link-11');">assetParent</a></tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-comment"># mesh</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt id="link-17" class="py-name" targets="Variable dmptools.frostbite.lodGroup=dmptools.frostbite-module.html#lodGroup"><a title="dmptools.frostbite.lodGroup" class="py-name" href="#" onclick="return doclink('link-17', 'lodGroup', 'link-17');">lodGroup</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">listRelatives</tt><tt class="py-op">(</tt><tt id="link-18" class="py-name"><a title="dmptools.arcSystem.main
+dmptools.checkColors.main
+dmptools.extractMultiple.main
+dmptools.frostbite.main
+dmptools.hotkeys.main
+dmptools.mayaToNuke.launcher.main
+dmptools.ratioCalculator.main
+dmptools.shelf.main
+dmptools.symmetry.main" class="py-name" href="#" onclick="return doclink('link-18', 'main', 'link-13');">main</a></tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt id="link-19" class="py-name" targets="Variable dmptools.frostbite.lodGroupFullName=dmptools.frostbite-module.html#lodGroupFullName"><a title="dmptools.frostbite.lodGroupFullName" class="py-name" href="#" onclick="return doclink('link-19', 'lodGroupFullName', 'link-19');">lodGroupFullName</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">listRelatives</tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="dmptools.arcSystem.main
+dmptools.checkColors.main
+dmptools.extractMultiple.main
+dmptools.frostbite.main
+dmptools.hotkeys.main
+dmptools.mayaToNuke.launcher.main
+dmptools.ratioCalculator.main
+dmptools.shelf.main
+dmptools.symmetry.main" class="py-name" href="#" onclick="return doclink('link-20', 'main', 'link-13');">main</a></tt><tt class="py-op">,</tt> <tt class="py-name">fullPath</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt id="link-21" class="py-name" targets="Variable dmptools.frostbite.meshGroups=dmptools.frostbite-module.html#meshGroups"><a title="dmptools.frostbite.meshGroups" class="py-name" href="#" onclick="return doclink('link-21', 'meshGroups', 'link-21');">meshGroups</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">listRelatives</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="dmptools.frostbite.lodGroup" class="py-name" href="#" onclick="return doclink('link-22', 'lodGroup', 'link-17');">lodGroup</a></tt><tt class="py-op">,</tt> <tt class="py-name">fullPath</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt id="link-23" class="py-name"><a title="dmptools.frostbite.meshGroups" class="py-name" href="#" onclick="return doclink('link-23', 'meshGroups', 'link-21');">meshGroups</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">select</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">,</tt> <tt class="py-name">replace</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">mel</tt><tt class="py-op">.</tt><tt class="py-name">eval</tt><tt class="py-op">(</tt><tt class="py-string">'MODEL_vgm_combine();'</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">rename</tt><tt class="py-op">(</tt><tt id="link-24" class="py-name"><a title="dmptools.frostbite.assetName" class="py-name" href="#" onclick="return doclink('link-24', 'assetName', 'link-3');">assetName</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">parent</tt><tt class="py-op">(</tt><tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">ls</tt><tt class="py-op">(</tt><tt class="py-name">sl</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt id="link-25" class="py-name"><a title="dmptools.frostbite.lodGroupFullName" class="py-name" href="#" onclick="return doclink('link-25', 'lodGroupFullName', 'link-19');">lodGroupFullName</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">delete</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-comment">#export</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">select</tt><tt class="py-op">(</tt><tt id="link-26" class="py-name"><a title="dmptools.frostbite.asset" class="py-name" href="#" onclick="return doclink('link-26', 'asset', 'link-9');">asset</a></tt><tt class="py-op">,</tt> <tt class="py-name">r</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">file</tt><tt class="py-op">(</tt><tt id="link-27" class="py-name"><a title="dmptools.frostbite.outputPath" class="py-name" href="#" onclick="return doclink('link-27', 'outputPath', 'link-5');">outputPath</a></tt><tt class="py-op">,</tt> <tt class="py-name">force</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">=</tt><tt class="py-string">"v=0"</tt><tt class="py-op">,</tt> <tt class="py-name">typ</tt><tt class="py-op">=</tt><tt class="py-string">"FBX export"</tt><tt class="py-op">,</tt> <tt class="py-name">pr</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">es</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-comment"># reopen original file</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">    <tt class="py-comment">#cmds.file(fileName, force=True, options="v=0", typ="mayaAscii", o=True)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"><tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">    <tt class="py-name">cmds</tt><tt class="py-op">.</tt><tt class="py-name">warning</tt><tt class="py-op">(</tt><tt class="py-string">'please select the asset you want to export!'</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="dmptools-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >dmptools documentation</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Apr 04 22:56:12 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

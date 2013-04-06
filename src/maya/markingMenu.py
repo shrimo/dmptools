@@ -5,7 +5,7 @@ modeling memo for marking menu
     -vertex color -> black
     -merge vertex
     -combine
-    -sepeparate
+    -separate
     -symmetry
     -scale on axis
     -snap
@@ -34,7 +34,7 @@ def getParentPanel():
     else:
         return "viewPanes"
 
-def createMarkingMenu(item):
+def buildMenu(item):
     # fill the marking menu items
     name = item['name']
     annotation = item['annotation']
@@ -47,40 +47,33 @@ def createMarkingMenu(item):
             label=name,
             subMenu=subMenu,
             command=command,
-            altModifier=False,
-            ctrlModifier=False,
-            shiftModifier=False,
-            optionBox=False,
             enable=True,
             data=0,
             radialPosition=position,
             enableCommandRepeat=True,
             image="commandButton.png",
-            echoCommand=1, # 1=left click 2=middle click 3=rightclick
+            echoCommand=1,
             annotation=annotation,
-            italicized=False,
-            boldFont=False,
             sourceType="python",
             )
     else:
-        cmds.menuItem(
-            label=name,
-            subMenu=subMenu,
-            command=command,
-            altModifier=False,
-            ctrlModifier=False,
-            shiftModifier=False,
-            optionBox=False,
-            enable=True,
-            data=0,
-            enableCommandRepeat=True,
-            image="commandButton.png",
-            echoCommand=1, # 1=left click 2=middle click 3=rightclick
-            annotation=annotation,
-            italicized=False,
-            boldFont=False,
-            sourceType="python",
-            )
+        if name == 'separator':
+            cmds.menuItem(
+                divider=True
+                )
+        else:
+            cmds.menuItem(
+                label=name,
+                subMenu=subMenu,
+                command=command,
+                enable=True,
+                data=0,
+                enableCommandRepeat=True,
+                image="commandButton.png",
+                echoCommand=1,
+                annotation=annotation,
+                sourceType="python",
+                )
 
 def showMarkingMenu():
     if cmds.popupMenu('dmptoolsMarkingMenu', ex=True):
@@ -99,9 +92,8 @@ def createMenu():
         os.remove(MARKINGMENU_FILE)
     dmptoolsMenu = cmds.popupMenu('dmptoolsMarkingMenu', b=1, mm=True, parent=getParentPanel())
     for item in MARKINGMENU_ITEMS:
-        createMarkingMenu(item)
+        buildMenu(item)
     # Save the menu to a file.
     cmds.saveMenu(dmptoolsMenu, 'menu_dmptools')
     print '> done.'
-    #print ("The menu was saved in "+cmds.internalVar(userMarkingMenuDir=True)+dmptoolsMenuFile)
     showMarkingMenu()

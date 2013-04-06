@@ -45,6 +45,7 @@ def addButton(item):
                     visible=True,
                     image1=ICONSPATH+'/'+item['icon'],
                     label=item['name'],
+                    iol=item['iconLabel'],
                     style='iconOnly',
                     annotation=item['annotation'],
                     command=item['command'],
@@ -55,6 +56,7 @@ def addButton(item):
 def main():
     print '- creating dmptools shelf...'
     if os.path.exists(SHELF_FILE+'.mel'):
+        print ' -removing old shelf...', SHELF_FILE
         os.remove(SHELF_FILE+'.mel')
     createShelf()
     print '> done.'

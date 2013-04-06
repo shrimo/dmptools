@@ -2,8 +2,9 @@
 	"build_systems":
 	[
 		{
+			"name": "dmptools",
 			"cmd": "c:/Python27/python.exe $project_path/install.py",
-			"name": "dmptools"
+			"working_dir": "$project_path"
 		}
 	],
 	"folders":

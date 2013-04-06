@@ -235,4 +235,10 @@ def main():
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
+    # run the install
     main()
+    # ask to press enter if the install.py file is executed by hand
+    try:
+        raw_input("\npress enter to continue...")
+    except:
+        pass

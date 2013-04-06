@@ -7,6 +7,10 @@ import math
 import socket
 import commands as cmd
 
+from dmptools.settings import SettingsManager
+
+SETTINGS = SettingsManager()
+
 sys.setrecursionlimit(100)
 
 class ExportToMaya():
@@ -658,7 +662,8 @@ def exportToMayaUI():
         val = panel.show()
         if val:
             mayapy = panel.value("mayapy.exe: ")
-
+        else:
+            mayapy = None
     selOriginal = nuke.selectedNodes()
 
     for item in selOriginal:
@@ -670,7 +675,7 @@ def exportToMayaUI():
 
     sel = nuke.selectedNodes()
 
-    if os.path.exists(mayapy):
+    if mayapy and os.path.exists(mayapy):
         
         if sel:
             panel = nuke.Panel("Export stuff from nuke to maya")

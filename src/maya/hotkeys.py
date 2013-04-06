@@ -8,6 +8,7 @@
 #==========================================================================
 
 import maya.cmds as cmds
+import maya.mel as mel
 import os
 
 import dmptools.items as items
@@ -40,27 +41,38 @@ def setHotkey(hotkey):
     
     # set hotkey
     cmds.hotkey(k=key, alt=alt, ctl=ctl, name=name)    
-    #print 'set hotkey:', name, key, alt, ctrl, command
-
     if release:
         cmds.hotkey(k=key, alt=alt, ctl=ctl, releaseName=releaseName)
-        #print 'set hotkey release:', releaseName, key, alt, ctrl, releaseCommand
 
 def showHotkeysList():
     """shows the current user hotkeys mapping and its name
-    """
+    """       
+    windowName = 'hotkeysWindow'
+    if cmds.window(windowName, exists=True):
+        cmds.deleteUI(windowName, window=True)
 
-    reload(items)
-    lines = []
-    for key in HOTKEYS_ITEMS:
-        lines.append('key:  '+str(key['key'])+'  ctrl:  '+str(key['ctrl'])+'  alt:  '+str(key['alt'])+'  '+str(key['name']))
+    cmds.window(windowName, title='dmptools hotkeys list')
+    form = cmds.formLayout()
+    txt = cmds.textScrollList('hotkeysScrollList')
+    for hotkey in HOTKEYS_ITEMS:
+        name = hotkey['name']
+        key = hotkey['key']
+        alt = hotkey['alt']
+        ctl = hotkey['ctrl']
+        release = hotkey['release']
+        command = hotkey['command']
+        appendName = 'key:  '+str(key)+'\tctrl:  '+str(ctl)+'\talt:  '+str(alt)+'\t'+str(name)
+        cmds.textScrollList('hotkeysScrollList', e=True, append=appendName, dcc=executeHotkey, ann='double click to execute the command')
 
-    window = cmds.window('hotkeysWindow')
-    cmds.paneLayout()
-    cmds.textScrollList(numberOfRows=8,
-                        allowMultiSelection=True,
-                        append=lines,)
-    cmds.showWindow()
+    cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
+    cmds.showWindow(windowName)
+
+def executeHotkey():
+    items = HOTKEYS_ITEMS
+    itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1]
+    command = [item['command'] for item in items if item['name'] == itemName][0]
+    print command
+    mel.eval(command)
 
 def main():
     """

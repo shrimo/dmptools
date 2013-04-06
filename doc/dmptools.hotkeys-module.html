@@ -14,6 +14,9 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="dmptools-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -58,6 +61,92 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module hotkeys</h1><p class="nomargin-top"><span class="codelink"><a href="dmptools.hotkeys-pysrc.html">source&nbsp;code</a></span></p>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setHotkey"></a><span class="summary-sig-name">setHotkey</span>(<span class="summary-sig-arg">hotkey</span>)</span><br />
+      create a hotkey from a given hotkey dict</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dmptools.hotkeys-pysrc.html#setHotkey">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="showHotkeysList"></a><span class="summary-sig-name">showHotkeysList</span>()</span><br />
+      shows the current user hotkeys mapping and its name</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dmptools.hotkeys-pysrc.html#showHotkeysList">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="executeHotkey"></a><span class="summary-sig-name">executeHotkey</span>()</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dmptools.hotkeys-pysrc.html#executeHotkey">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="main"></a><span class="summary-sig-name">main</span>()</span><br />
+      delete the old maya hotkey files and install the new ones from the 
+      HOTKEYS list</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dmptools.hotkeys-pysrc.html#main">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -79,22 +168,36 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="dmptools.hotkeys-module.html#HOTKEYS" class="summary-name">HOTKEYS</a> = <code title="[{'alt': True,
-  'command': 'python(&quot;import dmptools.mayaCommands as mayaCommands;   \
-         reload(mayaCommands);mayaCommands.switchColors()&quot;);',
-  'ctrl': True,
-  'key': 'c',
-  'name': 'switchColors',
-  'release': False},
- {'alt': True, 'command': 'python(&quot;import dmptools.mayaCommands as may\
-..."><code class="variable-group">[</code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alt</code><code class="variable-quote">'</code><code class="variable-op">: </code>True<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">command</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmptools.m</code><code class="variable-ellipsis">...</code></code>
+        <a href="dmptools.hotkeys-module.html#CMD_FILE" class="summary-name">CMD_FILE</a> = <code title="cmds.internalVar(userPrefDir= True)+ 'userRunTimeCommands.mel'">cmds.internalVar(userPrefDir= True)+ 'userRunTimeCo<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="None">None</code>
+        <a href="dmptools.hotkeys-module.html#HOTKEY_FILE" class="summary-name">HOTKEY_FILE</a> = <code title="cmds.internalVar(userPrefDir= True)+ 'userHotkeys.mel'">cmds.internalVar(userPrefDir= True)+ 'userHotkey<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="dmptools.hotkeys-module.html#COMMAND_NAME_FILE" class="summary-name">COMMAND_NAME_FILE</a> = <code title="cmds.internalVar(userPrefDir= True)+ 'userNamedCommands.mel'">cmds.internalVar(userPrefDir= True)+ 'user<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="dmptools.hotkeys-module.html#HOTKEYS_ITEMS" class="summary-name">HOTKEYS_ITEMS</a> = <code title="[{'alt': False,
+  'command': 'python(&quot;import dmptools.markingMenu as markingMenu;     \
+       reload(markingMenu);markingMenu.createMenu()&quot;);',
+  'ctrl': False,
+  'key': 'n',
+  'name': 'dmptoolsMarkingMenu',
+  'release': True,
+  'releaseCommand': 'python(&quot;import dmptools.markingMenu as markingMen\
+..."><code class="variable-group">[</code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alt</code><code class="variable-quote">'</code><code class="variable-op">: </code>False<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">command</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmp</code><code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -116,26 +219,80 @@
   </td>
 </tr>
 </table>
-<a name="HOTKEYS"></a>
+<a name="CMD_FILE"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">HOTKEYS</h3>
+  <h3 class="epydoc">CMD_FILE</h3>
   
   <dl class="fields">
   </dl>
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">[</code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alt</code><code class="variable-quote">'</code><code class="variable-op">: </code>True<code class="variable-op">,</code>
-  <code class="variable-quote">'</code><code class="variable-string">command</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmptools.mayaCommands as mayaCommands;   </code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-<code class="variable-string">         reload(mayaCommands);mayaCommands.switchColors()&quot;);</code><code class="variable-quote">'</code><code class="variable-op">,</code>
-  <code class="variable-quote">'</code><code class="variable-string">ctrl</code><code class="variable-quote">'</code><code class="variable-op">: </code>True<code class="variable-op">,</code>
-  <code class="variable-quote">'</code><code class="variable-string">key</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">c</code><code class="variable-quote">'</code><code class="variable-op">,</code>
-  <code class="variable-quote">'</code><code class="variable-string">name</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">switchColors</code><code class="variable-quote">'</code><code class="variable-op">,</code>
-  <code class="variable-quote">'</code><code class="variable-string">release</code><code class="variable-quote">'</code><code class="variable-op">: </code>False<code class="variable-group">}</code><code class="variable-op">,</code>
- <code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alt</code><code class="variable-quote">'</code><code class="variable-op">: </code>True<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">command</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmptools.mayaCommands as may</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+cmds.internalVar(userPrefDir= True)+ 'userRunTimeCommands.mel'
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="HOTKEY_FILE"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">HOTKEY_FILE</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+cmds.internalVar(userPrefDir= True)+ 'userHotkeys.mel'
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="COMMAND_NAME_FILE"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">COMMAND_NAME_FILE</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+cmds.internalVar(userPrefDir= True)+ 'userNamedCommands.mel'
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="HOTKEYS_ITEMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">HOTKEYS_ITEMS</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">alt</code><code class="variable-quote">'</code><code class="variable-op">: </code>False<code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">command</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmptools.markingMenu as markingMenu;     </code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string">       reload(markingMenu);markingMenu.createMenu()&quot;);</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">ctrl</code><code class="variable-quote">'</code><code class="variable-op">: </code>False<code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">key</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">n</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">name</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">dmptoolsMarkingMenu</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">release</code><code class="variable-quote">'</code><code class="variable-op">: </code>True<code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">releaseCommand</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">python(&quot;import dmptools.markingMenu as markingMen</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -147,6 +304,9 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="dmptools-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -171,7 +331,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Nov 03 11:12:47 2012
+    Generated by Epydoc 3.0.1 on Thu Apr 04 22:56:11 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
