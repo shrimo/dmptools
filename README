@@ -20,3 +20,7 @@ with Sublime Text editor:
 - project > open > dmptools.sublime-project
 - tools > build system > dmptools
 - tools > build
+
+RESULT:
+ - Maya: You should see a new shelf 'dmptools' and the marking menu of the tools is mapped to the 'n' key.
+ - Nuke: You should see a new toolbar 'dmptools'.
