@@ -227,6 +227,29 @@ def install(src, dst, symlinks=False, ignore=None):
     if errors:
         raise Error(errors)
 
+def lineCounter():
+    """
+    quick file and line counter
+    """
+    lines = {}
+    for root, dirs, files in os.walk(MAYA_PATH+MODULE_NAME):
+        for f in files:
+            if f.split('.')[-1] == 'py':
+                lines[f] = {}
+                with open(root+'/'+f, 'r') as FILE:
+                    lines[f] = FILE.readlines()
+    for root, dirs, files in os.walk(NUKE_PATH+MODULE_NAME):
+        for f in files:
+            if f.split('.')[-1] == 'py':
+                lines[f] = {}
+                with open(root+'/'+f, 'r') as FILE:
+                    lines[f] = FILE.readlines()
+    i = 0
+    for k in lines.keys():
+        i = i+(len(lines[k]))
+
+    return lines.keys(), i
+
 def main():
     """
     run the install    
@@ -242,6 +265,9 @@ def main():
         installMaya()
     else:
         print 'Error: maya path not found!'
+    # print the file and line count
+    files = lineCounter()
+    print '>>>', len(files[0]), 'files, ', files[1], 'lines'
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':

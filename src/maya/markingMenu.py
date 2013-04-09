@@ -11,7 +11,6 @@ modeling memo for marking menu
     -snap
     -select from camera
     -invert selection
-
 """
 import maya.cmds as cmds
 import maya.mel as mel
