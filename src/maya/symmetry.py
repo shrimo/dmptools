@@ -95,12 +95,36 @@ class Symmetry(object):
         window = cmds.window('sym_window', t='Mirror Geo: select Axis')
         cmds.columnLayout( adjustableColumn=True )
         bright, dark = 0.4, 0.3
-        cmds.iconTextButton(style='textOnly', label='+X', h=40, bgc=(bright, bright, bright), font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('+X'))
-        cmds.iconTextButton(style='textOnly', label='-X', h=40, bgc=(dark, dark, dark),       font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('-X'))
-        cmds.iconTextButton(style='textOnly', label='+Y', h=40, bgc=(bright, bright, bright), font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('+Y'))
-        cmds.iconTextButton(style='textOnly', label='-Y', h=40, bgc=(dark, dark, dark),       font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('-Y'))
-        cmds.iconTextButton(style='textOnly', label='+Z', h=40, bgc=(bright, bright, bright), font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('+Z'))
-        cmds.iconTextButton(style='textOnly', label='-Z', h=40, bgc=(dark, dark, dark),       font='boldLabelFont', c=lambda *args: Symmetry().mirrorGeo('-Z'))
+        cmds.iconTextButton(style='textOnly',
+                            label='+X',
+                            h=40, bgc=(bright, bright, bright),
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('+X'))
+        cmds.iconTextButton(style='textOnly',
+                            label='-X',
+                            h=40, bgc=(dark, dark, dark),      
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('-X'))
+        cmds.iconTextButton(style='textOnly',
+                            label='+Y',
+                            h=40, bgc=(bright, bright, bright),
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('+Y'))
+        cmds.iconTextButton(style='textOnly',
+                            label='-Y',
+                            h=40, bgc=(dark, dark, dark),      
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('-Y'))
+        cmds.iconTextButton(style='textOnly',
+                            label='+Z',
+                            h=40, bgc=(bright, bright, bright),
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('+Z'))
+        cmds.iconTextButton(style='textOnly',
+                            label='-Z',
+                            h=40, bgc=(dark, dark, dark),      
+                            font='boldLabelFont',
+                            command=lambda *args: Symmetry().mirrorGeo('-Z'))
         cmds.showWindow()
         
 def main():
