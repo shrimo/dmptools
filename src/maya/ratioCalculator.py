@@ -134,8 +134,8 @@ class ApertureTool(object):
         #cmds.columnLayout(adj = True)
         form = cmds.formLayout()
         
-        separatorTop = cmds.separator()
-        separatorBottom = cmds.separator()
+        separatorTop = cmds.separator(style='in')
+        separatorBottom = cmds.separator(style='in')
         
         camtext = cmds.text(l = 'camera aperture', al = 'left')
         camHtextField = cmds.textField(text = self.getCameraAperture(cam)[0], w = 100)

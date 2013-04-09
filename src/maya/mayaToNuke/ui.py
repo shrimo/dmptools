@@ -65,9 +65,9 @@ class MayaToNukeUI(object):
                         c=self.selectOutputFile,
                         annotation='Browse for a Nuke file - please type the .nk extension')
         # separators
-        separator1 = cmds.separator()
-        separatorTop = cmds.separator()
-        separatorBottom = cmds.separator()
+        separator1 = cmds.separator(style='in')
+        separatorTop = cmds.separator(style='in')
+        separatorBottom = cmds.separator(style='in')
         # export, close and refresh buttons
         exportButton = cmds.button('mtn_exportButton',
                         label="Export",
