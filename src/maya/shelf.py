@@ -32,6 +32,7 @@ def createShelf():
     # select the last created shelf 
     i = cmds.shelfTabLayout(shelfParent, numberOfChildren=True, q=True)
     cmds.shelfTabLayout(shelfParent, selectTabIndex=i, e=True)
+    # save the shelf
     cmds.saveShelf('dmptools', SHELF_FILE)
 
 def addButton(item):
@@ -56,7 +57,7 @@ def addButton(item):
 def main():
     print '- creating dmptools shelf...'
     if os.path.exists(SHELF_FILE+'.mel'):
-        print ' -removing old shelf...', SHELF_FILE
+        print ' -removing old shelf...', SHELF_FILE+'.mel'
         os.remove(SHELF_FILE+'.mel')
     createShelf()
     print '> done.'

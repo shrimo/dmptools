@@ -87,13 +87,13 @@ def deleteMarkingMenu():
         cmds.deleteUI('dmptoolsMarkingMenu')
 
 def createMenu():
-    print '- creating dmptools marking menu...'
+    # remove the existing dmptools marking menu is exists
     if os.path.exists(MARKINGMENU_FILE):
         os.remove(MARKINGMENU_FILE)
+    # creating marking menu
     dmptoolsMenu = cmds.popupMenu('dmptoolsMarkingMenu', b=1, mm=True, parent=getParentPanel())
     for item in MARKINGMENU_ITEMS:
         buildMenu(item)
     # Save the menu to a file.
     cmds.saveMenu(dmptoolsMenu, 'menu_dmptools')
-    print '> done.'
     showMarkingMenu()

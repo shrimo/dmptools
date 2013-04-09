@@ -14,9 +14,6 @@ import os
 import dmptools.items as items
 
 # hotkeys files path
-CMD_FILE = cmds.internalVar(userPrefDir=True)+'userRunTimeCommands.mel'
-HOTKEY_FILE = cmds.internalVar(userPrefDir=True)+'userHotkeys.mel'
-COMMAND_NAME_FILE = cmds.internalVar(userPrefDir=True)+'userNamedCommands.mel'
 HOTKEYS_ITEMS = items.hotkeysItems
 
 def setHotkey(hotkey):
@@ -57,11 +54,14 @@ def showHotkeysList():
     for hotkey in HOTKEYS_ITEMS:
         name = hotkey['name']
         key = hotkey['key']
-        alt = hotkey['alt']
         ctl = hotkey['ctrl']
-        release = hotkey['release']
+        alt = hotkey['alt']
         command = hotkey['command']
-        appendName = 'key:  '+str(key)+'\tctrl:  '+str(ctl)+'\talt:  '+str(alt)+'\t'+str(name)
+        release = hotkey['release']
+        shift = True if key[0].isupper() else False
+        #appendName = 'key:  '+str(key)+'\tctrl:  '+str(ctl)+'\talt:  '+str(alt)+'\t'+str(name)
+        namePart1 = 'key:  '+str(key)+['\tctrl' if ctl else '\t'][0]+['\talt' if alt else '\t'][0]+['\tshift' if shift else '\t'][0]
+        appendName = namePart1+'\t'+str(name)
         cmds.textScrollList('hotkeysScrollList', e=True, append=appendName, dcc=executeHotkey, ann='double click to execute the command')
 
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
@@ -76,18 +76,10 @@ def executeHotkey():
 
 def main():
     """
-        delete the old maya hotkey files
-        and install the new ones from the HOTKEYS list
+        create the dmptools hotkeys
     """
     print '- creating dmptools hotkeys...'
-    # delete old hotkeys
-    if os.path.exists(CMD_FILE):
-        os.remove(CMD_FILE)
-    if os.path.exists(HOTKEY_FILE):
-        os.remove(HOTKEY_FILE)
-    if os.path.exists(COMMAND_NAME_FILE):
-        os.remove(COMMAND_NAME_FILE)
-    # create hotkeys
+
     for hotKey in HOTKEYS_ITEMS:
             setHotkey(hotKey)
     # save hotkeys pref files

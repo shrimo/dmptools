@@ -9,6 +9,8 @@
 
 """
 
+from __future__ import with_statement
+
 import os
 import sys
 import time
@@ -45,10 +47,7 @@ EXCLUDE_DIRS = \
         'gizmos',
     ]
 EXCLUDE_FILES = ['pyc']
-MAYA_USERSETUP_MEL_FILE = '\
-python("import dmptools.shelf as dmpShelf;dmpShelf.main()");\
-python("import dmptools.hotkeys as dmptoolsHotkeys;dmptoolsHotkeys.main()");\
-// automatically added by the dmptools installation'
+MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup as setup;setup.main()");// automatically added by the dmptools installation'
 
 # platform globals
 if PLATFORM == 'nt':
@@ -108,7 +107,6 @@ def installNuke():
     # replacements
     print ' > doing replacements...'
     replacements(NUKE_PATH+MODULE_NAME)
-
     print ' > done.'
 
 def installMaya():
@@ -231,13 +229,9 @@ def install(src, dst, symlinks=False, ignore=None):
 
 def main():
     """
-    # if the platform is Windows,
-    # if the project name is 'dmptools'
-    # and the active file is in the project path
-    # then run the install    
+    run the install    
     """
-    # install softwares
-    print 'executing python.exe',' '.join(sys.argv)
+    print 'executing',' '.join(sys.argv)
     # install Nuke dmptools
     if 'nuke' in SOFTLIST and IS_NUKE_EXISTS:
         installNuke()
