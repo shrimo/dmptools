@@ -306,7 +306,7 @@ class MayaToNukeUI(object):
         # add help menu
         cmds.menu(label='Help', helpMenu=True)
         helpC = 'import webbrowser;webbrowser.open("http://github.com/michael-ha/dmptools/blob/master/README")'
-        cmds.menuItem(label='Intranet Help', c=helpC)
+        cmds.menuItem(label='Github', c=helpC)
         
         fun1C = 'import webbrowser;webbrowser.open("http://www.google.com/images?q=mecha &")'
         cmds.menuItem(label='Bonus: Mechas !!', c=fun1C)
@@ -441,7 +441,8 @@ class MayaToNukeUI(object):
 
     def settingsUI(self, non=None):
         """UI of mayaToNuke settings """
-        settings = SETTINGS.getStrSettings()
+        settings = SETTINGS.getSettings()
+        settingsStr = SETTINGS.getStrSettings()
         # create ui
         if cmds.window('mtn_settings', exists=True):
             cmds.deleteUI('mtn_settings', window=True)

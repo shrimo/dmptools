@@ -133,28 +133,40 @@ class Utils(object):
 
     def getNukeExe(self):
         # get nuke path on windows
-        defaultNukePath = [
-        'C:/Program Files/Nuke6.0v5/Nuke6.0.exe',
-        'C:/Program Files/Nuke6.3v4/Nuke6.3.exe',
-        'C:/Program Files (x86)/Nuke6.3v4/Nuke6.3.exe',
-                            ]
+        if self.os == 'nt':
+            defaultNukePath = [
+            'C:/Program Files/Nuke6.0v5/Nuke6.0.exe',
+            'C:/Program Files/Nuke6.3v4/Nuke6.3.exe',
+            'C:/Program Files (x86)/Nuke6.3v4/Nuke6.3.exe',
+                                ]
+            searchDir = 'C:\\Program Files\\'
+            fileFilter = '*.exe'
+
+        if self.os == 'posix':
+            defaultNukePath = [
+            '/software/nuke/6.3/bin/nuke6.0',
+            '/software/nuke/7.0/bin/nukex',
+                                ]
+            searchDir = 'C:\\Program Files\\'
+            fileFilter = '*'
+
         for path in defaultNukePath:
             if os.path.exists(path):
                 SETTINGS.addSetting('nukePath', path)
         
         # get the nuke path setting if exists
-        nukePath = SETTINGS.getSetting('nukePath')
+        nukePath = SETTINGS.getSetting('nukePath')[0]
         if nukePath:
-            if os.path.exists(nukePath[0]):
-                return nukePath[0]
+            if os.path.exists(nukePath):
+                return nukePath
             else:
                 raise UserWarning('No exe found !')
         else:
             # ask for the sublime text exe path
-            filedialog = cmds.fileDialog2(cap='Please give me the path of Nuke.exe !',
+            filedialog = cmds.fileDialog2(cap='Please give me the path of Nuke exe/bin !',
                             fm=1,
-                            dir='C:\\Program Files\\',
-                            ff='*.exe')
+                            dir=searchDir,
+                            ff=fileFilter)
             if filedialog:
                 nukePath = str(filedialog[0])
                 if os.path.exists(nukePath):
@@ -162,8 +174,9 @@ class Utils(object):
                     SETTINGS.addSetting('nukePath', nukePath)
                     return nukePath
                 else:
-                    raise UserWarning('No exe found !')
+                    raise UserWarning('No Nuke found !')
             else:
-                raise UserWarning('No exe found !')
+                raise UserWarning('No Nuke found !')
+
     def openScriptEditor(self):
         mayaCommands.openScriptEditor()

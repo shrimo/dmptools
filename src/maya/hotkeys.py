@@ -1,12 +1,3 @@
-#==========================================================================
-#
-# createHotkeys.py
-# michael.havart@gmail.com
-#
-# create Maya hotkeys instead of typing them in the maya hotkey menu.
-#
-#==========================================================================
-
 import maya.cmds as cmds
 import maya.mel as mel
 import os

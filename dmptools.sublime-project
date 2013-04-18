@@ -3,7 +3,7 @@
 	[
 		{
 			"name": "dmptools",
-			"cmd": "c:/Python27/python.exe $project_path/install.py",
+			"cmd": "python $project_path/install.py",
 			"working_dir": "$project_path"
 		}
 	],

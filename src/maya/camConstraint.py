@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 
-class camConstraintUI:
+class CamConstraintUI:
 
     def __init__(self):
         self.cameras = self.getSceneCameras()
@@ -50,5 +50,9 @@ class camConstraintUI:
         return transforms
     def getTransform(self,dag):
         return cmds.listRelatives(dag,parent=True)[0]
-    
-camConstraintUI()
+
+def main():
+    CamConstraintUI()
+
+if __name__ == '__main__':
+    main()

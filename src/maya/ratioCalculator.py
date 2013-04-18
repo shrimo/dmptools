@@ -1,10 +1,3 @@
-#=================================================
-#
-# Calculate the camera ratio from an offset
-# michael.havart@gmail.com
-#
-#=================================================
-
 import maya.cmds as cmds
 import os
 

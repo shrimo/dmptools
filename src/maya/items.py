@@ -1,6 +1,30 @@
 # markingMenu items list
 markingMenuItems = [
     {
+        'name':'Combine',
+        'annotation':'Combine clean.',
+        'subMenu':False,
+        'position':'N',
+        'command':'import dmptools.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.combine()',
+    },
+    {
+        'name':'Separate',
+        'annotation':'Separate clean.',
+        'subMenu':False,
+        'position':'NE',
+        'command':'import dmptools.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.faceSeparate()',
+    },
+    {
+        'name':'Symmetry',
+        'annotation':'Symmetry.',
+        'subMenu':False,
+        'position':'NW',
+        'command':'import dmptools.symmetry as symmetry;\
+            reload(symmetry);symmetry.main()',
+    },
+    {
         'name':'separator',
         'annotation':None,
         'subMenu':None,
@@ -61,6 +85,15 @@ markingMenuItems = [
             import dmptools.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
+        'name':'Camera Constraint',
+        'subMenu':False,
+        'position':False,
+        'annotation':'Camera Constraint',
+        'command':'import dmptools.camConstraint as camC;\
+            reload(camC);camC.main();\
+            import dmptools.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
         'name':'HotkeysList',
         'subMenu':False,
         'position':False,
@@ -68,30 +101,6 @@ markingMenuItems = [
         'command':'import dmptools.hotkeys as hotkeys;\
             reload(hotkeys);hotkeys.showHotkeysList();\
             import dmptools.markingMenu as mm;mm.deleteMarkingMenu()',
-    },
-    {
-        'name':'Combine',
-        'annotation':'Combine clean.',
-        'subMenu':False,
-        'position':'N',
-        'command':'import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.combine()',
-    },
-    {
-        'name':'Separate',
-        'annotation':'Separate clean.',
-        'subMenu':False,
-        'position':'NE',
-        'command':'import dmptools.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.faceSeparate()',
-    },
-    {
-        'name':'Symmetry',
-        'annotation':'Symmetry.',
-        'subMenu':False,
-        'position':'NW',
-        'command':'import dmptools.symmetry as symmetry;\
-            reload(symmetry);symmetry.main()',
     },
 ]
 

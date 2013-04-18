@@ -33,7 +33,6 @@ if os.name not in PLATFORMS:
     raise UserWarning('This install only works on windows and linux!')
 
 # globals
-SOFTLIST = ['nuke', 'maya']
 MODULE_NAME = 'dmptools'
 VERSION = '1.0.0'
 MODULE_PATH = './'
@@ -62,7 +61,7 @@ if PLATFORM == 'nt':
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
 if PLATFORM == 'posix':
-    HOMEPATH = os.environ['HOMEPATH']
+    HOMEPATH = os.environ['HOME']
     # nuke posix globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
@@ -252,16 +251,16 @@ def lineCounter():
 
 def main():
     """
-    run the install    
+    run the install
     """
     print 'executing',' '.join(sys.argv)
     # install Nuke dmptools
-    if 'nuke' in SOFTLIST and IS_NUKE_EXISTS:
+    if IS_NUKE_EXISTS:
         installNuke()
     else:
         print 'Error: nuke path not found!'
     # install Maya dmptools
-    if 'maya' in SOFTLIST and IS_MAYA_EXISTS:
+    if IS_MAYA_EXISTS:
         installMaya()
     else:
         print 'Error: maya path not found!'
