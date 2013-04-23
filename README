@@ -5,8 +5,8 @@ Maya and Nuke python tools for Windows and Linux.
 ==================================================
 
 REQUIREMENTS:
-    - MayaX and/or NukeX.X installed
-    - python2.7 installed in c:/python27
+    - MayaX and/or NukeX.X installed.
+    - python2.7 installed in c:/python27.
 
 INSTALL:
 
