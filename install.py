@@ -1,5 +1,3 @@
-# install.py
-
 """
  dmpTools standalone install file
  This will install the Maya and Nuke tools
