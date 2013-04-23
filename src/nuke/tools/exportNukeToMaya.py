@@ -9,7 +9,7 @@ import commands as cmd
 
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager()
+SETTINGS = SettingsManager('nuke')
 
 sys.setrecursionlimit(100)
 
@@ -31,6 +31,7 @@ class ExportToMaya():
             print 'no script to save...'
             
         self.mayapy = mayapy
+        self.tmpPath = os.path.abspath(os.getenv('TEMP'))
         self.objects = objects
         self.cameras = cameras
         self.axiis = axiis
@@ -43,17 +44,15 @@ class ExportToMaya():
         
         currTime = time.strftime('%d%m%y_%H%M%S')
         timeStr = str(time.strftime('%d/%m/%y at %H:%M:%S'))
-        self.filePathPy = "/tmp/"+self.filePath.split('/')[-1].split('.')[-2]+"_"+currTime+".py"
+        self.filePathPy = self.tmpPath+"/"+self.filePath.split('/')[-1].split('.')[-2]+"_"+currTime+".py"
 
         # path of .obj files
-
         if saveObj == 1:
             self.objPath = os.path.dirname(self.filePath)+"/"+self.filePath.split('/')[-1].split('.')[-2]+"/"
         else:
-            self.objPath = "/tmp/"+self.filePath.split('/')[-1].split('.')[-2]+"_"+currTime+"/"
+            self.objPath = self.tmpPath+"/"+self.filePath.split('/')[-1].split('.')[-2]+"_"+currTime+"/"
 
         # writing python file in order to generate the maya scene
-
         self.filePy = open(self.filePathPy, "a")
         self.filePy.write("# this python file is generated automatically by the 'exportNukeToMaya.py' tool.\n")
         self.filePy.write("# it will be processed by mayapy and will create a .ma file.\n")
@@ -100,8 +99,7 @@ class ExportToMaya():
         
         self.filePy.close()
         
-        # generate the maya file
-        
+        # generate the maya file        
         if os.path.exists(mayapy):
             print "generating and saving .ma ..."
             os.system(self.mayapy+' '+self.filePathPy+'')
@@ -117,24 +115,19 @@ class ExportToMaya():
         
         print "-- debug"	
         print "scite "+self.filePathPy
-        print "os.system('scite "+self.filePathPy+"&')"
+        print "os.system('sublime_text "+self.filePathPy+"&')"
         print "os.system('maya "+self.filePath+"&')"
         print "--------"
         
-        # send the scene directly into maya
-        
+        # send the scene directly into maya        
         if sendToMaya == 1:
             self.sendStuffToMaya(self.filePath)
             
-        # write nukeToMaya.info with the path of the maya file
-        
+        # write nukeToMaya.info with the path of the maya file        
         crosswalkFile = '/tmp/nukeToMaya.info'
         fileInfo = open(crosswalkFile, "a")
         fileInfo.write('filePath='+self.filePath+'\n')
-        fileInfo.close()
-        
-        #writeInfos("nuketoMaya","export done properly.\n    -exported:\n        "+self.filePath+'\n        '+self.filePathPy)
-    
+        fileInfo.close()   
 
     def sendStuffToMaya(self, mayaScene):
 
@@ -143,10 +136,8 @@ class ExportToMaya():
         mayaShots = []
         #print cmd.getstatusoutput('echo `more /tmp/mayaInfo.shot`')[1]
         
-        FILE = open("/tmp/mayaInfo.shot", "r")
-        
-        text = FILE.readlines()
-        
+        FILE = open("/tmp/mayaInfo.shot", "r")        
+        text = FILE.readlines()        
         for line in text:
             mayahost = line.split(":")[0]
             mayaport = line.split(":")[1]
@@ -189,10 +180,8 @@ class ExportToMaya():
 
     def exportObj(self, filePy, objects, filePath, objPath):
 
-        objPathList = []
-        
-        filePy.write("# importing obj files...\n\n")
-        
+        objPathList = []        
+        filePy.write("# importing obj files...\n\n")        
         for node in objects:
             
             for i in nuke.allNodes():
@@ -200,11 +189,11 @@ class ExportToMaya():
         
             print "processing "+node.name()+" ..."
             node['selected'].setValue(1)
-            writeObj = nuke.createNode('WriteGeo', inpanel = False)
+            writeObj = nuke.createNode('WriteGeo', inpanel=False)
             writeObj['name'].setValue(node.name()+"_export")
             writeObj['file'].setValue(objPath+node.name()+".obj")
             writeObj['file_type'].setValue('obj')
-            writeObj['views'].setValue('left')
+            # writeObj['views'].setValue('main')
             
             objPathList.append(objPath+node.name()+".obj")
             nuke.execute(writeObj, int(nuke.root()['first_frame'].getValue()), int(nuke.root()['first_frame'].getValue()))
@@ -230,18 +219,15 @@ class ExportToMaya():
         filePy.write("# creating locators ... \n\n")
         filePy.write("locatorList = []\n\n")
 
-        for node in axiis:
-            
-            print "proccessing axis "+node.name()+" ..."
-            
+        for node in axiis:            
+            print "proccessing axis "+node.name()+" ..."            
             locatorName = str(node.name())
             filePy.write("##############\n")
             filePy.write("# creating the locator: "+node.name()+"\n")
             filePy.write("##############\n\n")
             filePy.write("locator = cmds.spaceLocator()\n")
         
-            for frame in range(startFrame,lastFrame+1):
-                
+            for frame in range(startFrame,lastFrame+1):                
                 filePy.write("cmds.currentTime("+str(frame)+")\n")
                 # translateX
                 trX = str(self.getWorldMatrix(node, frame)[2][0])
@@ -309,18 +295,15 @@ class ExportToMaya():
         filePy.write("# creating locators ... \n\n")
         filePy.write("locatorList = []\n\n")
 
-        for node in axiis:
-            
-            print "proccessing axis "+node.name()+" ..."
-            
+        for node in axiis:            
+            print "proccessing axis "+node.name()+" ..."            
             locatorName = str(node.name())
             filePy.write("##############\n")
             filePy.write("# creating the locator: "+node.name()+"\n")
             filePy.write("##############\n\n")
             filePy.write("locator = cmds.spaceLocator()\n")
         
-            for frame in range(startFrame,lastFrame+1):
-                
+            for frame in range(startFrame,lastFrame+1):                
                 filePy.write("cmds.currentTime("+str(frame)+")\n")
                 # translateX
                 trX = str(float(node['translate'].getValueAt(frame)[0]))
@@ -373,8 +356,7 @@ class ExportToMaya():
                 filePy.write("cmds.setAttr(locator[0]+'.rotateOrder', "+rotOrder+")\n\n")
                 
             filePy.write("cmds.rename(locator[0], '"+node.name()+"')\n")
-            filePy.write("locatorList.append('"+node.name()+"')\n\n")
-            
+            filePy.write("locatorList.append('"+node.name()+"')\n\n")            
             filePy.write("cmds.currentTime("+str(startFrame)+")\n\n")
 
         filePy.write("cmds.select(cl = True)\n")
@@ -386,13 +368,10 @@ class ExportToMaya():
     def exportCam(self, filePy, cameras, filePath, startFrame, lastFrame):
 
         filePy.write("# creating cameras ... \n\n")
-
         filePy.write("camerasList = []\n\n")
 
-        for node in cameras:
-            
-            print "processing "+node.name()+" ..."
-            
+        for node in cameras:            
+            print "processing "+node.name()+" ..."            
             if node.knob('read_from_file'):
                 if node['read_from_file'].value() == 1:
                     node['read_from_file'].setValue(0)
@@ -404,8 +383,7 @@ class ExportToMaya():
             #filePy.write("# "+reafFilePath+"\n\n")
             filePy.write("camera = cmds.camera()\n")
             
-            for frame in range(startFrame, lastFrame+1):
-                
+            for frame in range(startFrame, lastFrame+1):                
                 filePy.write("cmds.currentTime("+str(frame)+")\n")
                 
                 # translateX
@@ -490,13 +468,10 @@ class ExportToMaya():
     def exportCam_old(self, filePy, cameras, filePath, startFrame, lastFrame):
 
         filePy.write("# creating cameras ... \n\n")
-
         filePy.write("camerasList = []\n\n")
 
-        for node in cameras:
-            
-            print "processing "+node.name()+" ..."
-            
+        for node in cameras:            
+            print "processing "+node.name()+" ..."            
             if node.knob('read_from_file'):
                 if node['read_from_file'].value() == 1:
                     node['read_from_file'].setValue(0)
@@ -508,8 +483,7 @@ class ExportToMaya():
             #filePy.write("# "+reafFilePath+"\n\n")
             filePy.write("camera = cmds.camera()\n")
             
-            for frame in range(startFrame, lastFrame+1):
-                
+            for frame in range(startFrame, lastFrame+1):                
                 filePy.write("cmds.currentTime("+str(frame)+")\n")
                 
                 # translateX
@@ -594,7 +568,6 @@ class ExportToMaya():
     def exportLights(self, filePy, lights, filePath, startFrame, lastFrame):
 
         filePy.write("# creating lights ... \n\n")
-
         filePy.write("lightsList = []\n\n")
 
         for light in lights:
@@ -629,12 +602,15 @@ class ExportToMaya():
 
 def exportToMayaUI():
 
+    mayapy = SETTINGS.getSetting('mayapyPath')
     if os.name == 'posix':
-        
-        mayaVersion = os.environ['MAYA_VERSION']
-        platform = os.environ['PLATFORM']
-        mayapy = '/software/maya/'+mayaVersion+'/'+platform+'/bin/mayapy'
-        
+        if not mayapy:
+            mayaVersion = os.environ['MAYA_VERSION']
+            platform = os.environ['PLATFORM']
+            mayapy = '/software/maya/'+mayaVersion+'/'+platform+'/bin/mayapy'
+        else:
+            mayapy = '/software/maya/'+mayaVersion+'/'+platform+'/bin/mayapy'
+
         # collect info for each open maya
         # test all maya found between port 9700-9711 and ask for the actual job, shot, host ...
         
@@ -657,13 +633,17 @@ def exportToMayaUI():
         #---------
 
     if os.name == 'nt':
-        panel = nuke.Panel('please give me the path of mayapy.exe')
-        panel.addFilenameSearch("mayapy.exe: ","")
-        val = panel.show()
-        if val:
-            mayapy = panel.value("mayapy.exe: ")
+        if not mayapy:
+            panel = nuke.Panel('please give me the path of mayapy.exe')
+            panel.addFilenameSearch("mayapy.exe: ","")
+            val = panel.show()
+            if val:
+                mayapy = panel.value("mayapy.exe: ")
+                SETTINGS.addSetting('mayapyPath', mayapy)
+            else:
+                mayapy = None
         else:
-            mayapy = None
+            mayapy = mayapy[0]
     selOriginal = nuke.selectedNodes()
 
     for item in selOriginal:
@@ -728,4 +708,4 @@ def exportToMayaUI():
         else:
             nuke.message("select some stuff !")
     else:
-        nuke.message("I can't find the mayapy binary. It's crucial to create ma files !")
+        print 'aborted...'

@@ -8,9 +8,16 @@ import fnmatch
 from dmptools.settings import SettingsManager
 
 # globals
+SETTINGS = SettingsManager('maya')
 normalAngle = 85
 perspNear = 1
 perspFar = 20000
+
+OS = os.name
+
+SETTINGS.addSetting('default_normalAngle', normalAngle)
+SETTINGS.addSetting('default_perspNear', perspNear)
+SETTINGS.addSetting('default_perspFar', perspFar)
 
 def openScriptEditor():
     mel.eval("ScriptEditor;")
@@ -147,13 +154,11 @@ def setUserSetting():
     
     if result == 'OK':
         inputText = cmds.promptDialog(query=True, text=True)
-        settings = SettingsManager()
-        settings.addSetting(inputText, cmds.ls(sl=True))
-        print settings.getSetting('faceSelection')
+        SETTINGS.addSetting(inputText, cmds.ls(sl=True))
+        print SETTINGS.getSetting('faceSelection')
 
 def getUserSetting():
-    settings = SettingsManager()
-    allSettings = settings.getSettings()
+    allSettings = SETTINGS.getSettings()
     lines = []
     for item in allSettings:
         lines.append(item.keys()[0])
@@ -175,9 +180,8 @@ def selectSetting():
     settingText = cmds.textScrollList('settingsList',
                         q=True,
                         si=True)
-    settings = SettingsManager()
     try:
-        cmds.select(settings.getSetting(settingText[0])[0])
+        cmds.select(SETTINGS.getSetting(settingText[0])[0])
     except:
         print 'failed to select setting...'
 
@@ -320,7 +324,6 @@ def customScriptEditorColors():
     cmds.displayRGBColor('syntaxComments', 0.45, 0.45, 0.45)
     cmds.displayRGBColor('syntaxCommands', 0.75, 0.75, 0.27)
     cmds.displayRGBColor('syntaxBackground', 0.15, 0.15, 0.15)
-
 
 def setDefaultColors():
     """
@@ -474,7 +477,6 @@ def newScriptEditor():
 
 def launchConsole():
     """launch console2 from maya"""
-    settings = SettingsManager()
     
     # get the console path from default
     defaultConsolePath = [
@@ -483,9 +485,9 @@ def launchConsole():
         ]
     for path in defaultConsolePath:
         if os.path.exists(path):
-            settings.addSetting('terminator', path)
+            SETTINGS.addSetting('terminator', path)
 
-    consolePath = settings.getSetting('terminator')
+    consolePath = SETTINGS.getSetting('terminator')
     if consolePath and os.path.exists(consolePath[0]):
         # launch console
         subprocess.Popen(consolePath[0])
@@ -499,15 +501,14 @@ def launchConsole():
             consolePath = str(filedialog[0])
             if os.path.exists(consolePath):
                 # setting Setting
-                settings.addSetting('terminator', consolePath)
+                SETTINGS.addSetting('terminator', consolePath)
                 # launch console
                 subprocess.Popen(consolePath)
         else:
             raise UserWarning('No exe found !')
 
-def launchSublimeText():
+def sublimeTextPathFinder():
     """launch sublime text from maya"""
-    settings = SettingsManager()
     
     # get the sublime text path from default
     defaultSublimePath = [
@@ -517,9 +518,9 @@ def launchSublimeText():
         ]
     for path in defaultSublimePath:
         if os.path.exists(path):
-            settings.addSetting('sublime_text_path', path)
+            SETTINGS.addSetting('sublime_text_path', path)
 
-    sublimeTextPath = settings.getSetting('sublime_text_path')
+    sublimeTextPath = SETTINGS.getSetting('sublime_text_path')
     if sublimeTextPath and os.path.exists(sublimeTextPath[0]):
         # launch sublime text
         subprocess.Popen(sublimeTextPath[0])
@@ -533,52 +534,66 @@ def launchSublimeText():
             sublimeTextPath = str(filedialog[0])
             if os.path.exists(sublimeTextPath):
                 # setting Setting
-                settings.addSetting('sublime_text_path', sublimeTextPath)
-                # launch sublime text
-                subprocess.Popen(sublimeTextPath)
+                SETTINGS.addSetting('sublime_text_path', sublimeTextPath)
+                return sublimeTextPath
         else:
             raise UserWarning('No exe found !')
 
-def launchNuke():
-    """launch nuke from maya"""
-    settings = SettingsManager()
+def launchSublimeText():
+    path = sublimeTextPathFinder()
+    subprocess.Popen(path)
 
-    # get the nuke text path from default
-    defaultNukePath = [
-        'C:/Program Files/Nuke6.3v4/Nuke6.3.exe',
-        'C:/Program Files (x86)/Nuke6.3v4/Nuke6.3.exe',
-        'C:/Program Files/Nuke6.3v2/Nuke6.3.exe',
-        'C:/Program Files (x86)/Nuke6.3v2/Nuke6.3.exe',
-        ]
+def nukePathFinder():
+    """
+    get nuke exe/bin path
+    """
+    # windows
+    if OS == 'nt':
+        defaultNukePath = [
+        'C:/Program Files/Nuke7.0v4/Nuke7.0.exe',
+                            ]
+        searchDir = 'C:\\Program Files\\'
+        fileFilter = '*.exe'
+    # linux
+    if OS == 'posix':
+        defaultNukePath = [
+        '/software/nuke/7.0/bin/nukex',
+                            ]
+        searchDir = 'C:\\Program Files\\'
+        fileFilter = '*'
+
+    # check if the default path exists 
     for path in defaultNukePath:
         if os.path.exists(path):
-            settings.addSetting('nuke_path', path)
-            
-    # get the nuke path Setting if exists
-    nukePath = settings.getSetting('nuke_path')
+            SETTINGS.addSetting('nukePath', path)
+    
+    # get the nuke path setting if exists
+    nukePath = SETTINGS.getSetting('nukePath')[0]
     if nukePath:
-        if os.path.exists(nukePath[0]):
-            # launch nuke
-            subprocess.Popen(nukePath[0]+" --nukex")
+        if os.path.exists(nukePath):
+            return nukePath
         else:
             raise UserWarning('No exe found !')
     else:
-        # ask for the nuke exe path
-        filedialog = cmds.fileDialog2(cap='Please give me the path of Nuke.exe !',
+        # ask for the sublime text exe path
+        filedialog = cmds.fileDialog2(cap='Please give me the path of Nuke exe/bin !',
                         fm=1,
-                        dir='C:\\Program Files\\',
-                        ff='*.exe')
+                        dir=searchDir,
+                        ff=fileFilter)
         if filedialog:
             nukePath = str(filedialog[0])
             if os.path.exists(nukePath):
-                # setting Setting
-                settings.addSetting('nuke_path', nukePath)
-                # launch nuke
-                subprocess.Popen(nukePath+" --nukex")
+                # setting setting
+                SETTINGS.addSetting('nukePath', nukePath)
+                return nukePath
             else:
-                raise UserWarning('No exe found !')
+                raise UserWarning('No Nuke found !')
         else:
-            raise UserWarning('No exe found !')
+            raise UserWarning('No Nuke found !')
+
+def launchNuke():
+    path = nukePathFinder()
+    subprocess.Popen(path+" --nukex")
 
 def setDefaultRenderer():
     panel = cmds.getPanel(wf=True)

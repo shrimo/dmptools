@@ -7,7 +7,7 @@ import maya.cmds as cmds
 import dmptools.mayaCommands as mayaCommands
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager()
+SETTINGS = SettingsManager('mayaToNuke')
 
 class Utils(object):
     """
@@ -20,7 +20,8 @@ class Utils(object):
         self.user = os.getenv('USERNAME')
         self.computer = os.getenv('COMPUTERNAME')
         self.tempPath = os.getenv('TEMP')
-        self.nukePath = self.getNukeExe()
+        self.nukePath = self.getNukePath()
+        self.nonEditableFields = ['user', 'os', 'platform']
         # maya display infos
         self.panelsDisplay = {}
         self.modelPanelObjects = [
@@ -41,7 +42,7 @@ class Utils(object):
         SETTINGS.addSetting('user', self.user)
         SETTINGS.addSetting('os', self.os)
         SETTINGS.addSetting('platform', self.platform)
-        
+
     def getTime(self):
         # get time
         timeInfo = {}
@@ -126,57 +127,11 @@ class Utils(object):
             for object, value in self.panelsDisplay[panel].items():
                 eval("cmds.modelEditor('"+panel+"', edit = True, "+object+" = False)")
 
-    def getNukeBin(self):
-        # get nuke path on linux
-        defaultNukePath = os.environ['NUKE_PATH']
-        defaultNukePath = '/soft/nuke'
-
-    def getNukeExe(self):
-        # get nuke path on windows
-        if self.os == 'nt':
-            defaultNukePath = [
-            'C:/Program Files/Nuke6.0v5/Nuke6.0.exe',
-            'C:/Program Files/Nuke6.3v4/Nuke6.3.exe',
-            'C:/Program Files (x86)/Nuke6.3v4/Nuke6.3.exe',
-                                ]
-            searchDir = 'C:\\Program Files\\'
-            fileFilter = '*.exe'
-
-        if self.os == 'posix':
-            defaultNukePath = [
-            '/software/nuke/6.3/bin/nuke6.0',
-            '/software/nuke/7.0/bin/nukex',
-                                ]
-            searchDir = 'C:\\Program Files\\'
-            fileFilter = '*'
-
-        for path in defaultNukePath:
-            if os.path.exists(path):
-                SETTINGS.addSetting('nukePath', path)
-        
-        # get the nuke path setting if exists
-        nukePath = SETTINGS.getSetting('nukePath')[0]
-        if nukePath:
-            if os.path.exists(nukePath):
-                return nukePath
-            else:
-                raise UserWarning('No exe found !')
-        else:
-            # ask for the sublime text exe path
-            filedialog = cmds.fileDialog2(cap='Please give me the path of Nuke exe/bin !',
-                            fm=1,
-                            dir=searchDir,
-                            ff=fileFilter)
-            if filedialog:
-                nukePath = str(filedialog[0])
-                if os.path.exists(nukePath):
-                    # setting setting
-                    SETTINGS.addSetting('nukePath', nukePath)
-                    return nukePath
-                else:
-                    raise UserWarning('No Nuke found !')
-            else:
-                raise UserWarning('No Nuke found !')
-
     def openScriptEditor(self):
         mayaCommands.openScriptEditor()
+    
+    def getNukePath(self):
+        nukePath = mayaCommands.nukePathFinder()
+        SETTINGS.addSetting('nukePath', nukePath)
+
+        return nukePath

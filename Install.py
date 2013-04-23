@@ -42,7 +42,7 @@ EXCLUDE_DIRS = \
         '.git',
         'csh',
         'mel',
-        'documentation',
+        'doc',
         'gizmos',
     ]
 EXCLUDE_FILES = ['pyc']

@@ -7,7 +7,7 @@ from dmptools.mayaToNuke.utils import Utils
 from dmptools.settings import SettingsManager
 
 WINDOW_NAME = 'mtn_Window'
-SETTINGS = SettingsManager()
+SETTINGS = SettingsManager('mayaToNuke')
 UTILS = Utils()
 
 class MayaToNukeUI(object):
@@ -30,6 +30,7 @@ class MayaToNukeUI(object):
         self.platform = UTILS.platform
         self.computer = UTILS.computer
         self.headerText = self.generateHeader()
+        self.nonEditableFields = UTILS.nonEditableFields
 
     def buildUI(self):
         """ build the interface UI """
@@ -447,14 +448,20 @@ class MayaToNukeUI(object):
         if cmds.window('mtn_settings', exists=True):
             cmds.deleteUI('mtn_settings', window=True)
         settingsWindow = cmds.window('mtn_settings',
-                            t='MayaToNuke settings window',
+                            t='Settings',
                             w=100,
                             h=50)
-        cmds.formLayout()
-        text = cmds.text(label=str(settings), align='left')
+        cmds.columnLayout(adj=True)
+        for setting in settings:
+            edit = setting.keys()[0] not in self.nonEditableFields
+            cmds.textFieldGrp(label=str(setting.keys()[0]), text=str(setting.values()[0]), editable=edit)
+
         cmds.showWindow(settingsWindow)
 
     def generateHeader(self):
+        """
+        generate the header of the ui
+        """
         headerText = \
                 'infos: '+self.platform+' | '+self.user+'@'+self.computer.lower()+\
                 ' | frame range: ['\

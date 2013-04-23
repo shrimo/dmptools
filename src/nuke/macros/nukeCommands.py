@@ -15,7 +15,7 @@ import time
 import re
 
 class PrintPath(nukescripts.PythonPanel):
-    """panel the printPath tool"""
+    """panel of the printPath tool"""
     def __init__(self):
         self.reads = nuke.selectedNodes('Read')
         
@@ -28,12 +28,11 @@ class PrintPath(nukescripts.PythonPanel):
         readList = []
         for read in self.reads:
             readList.append(read.name()+": "+read['file'].value())
+
         readStr = "\n".join(readList)
 
-        self.textKnob.setValue(readStr)
-   
+        self.textKnob.setValue(readStr)   
         self.refreshButton = nuke.PyScript_Knob('refresh')
-
         self.addKnob(self.textKnob)
         self.addKnob(self.refreshButton)
 
@@ -743,12 +742,39 @@ def printNodeKnobsExpressions():
                 nodes[node][knob] = node[knob].animation(0).expression()
                 print node[knob].name(), node.name(), True, node[knob].toScript(), node[knob].animation(0).expression()
     return nodes
-    
+
+def setDefaultSettings():
+    """
+    set some default startup settings
+    """
+
+    print '> dmptools default settings...'
+    preferenceNode = nuke.toNode('preferences')
+    # viewer settings
+    preferenceNode['TextureSize'].setValue('2048x2048')
+    preferenceNode['viewer_bg_color_3D'].setValue(1280068863)
+    preferenceNode['viewer_fg_color_3D'].setValue(4294967295L)
+    preferenceNode['Viewer3DControlEmulation'].setValue('Maya')
+
+    # script editor settings
+    preferenceNode['echoAllCommands'].setValue(True)
+    preferenceNode['ScriptEditorFont'].setValue('Consolas')
+    preferenceNode['ScriptEditorFontSize'].setValue(12.0)
+    preferenceNode['kwdsFgColour'].setValue(2629566719L)
+    preferenceNode['stringLiteralsFgColourDQ'].setValue(10354943)
+    preferenceNode['stringLiteralsFgColourSQ'].setValue(10354943)
+    preferenceNode['commentsFgColour'].setValue(2442236415L)
+    print '> done.'
+
 # ======================
 # CALLBACKS
 # ======================
 
-def viewerSettings():#
+def defaultSettings():
+    """set default values at the creation of a viewer node"""
+    nuke.callbacks.addOnCreate(setDefaultSettings, args=(), kwargs={}, nodeClass='Preferences')
+
+def viewerSettings():
     """set default values at the creation of a viewer node"""
     nuke.callbacks.addOnCreate(viewerSettings, args=(), kwargs={}, nodeClass='Viewer')
     
@@ -759,5 +785,3 @@ def autoCheckAlpha():
 def addFrameRangeOverride():
     """auto add the frame range override tab on write nodes"""
     nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
-
-# end

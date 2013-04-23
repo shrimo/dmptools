@@ -46,7 +46,7 @@ class Exporter(object):
         self.filePy = open(pyFile, "a")
         
         self.filePy.write("# this python file is generated automatically by the mayaToNuke.py tool.\n")
-        self.filePy.write("# it will be processed by mayapy and will create a .nk file.\n\n")
+        self.filePy.write("# it will be processed by nuke and will create a .nk file.\n\n")
         self.filePy.write("# path of nuke binary: "+self.nukePath+"\n")
         self.filePy.write("# name of the python file: "+pyFile+"\n")
         self.filePy.write("# name of the nuke file: "+self.outputFile+"\n")
@@ -103,7 +103,7 @@ class Exporter(object):
                 # print some debug stuff
                 print "export successfully: "+self.outputFile
                 print '### debug python file:'
-                print "os.system('scite "+pyFile+" &')"
+                print "os.system('sublime_text "+pyFile+" &')"
                 print '### nuke file:'
                 print "nuke "+self.outputFile
                 print "os.system('nuke "+self.outputFile+" &')"
@@ -116,7 +116,7 @@ class Exporter(object):
             else:
                 print 'failed to generate the nuke file...'
                 print '### debug python file:'
-                print "os.system('scite "+pyFile+" &')"
+                print "os.system('sublime_text "+pyFile+" &')"
                 
                 result = cmds.confirmDialog(t='Error !',
                                     b=['Okay', 'Script Editor'],
@@ -160,16 +160,16 @@ class Exporter(object):
                 objVisible = '%s.visibility' % object
                 # if a connection is found in any of the above
                 # consider the mesh animated/deformed
-                if cmds.connectionInfo( objTx, isDestination=True) or\
-                    cmds.connectionInfo( objTy, isDestination=True) or\
-                    cmds.connectionInfo( objTz, isDestination=True) or\
-                    cmds.connectionInfo( objRx, isDestination=True) or\
-                    cmds.connectionInfo( objRy, isDestination=True) or\
-                    cmds.connectionInfo( objRz, isDestination=True) or\
-                    cmds.connectionInfo( objSx, isDestination=True) or\
-                    cmds.connectionInfo( objSy, isDestination=True) or\
-                    cmds.connectionInfo( objSz, isDestination=True) or\
-                    cmds.connectionInfo( objVisible, isDestination=True):
+                if cmds.connectionInfo(objTx, isDestination=True) or\
+                    cmds.connectionInfo(objTy, isDestination=True) or\
+                    cmds.connectionInfo(objTz, isDestination=True) or\
+                    cmds.connectionInfo(objRx, isDestination=True) or\
+                    cmds.connectionInfo(objRy, isDestination=True) or\
+                    cmds.connectionInfo(objRz, isDestination=True) or\
+                    cmds.connectionInfo(objSx, isDestination=True) or\
+                    cmds.connectionInfo(objSy, isDestination=True) or\
+                    cmds.connectionInfo(objSz, isDestination=True) or\
+                    cmds.connectionInfo(objVisible, isDestination=True):
                     deformedMeshes.append(object)
                 else:
                     staticMeshes.append(object)
