@@ -57,9 +57,9 @@ class Utils(object):
             return the actual frame, first and last frame.
         """
         framerange = {}
-        framerange['current'] = int(cmds.currentTime(q = True))
-        framerange['first'] = int(cmds.playbackOptions(q = True, min = True))
-        framerange['last'] = int(cmds.playbackOptions(q = True, max = True))
+        framerange['current'] = int(cmds.currentTime(q=True))
+        framerange['first'] = int(cmds.playbackOptions(q=True, min=True))
+        framerange['last'] = int(cmds.playbackOptions(q=True, max=True))
         framerange['frames'] = int((framerange['last'] - framerange['first']) + 1)
 
         return framerange
@@ -78,8 +78,8 @@ class Utils(object):
             {[meshes], [cameras], [locators], [lights]}
         """
         # get current selection
-        cmds.select(hi = True)
-        selection = [str(item) for item in cmds.ls(sl = True)]
+        cmds.select(hi=True)
+        selection = [str(item) for item in cmds.ls(s=True)]
 
         # fill the items dict from the raw selection
         items = {}
@@ -103,12 +103,12 @@ class Utils(object):
             fill self.panelsDisplay with the all panels found
             and the state value of all the items in them.
         """
-        panels = cmds.getPanel(allPanels = True)
+        panels = cmds.getPanel(allPanels=True)
         for panel in panels:
             try:
                 self.panelsDisplay[panel] = {}
                 for object in self.modelPanelObjects:
-                    self.panelsDisplay[panel][object] = eval("cmds.modelEditor('"+panel+"', query = True, "+object+" = True)")
+                    self.panelsDisplay[panel][object] = eval("cmds.modelEditor('"+panel+"', query=True, "+object+"=True)")
             except:
                 pass
         
@@ -118,7 +118,7 @@ class Utils(object):
         """
         for panel in self.panelsDisplay.keys():
             for object, value in self.panelsDisplay[panel].items():
-                eval("cmds.modelEditor('"+panel+"', edit = True, "+object+" = "+str(value)+")")
+                eval("cmds.modelEditor('"+panel+"', edit=True, "+object+"="+str(value)+")")
     
     def setDisplayOff(self):
         """
@@ -126,7 +126,7 @@ class Utils(object):
         """
         for panel in self.panelsDisplay.keys():
             for object, value in self.panelsDisplay[panel].items():
-                eval("cmds.modelEditor('"+panel+"', edit = True, "+object+" = False)")
+                eval("cmds.modelEditor('"+panel+"', edit=True, "+object+"=False)")
 
     def openScriptEditor(self):
         mayaCommands.openScriptEditor()

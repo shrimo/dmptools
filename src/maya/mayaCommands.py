@@ -644,13 +644,13 @@ def assignSurfaceShader(name="", values=(0,0,0)):
         cmds.select(selection, r = True)
 
 def askFlushUndo():
-    confirm = cmds.confirmDialog(t = "flushUndo",
-                                 m = 'Do you want to flush undo ?',
-                                 ma = "center",
-                                 b = ['Yes','No'],
-                                 db = 'Yes',
-                                 cb = 'No',
-                                 ds = 'No' )
+    confirm = cmds.confirmDialog(t="flushUndo",
+                                 m='Do you want to flush undo ?',
+                                 ma="center",
+                                 b=['Yes','No'],
+                                 db='Yes',
+                                 cb='No',
+                                 ds='No')
                                 
     if confirm == "Yes":
         print "flushUndo..."
@@ -660,12 +660,12 @@ def askFlushUndo():
 
 def undoQueue(undos=100):
     # set the undo queue 
-    cmds.undoInfo(state = True, infinity = False, length = undos)
+    cmds.undoInfo(state=True, infinity=False, length=undos)
     
 def switchHighlightedSelection():
-    panel = cmds.getPanel(wf = True)
-    cmds.modelEditor(panel, edit = True, sel = not cmds.modelEditor(panel, query = True, sel = True))
-    headsUpDisplayMessage('Selection highlight: '+str(cmds.modelEditor(panel, query = True, sel = True)))
+    panel = cmds.getPanel(wf=True)
+    cmds.modelEditor(panel, edit=True, sel=not cmds.modelEditor(panel, query=True, sel=True))
+    headsUpDisplayMessage('Selection highlight: '+str(cmds.modelEditor(panel, query=True, sel=True)))
 
 def transferVertices(meshes=[], preserveUVs=True):
     
@@ -678,11 +678,11 @@ def transferVertices(meshes=[], preserveUVs=True):
             for vertex in range(verticesRange1+1):
                 vertexName1 = meshes[0]+".vtx["+str(vertex)+"]"
                 vertexName2 = meshes[1]+".vtx["+str(vertex)+"]"
-                xform1 = cmds.xform(vertexName1, q = True, ws = True, t = True)
-                xform2 = cmds.xform(vertexName2, q = True, ws = True, t = True)
+                xform1 = cmds.xform(vertexName1, q=True, ws=True, t=True)
+                xform2 = cmds.xform(vertexName2, q=True, ws=True, t=True)
                 #print " > moving", meshes[0], "vtx", vertex, "to", xform2
                 cmds.select(vertexName1, r = True)
-                cmds.move(xform2[0], xform2[1], xform2[2], ws = True, puv = preserveUVs)
+                cmds.move(xform2[0], xform2[1], xform2[2], ws=True, puv=preserveUVs)
         
         else:
             cmds.warning("The selection doesn't have the same vertex count !")
@@ -696,7 +696,7 @@ def toggleNormals():
     #toggle normals
     cmds.polyOptions(r=True,
                     f=True,
-                    dn=not cmds.polyOptions(q = True, dn = True))
+                    dn=not cmds.polyOptions(q=True, dn=True))
     headsUpDisplayMessage('Polygon normal display: '+str(cmds.polyOptions(q=True, dn=True)))
     
 def unselectAll():
@@ -704,23 +704,23 @@ def unselectAll():
     cmds.select(clear=True)
     
 def setWireframe():
-    panel = cmds.getPanel(wf = True)
+    panel = cmds.getPanel(wf=True)
     cmds.modelEditor(panel,
                     e=True,
-                    wireframeOnShaded=not cmds.modelEditor(panel, query = True, wireframeOnShaded = True))
-    headsUpDisplayMessage('Wireframe on shaded: '+str(cmds.modelEditor(panel, query = True, wireframeOnShaded = True)))
+                    wireframeOnShaded=not cmds.modelEditor(panel, query=True, wireframeOnShaded=True))
+    headsUpDisplayMessage('Wireframe on shaded: '+str(cmds.modelEditor(panel, query=True, wireframeOnShaded=True)))
 
 def setBackfaceCulling():
-    panel = cmds.getPanel(wf = True)
+    panel = cmds.getPanel(wf=True)
     cmds.modelEditor(panel,
                     e=True,
-                    backfaceCulling=not cmds.modelEditor(panel, query = True, backfaceCulling = True))
-    headsUpDisplayMessage('Backface culling: '+str(cmds.modelEditor(panel, query = True, backfaceCulling = True)))
+                    backfaceCulling=not cmds.modelEditor(panel, query=True, backfaceCulling=True))
+    headsUpDisplayMessage('Backface culling: '+str(cmds.modelEditor(panel, query=True, backfaceCulling=True)))
     
 def setDefaultMaterial():
-    panel = cmds.getPanel(wf = True)
-    cmds.modelEditor(panel, edit = True, useDefaultMaterial = not cmds.modelEditor(panel, query = True, useDefaultMaterial = True))
-    headsUpDisplayMessage('Default material: '+str(cmds.modelEditor(panel, query = True, useDefaultMaterial = True)))
+    panel = cmds.getPanel(wf=True)
+    cmds.modelEditor(panel, edit=True, useDefaultMaterial=not cmds.modelEditor(panel, query=True, useDefaultMaterial=True))
+    headsUpDisplayMessage('Default material: '+str(cmds.modelEditor(panel, query=True, useDefaultMaterial=True)))
 
 def tweakMultiComponents():
     cmds.selectType(meshComponents=True)
@@ -815,35 +815,35 @@ def importScene():
 
 def isolateSelection():
     """isolate selection"""
-    activePanel = cmds.getPanel(wf = True)
+    activePanel = cmds.getPanel(wf=True)
     mel.eval('isoSelectAutoAddNewObjs '+activePanel+' true;')
     mel.eval("enableIsolateSelect {0} {1};".format(activePanel, str(not cmds.isolateSelect(activePanel, q=True, state=True)).lower()))    
 
 def hideSel():
     
-    sel = cmds.ls(sl = True)
+    sel = cmds.ls(sl=True)
     for node in sel:
         cmds.setAttr(node+'.visibility', 0)
         
 def hideSelSwitch():
     
-    sel = cmds.ls(sl = True)
+    sel = cmds.ls(sl=True)
     for node in sel:
         cmds.setAttr(node+'.visibility', not cmds.getAttr(node+'.visibility'))
 
 def hideSelRelease():
     
-    sel = cmds.ls(sl = True, dag = True)
+    sel = cmds.ls(sl=True, dag=True)
     for node in sel:
         cmds.setAttr(node+'.visibility', 1)
 
 def assignBlackShader():
 
     global switch
-    activeModel = cmds.getPanel(wf = True)
-    cmds.modelEditor(activeModel, e = True, udm = 1)
+    activeModel = cmds.getPanel(wf=True)
+    cmds.modelEditor(activeModel, e=True, udm=1)
     cmds.displayRGBColor( 'background', 0, 0, 0 )
-    cmds.setAttr('lambert1.color', 0, 0, 0, type = "double3")
+    cmds.setAttr('lambert1.color', 0, 0, 0, type="double3")
     cmds.setAttr('lambert1.diffuse', 0)
     cmds.displayRGBColor('userDefined1', 1 ,1 ,1 )
 
@@ -854,12 +854,12 @@ def assignBlackShader():
 def assignDefaultShader():
 
     global switch
-    activeModel = cmds.getPanel(wf = True)
-    cmds.modelEditor(activeModel, e = True, udm = 0)
+    activeModel = cmds.getPanel(wf=True)
+    cmds.modelEditor(activeModel, e=True, udm=0)
     cmds.displayRGBColor( 'background', 0.61, 0.61, 0.61 )
-    cmds.setAttr('lambert1.color', 0.5, 0.5, 0.5, type = "double3")
+    cmds.setAttr('lambert1.color', 0.5, 0.5, 0.5, type="double3")
     cmds.setAttr('lambert1.diffuse', 0.5)
-    for node in cmds.ls(sl = True):
+    for node in cmds.ls(sl=True):
         cmds.color() # assign default wireframes
     switch = 1
 
@@ -887,17 +887,17 @@ def getCam():
 
 def cameraPanTool():
     headsUpDisplayMessage('Camera 2d pan mode')
-    panContext = cmds.panZoomCtx(panMode = True)
+    panContext = cmds.panZoomCtx(panMode=True)
     cmds.setToolTo(panContext)
     
 def cameraZoomTool():
     headsUpDisplayMessage('Camera 2d zoom mode')
-    zoomContext = cmds.panZoomCtx(zoomMode = True)
+    zoomContext = cmds.panZoomCtx(zoomMode=True)
     cmds.setToolTo(zoomContext)
 
 def resetPanZoom():
-    panel = cmds.getPanel(wf = True)
-    cameraNode = cmds.modelPanel(panel, q = True, camera = True)
+    panel = cmds.getPanel(wf=True)
+    cameraNode = cmds.modelPanel(panel, q=True, camera=True)
 
     cmds.setAttr(cameraNode+".zoom", 1)
     cmds.setAttr(cameraNode+".horizontalPan", 0)
@@ -908,18 +908,18 @@ def polySplitTool():
     cmds.setToolTo(polysplit)
 
 def selectNgones():
-    panel = cmds.getPanel(withFocus = True)
-    cmds.modelEditor(panel, e = True, manipulators = False)
-    cmds.selectMode(component = True)
-    cmds.selectType(fc = 1)
-    cmds.polySelectConstraint(m = 3, t = 8, sz = 3)
+    panel = cmds.getPanel(withFocus=True)
+    cmds.modelEditor(panel, e=True, manipulators=False)
+    cmds.selectMode(component=True)
+    cmds.selectType(fc=1)
+    cmds.polySelectConstraint(m=3, t=8, sz=3)
     
 def selectNgonesRelease():
-    panel = cmds.getPanel(withFocus = True)
-    cmds.modelEditor(panel, e = True, manipulators = True)
-    cmds.select(clear = True)
-    cmds.selectMode(object = True)
-    cmds.polySelectConstraint(m = 0)
+    panel = cmds.getPanel(withFocus=True)
+    cmds.modelEditor(panel, e=True, manipulators=True)
+    cmds.select(clear=True)
+    cmds.selectMode(object=True)
+    cmds.polySelectConstraint(m=0)
 
 def switchSelectNgones():
     global switchselectngones
@@ -936,18 +936,18 @@ def switchSelectNgones():
         switchselectngones = 1
 
 def selectTriangles():
-    panel = cmds.getPanel(withFocus = True)
-    cmds.modelEditor(panel, e = True, manipulators = False)
-    cmds.selectMode(component = True)
-    cmds.selectType(fc = 1)
-    cmds.polySelectConstraint(m = 3, t = 8, sz = 1)
+    panel = cmds.getPanel(withFocus=True)
+    cmds.modelEditor(panel, e=True, manipulators=False)
+    cmds.selectMode(component=True)
+    cmds.selectType(fc=1)
+    cmds.polySelectConstraint(m=3, t=8, sz=1)
 
 def selectTrianglesRelease():
-    panel = cmds.getPanel(withFocus = True)
-    cmds.modelEditor(panel, e = True, manipulators = True)
-    cmds.select(clear = True)
-    cmds.selectMode(object = True)
-    cmds.polySelectConstraint(m = 0)
+    panel = cmds.getPanel(withFocus=True)
+    cmds.modelEditor(panel, e=True, manipulators=True)
+    cmds.select(clear=True)
+    cmds.selectMode(object=True)
+    cmds.polySelectConstraint(m=0)
 
 def switchSelectTriangles():
     global switchselecttriangles
@@ -958,18 +958,18 @@ def switchSelectTriangles():
 
     if switchselecttriangles == 1:
         selectTriangles()
-        switchselecttriangles = 0
+        switchselecttriangles=0
     elif switchselecttriangles == 0:
         selectTrianglesRelease()
         switchselecttriangles = 1
 
 def setDefaultLight():
-    activePanel = cmds.getPanel(wf = True)
-    cmds.modelEditor(activePanel, e = True, dl = "default")
+    activePanel = cmds.getPanel(wf=True)
+    cmds.modelEditor(activePanel, e=True, dl="default")
 
 def setAllLight():
-    activePanel = cmds.getPanel(wf = True)
-    cmds.modelEditor(activePanel, edit = True, displayLights = 'all')
+    activePanel = cmds.getPanel(wf=True)
+    cmds.modelEditor(activePanel, edit=True, displayLights='all')
 
 def switchLight():
     global switchlight
@@ -986,7 +986,7 @@ def switchLight():
         switchlight = 1
    
 def lockPickNodes(lock=True):
-    for node in cmds.ls(sl = True):
+    for node in cmds.ls(sl=True):
         try:
             cmds.lockNode(node, lock=lock)
         except:
