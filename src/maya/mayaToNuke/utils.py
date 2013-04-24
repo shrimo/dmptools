@@ -18,10 +18,10 @@ class Utils(object):
         self.os = os.name
         self.platform = sys.platform
         self.user = os.getenv('USERNAME')
-        self.computer = os.getenv('COMPUTERNAME')
+        self.computer = os.getenv('HOST') if os.getenv('COMPUTERNAME') is None else "None"
         self.tempPath = os.getenv('TEMP')
         self.nukePath = self.getNukePath()
-        self.nonEditableFields = ['user', 'os', 'platform']
+        self.nonEditableFields = ['user', 'os', 'platform', 'computer']
         # maya display infos
         self.panelsDisplay = {}
         self.modelPanelObjects = [
@@ -40,6 +40,7 @@ class Utils(object):
                     ]
         # set settings
         SETTINGS.addSetting('user', self.user)
+        SETTINGS.addSetting('computer', self.computer)
         SETTINGS.addSetting('os', self.os)
         SETTINGS.addSetting('platform', self.platform)
 

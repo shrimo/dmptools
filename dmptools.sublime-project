@@ -4,7 +4,8 @@
 		{
 			"name": "dmptools",
 			"cmd": "python $project_path/install.py",
-			"working_dir": "$project_path"
+			"working_dir": "$project_path",
+			"shell": true
 		}
 	],
 	"folders":
