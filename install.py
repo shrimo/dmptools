@@ -65,7 +65,7 @@ if PLATFORM == 'posix':
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
 
     # maya posix globals
-    MAYA_GLOBAL = os.environ['HOMEPATH']+'/maya/'
+    MAYA_GLOBAL = os.environ['HOME']+'/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
@@ -94,7 +94,7 @@ def installNuke():
     if os.path.exists(NUKE_PATH+MODULE_NAME):
         print ' > deleting old dmpTools ...'
         shutil.rmtree(NUKE_PATH+MODULE_NAME)
-    # install nuke toolsSETTINGS.setSetting('mtn_textField', outputpath)
+    # install nuke tools
     install(PYTHON_SOURCE_PATH+'/nuke', NUKE_PATH+MODULE_NAME)
     # copy stuff from dmptools/python root to respective modules
     for f in os.listdir(PYTHON_SOURCE_PATH):

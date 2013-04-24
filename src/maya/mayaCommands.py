@@ -557,9 +557,9 @@ def nukePathFinder():
     # linux
     if OS == 'posix':
         defaultNukePath = [
-        '/software/nuke/7.0/bin/nukex',
+        '/',
                             ]
-        searchDir = 'C:\\Program Files\\'
+        searchDir = '/'
         fileFilter = '*'
 
     # check if the default path exists 
