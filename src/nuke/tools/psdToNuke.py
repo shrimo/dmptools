@@ -424,7 +424,6 @@ class PsdToNuke_proj:
         
         self.readnodes, self.premultnodes, self.autocropnodes = PsdToNuke_2d(self.path, self.useSel, self.mode).build2d()
     
-
 class PsdToNukeUI:
     
     def __init__(self):

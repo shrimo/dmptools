@@ -26,7 +26,7 @@ from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 nukeCommands.defaultSettings()
 
 # add a frame range override on write node creation for the alfredRender tool
-nukeCommands.addFrameRangeOverride()
+# nukeCommands.addFrameRangeOverride()
 
 # auto check alpha on write node creation 
 nukeCommands.autoCheckAlpha()
@@ -160,4 +160,6 @@ toolbar.addCommand('Macros/3d/Enable-Disable gl lighting',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.gl_lighting()', "Ctrl+Alt+0")
 
 # intranet help
-toolbar.addCommand('Help !', 'print "FIRE! FIRE! FIRE!"', icon = NUKE_SHARE+'/help.png')
+toolbar.addCommand('Help !',
+    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.helpButton()',
+    icon = NUKE_SHARE+'/help.png')

@@ -748,6 +748,11 @@ def setDefaultSettings():
     set some default startup settings
     """
 
+    if os.name == 'nt':
+        font = 'Consolas'
+    else:
+        font = 'Monospace'
+
     print '> dmptools default settings...'
     preferenceNode = nuke.toNode('preferences')
     # viewer settings
@@ -755,16 +760,23 @@ def setDefaultSettings():
     preferenceNode['viewer_bg_color_3D'].setValue(1280068863)
     preferenceNode['viewer_fg_color_3D'].setValue(4294967295L)
     preferenceNode['Viewer3DControlEmulation'].setValue('Maya')
+    preferenceNode['middleButtonPans'].setValue(False)
 
     # script editor settings
     preferenceNode['echoAllCommands'].setValue(True)
-    preferenceNode['ScriptEditorFont'].setValue('Consolas')
+    preferenceNode['ScriptEditorFont'].setValue(font)
     preferenceNode['ScriptEditorFontSize'].setValue(12.0)
     preferenceNode['kwdsFgColour'].setValue(2629566719L)
     preferenceNode['stringLiteralsFgColourDQ'].setValue(10354943)
     preferenceNode['stringLiteralsFgColourSQ'].setValue(10354943)
     preferenceNode['commentsFgColour'].setValue(2442236415L)
     print '> done.'
+
+def helpButton():
+    """
+    open the github page as the help
+    """
+    nuke.tcl("start", "https://github.com/michael-ha/dmptools")
 
 # ======================
 # CALLBACKS
@@ -781,7 +793,7 @@ def viewerSettings():
 def autoCheckAlpha():
     """auto check the alpha channel at the creation of write nodes"""
     nuke.callbacks.addOnUserCreate(checkAlpha, args=(), kwargs={}, nodeClass='Write')
-    
+
 def addFrameRangeOverride():
     """auto add the frame range override tab on write nodes"""
     nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
