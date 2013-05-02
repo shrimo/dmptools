@@ -263,8 +263,8 @@ def main():
     else:
         print 'Error: maya path not found!'
     # print the file and line count
-    files = lineCounter()
-    print '>>>', len(files[0]), 'files, ', files[1], 'lines'
+    # files = lineCounter()
+    # print '>>>', len(files[0]), 'files, ', files[1], 'lines'
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
