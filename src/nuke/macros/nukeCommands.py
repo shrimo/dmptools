@@ -13,46 +13,6 @@ import commands as cmd
 import sys
 import time
 import re
-
-class PrintPath(nukescripts.PythonPanel):
-    """panel of the printPath tool"""
-    def __init__(self):
-        self.reads = nuke.selectedNodes('Read')
-        
-        if len(self.reads) == 0:
-            self.reads = nuke.allNodes('Read')
-        nukescripts.PythonPanel.__init__( self, 'PrintPath', 'printpath')
-       
-        self.textKnob = nuke.Multiline_Eval_String_Knob('Paths:')
-
-        readList = []
-        for read in self.reads:
-            readList.append(read.name()+": "+read['file'].value())
-
-        readStr = "\n".join(readList)
-
-        self.textKnob.setValue(readStr)   
-        self.refreshButton = nuke.PyScript_Knob('refresh')
-        self.addKnob(self.textKnob)
-        self.addKnob(self.refreshButton)
-
-    def knobChanged(self, knob):
-        if knob == self.refreshButton:
-            reads = nuke.selectedNodes('Read')
-            if len(reads) == 0:
-                reads = nuke.allNodes('Read')
-                
-            readList = []
-            for read in reads:
-                readList.append(read.name()+": "+read['file'].value())
-            readStr = "\n".join(readList)
-            
-            self.textKnob.setValue(readStr)
-            
-def printPath():
-    """return a panel with the path of the selected nodes"""
-    nukescripts.registerPanel( 'printpath', printPath)
-    PrintPath().show()
         
 def frameRangeOverrideTab():
     """add an frame override field to a write node"""
@@ -689,21 +649,15 @@ def viewerSettings():
     node.knob('grid_display').setValue(False)
     node.knob('gl_lighting').setValue(1)
 
-def writeRender():
-    nuke.execute(nuke.selectedNode(), nuke.root()['first_frame'].value(), nuke.root()['first_frame'].value())
-
-def nukeExecute():
-    """try to execute (reload, render) the selected nodes"""
-    if nuke.selectedNodes():
-        for node in nuke.selectedNodes():
-            try:
-                node.knob('Render').execute()
-            except:
-                pass
-            try:
-                node.knob('reload').execute()
-            except:
-                pass
+def executeSelection(firstFrame=nuke.frame(), lastFrame=nuke.frame()):
+    nodes = nuke.selectedNodes()
+    if nodes:
+        try:
+            nuke.execute(node, firstFrame, lastFrame)
+        except:
+            print 'cannot execute', node.name(), '...'
+    else:
+        nuke.message("Please select some write nodes!")
 
 def checkAlpha():
     """check the alpha channel"""

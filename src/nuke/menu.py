@@ -135,7 +135,7 @@ toolbar.addCommand('Macros/2d/Search and replace string in file knob...',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.replaceStringInFile()')
 # show the path of all or selected read nodes
 toolbar.addCommand('Macros/2d/Show paths of all or selected Read nodes...',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.printPath()')
+    'import dmptools.tools.getFilePath as getFilePath;getFilePath.printPath()')
 # unselect and close all nodes control panel
 toolbar.addCommand('Macros/2d/Close all the nodes control panel',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.closeAllControlPanel()')
