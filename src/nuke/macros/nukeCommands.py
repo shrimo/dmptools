@@ -689,6 +689,9 @@ def viewerSettings():
     node.knob('grid_display').setValue(False)
     node.knob('gl_lighting').setValue(1)
 
+def writeRender():
+    nuke.execute(nuke.selectedNode(), nuke.root()['first_frame'].value(), nuke.root()['first_frame'].value())
+
 def nukeExecute():
     """try to execute (reload, render) the selected nodes"""
     if nuke.selectedNodes():

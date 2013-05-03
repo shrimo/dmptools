@@ -7,7 +7,35 @@
 
 import nuke
 import random
-        
+
+GOODGEO = ["DisplaceGeo",
+            "TransformGeo",
+            "UVProject",
+            "MergeGeo",
+            "Normals",
+            "ProcGeo",
+            "RadialDistort",
+            "Trilinear",
+            "CrosstalkGeo",
+            "GeoSelect",
+            "LookupGeo",
+            "LogGeo",
+            "WriteGeo",
+            "WriteGeo2",
+            "ReadGeo",
+            "ReadGeo2",
+            "Sphere",
+            "Sphere2",
+            "Cube",
+            "Cube2",
+            "Cylinder",
+            "Cylinder2",
+            "Card",
+            "Card2",
+            "PythonGeo",
+            "GiggleGeoLoader",
+            ]
+   
 class Populate(object):
     """
     randomly populate a given number of spheres onto
@@ -26,14 +54,16 @@ class Populate(object):
         """
         create UI that ask for the number of objects
         """
-        panel = nuke.Panel('How many copies ?')
+        panel = nuke.Panel('Settings')
         panel.addSingleLineInput('The source object has '+str(self.numP)+' points:', '')
+        panel.addEnumerationPulldown('Object to populate: ', 'Sphere Cube Cylinder Card')
         val = panel.show()
         if val:
             text = panel.value('The source object has '+str(self.numP)+' points:')
+            populateObj = panel.value('Object to populate: ')
             try:
                 value = int(text)
-                return value
+                return value, populateObj
             except ValueError:
                 nuke.message("Please type a int value !")
                 raise
@@ -41,7 +71,7 @@ class Populate(object):
             self.clean()
             raise UserWarning("abort by the user...")
             
-    def populate(self, number):
+    def populate(self, number, populateObj):
         """
         from the number of points given by the user,
         create a sphere on a random point of the source object
@@ -55,7 +85,7 @@ class Populate(object):
         for p in numP:
             point =  self.numPList[p]   
             # create sphere
-            sphere = nuke.createNode("Sphere", inpanel = False)
+            sphere = nuke.createNode(populateObj, inpanel=False)
             sphere['uniform_scale'].setValue(.2)
             sphere['rows'].setValue(8)
             sphere['columns'].setValue(8)
@@ -82,40 +112,12 @@ class Populate(object):
         nuke.delete(self.pyGeo)
 
 def main():
-    source = nuke.selectedNode()
-    goodGeo = ["DisplaceGeo",
-                "TransformGeo",
-                "UVProject",
-                "MergeGeo",
-                "Normals",
-                "ProcGeo",
-                "RadialDistort",
-                "Trilinear",
-                "CrosstalkGeo",
-                "GeoSelect",
-                "LookupGeo",
-                "LogGeo",
-                "WriteGeo",
-                "WriteGeo2",
-                "ReadGeo",
-                "ReadGeo2",
-                "Sphere",
-                "Sphere2",
-                "Cube",
-                "Cube2",
-                "Cylinder",
-                "Cylinder2",
-                "Card",
-                "Card2",
-                "PythonGeo",
-                "GiggleGeoLoader",
-                ]
-                
-    if source.Class() in goodGeo:
+    source = nuke.selectedNode()                
+    if source.Class() in GOODGEO:
         populate = Populate()
-        number = populate.UI()
+        number, populateObj = populate.UI()
         if number <= populate.numP:
-            populate.populate(number)
+            populate.populate(number, populateObj)
             populate.clean()
         else:
             nuke.message('Not enough points in the source object:\n'+str(populate.numP))

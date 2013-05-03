@@ -60,7 +60,7 @@ toolbar.addMenu('Macros/3d')
 
 #export nuke to maya
 toolbar.addCommand('Tools/Nuke to Maya...',
-    'import dmptools.tools.exportNukeToMaya as exportNukeToMaya;exportNukeToMaya.exportToMayaUI()',
+    'import dmptools.tools.nukeToMaya as nukeToMaya;nukeToMaya.exportToMayaUI()',
     icon = NUKE_SHARE+'/nukeToMaya.png')
 # psd to nuke 
 toolbar.addCommand('Tools/Psd to Nuke...',
@@ -101,7 +101,7 @@ toolbar.addCommand('Nodes/3d/Image plane',
     'nuke.createNode("imagePlane")')
 # populate geo on 3d selection
 toolbar.addCommand('Nodes/3d/Populate 3d Geo ...',
-    'import dmptools.tools.nukePopulate as nukePopulate;nukePopulate.main()')
+    'import dmptools.tools.populate as populate;populate.main()')
 # sequence manager (dev)
 toolbar.addCommand('Nodes/3d/Sequence Manager',
     'nuke.createNode("sequenceManager")')
