@@ -43,14 +43,14 @@ nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',
 #========================
 
 # create 3ddmp toolbar
-toolbar = nuke.toolbar("Nodes").addMenu('dmptools', icon = NUKE_SHARE+'/toolbar.png')
+toolbar = nuke.toolbar("Nodes").addMenu('dmptools', icon=NUKE_SHARE+'/toolbar.png')
 
 # toolbar menus
-toolbar.addMenu('Tools', icon = NUKE_SHARE+'/tools.png')
-toolbar.addMenu('Nodes', icon = NUKE_SHARE+'/nodes.png')
+toolbar.addMenu('Tools', icon=NUKE_SHARE+'/tools.png')
+toolbar.addMenu('Nodes', icon=NUKE_SHARE+'/nodes.png')
 toolbar.addMenu('Nodes/2d')
 toolbar.addMenu('Nodes/3d')
-toolbar.addMenu('Macros', icon = NUKE_SHARE+'/macros.png')
+toolbar.addMenu('Macros', icon=NUKE_SHARE+'/macros.png')
 toolbar.addMenu('Macros/2d')
 toolbar.addMenu('Macros/3d')
 
@@ -61,26 +61,26 @@ toolbar.addMenu('Macros/3d')
 #export nuke to maya
 toolbar.addCommand('Tools/Nuke to Maya...',
     'import dmptools.tools.nukeToMaya as nukeToMaya;nukeToMaya.exportToMayaUI()',
-    icon = NUKE_SHARE+'/nukeToMaya.png')
+    icon=NUKE_SHARE+'/nukeToMaya.png')
 # psd to nuke 
 toolbar.addCommand('Tools/Psd to Nuke...',
     'import dmptools.tools.psdToNuke as psdToNuke;psdToNuke.psdToNuke()',
-    icon = NUKE_SHARE+'/psdToNuke.png')
+    icon=NUKE_SHARE+'/psdToNuke.png')
 # ratio calculator
 toolbar.addCommand('Tools/Ratio calculator...',
     'import dmptools.tools.nukeRatioCalculator as nukeRatioCalculator;nukeRatioCalculator.ratioCalculator()',
-    icon = NUKE_SHARE+'/ratioCalculator.png')
+    icon=NUKE_SHARE+'/ratioCalculator.png')
 # bake camera projections into uv textures
 toolbar.addCommand('Tools/Bake projection to UV...',
     'import dmptools.tools.bakeProjToUV as bakeProjToUV;bakeProjToUV.bakeItUI()',
-    icon = NUKE_SHARE+'/bake.png')
+    icon=NUKE_SHARE+'/bake.png')
 
 # scanline render manager
 sc = ScanlineRenderManager()
 pane = nuke.menu("Pane")
 pane.addCommand( "scanlineRenderManager", sc.addToPane)
 nukescripts.registerPanel('ScanlineRenderManager', sc.addToPane)
-toolbar.addCommand('Tools/Scanline Render Manager', sc.show, icon = NUKE_SHARE+'/scanline.png')
+toolbar.addCommand('Tools/Scanline Render Manager', sc.show, icon=NUKE_SHARE+'/scanline.png')
 
 #===================
 #    NODES MENU
@@ -162,4 +162,4 @@ toolbar.addCommand('Macros/3d/Enable-Disable gl lighting',
 # intranet help
 toolbar.addCommand('Help !',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.helpButton()',
-    icon = NUKE_SHARE+'/help.png')
+    icon=NUKE_SHARE+'/help.png')

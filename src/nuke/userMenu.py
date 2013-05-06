@@ -10,10 +10,11 @@ TF2CLASSES = tf2.CLASSES
 iconPrefix = TF2CLASSES.keys()[random.randint(0,len(TF2CLASSES)-1)]
 iconTooltip = TF2CLASSES[iconPrefix][random.randint(0,len(TF2CLASSES[iconPrefix])-1)]
 iconPath = NUKE_SHARE+'/tf2avatars/'+iconPrefix+'.jpg'
+# iconPath = NUKE_SHARE+'userIcon.png'
 
 print iconTooltip
 
-m = nuke.toolbar("Nodes").addMenu('dmptools/Misc', tooltip = iconTooltip, icon = iconPath)
+m = nuke.toolbar("Nodes").addMenu('dmptools/Misc', tooltip=iconTooltip, icon=iconPath)
 
 # 3D
 m.addCommand('3d/Shadow Generator', 'nuke.createNode("shadow_generator")')
