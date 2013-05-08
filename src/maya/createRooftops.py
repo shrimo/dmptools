@@ -8,12 +8,19 @@ import dmptools.mayaCommands as mayaCommands
 HISTORY = False
 
 def getFaceArea(face):
+    """ from a face, return the area and the bounding box in a dict """
     faceArea = {}
     faceArea['face'] = face
-    faceArea['facearea'] = cmds.polyEvaluate(face, area=True)
+    faceArea['faceArea'] = cmds.polyEvaluate(face, area=True)
     faceArea['faceBB'] = cmds.polyEvaluate(face, bc=True)
     
     return faceArea
+
+def extrudeLedge(face):
+    """ extrude the first ledge on rooftop """
+    localScaleRDM = random.uniform(0.88, 0.98)
+    localScale = (localScaleRDM, localScaleRDM, 1)
+    cmds.polyExtrudeFacet(ch=HISTORY, keepFacesTogether=False, thickness=0, localScale=firstLocalScale)
 
 def roundedExtrude(face):
     """ extrude a rounded rooftop """
@@ -29,27 +36,36 @@ def roundedExtrude(face):
 
 def pinchedExtrude(face):
     """ extrude a pinched rooftop if the face has exactly 4 edges """
+    iterations = 1
+    localScaleX = 1
+    localScaleY = 0
+    localScaleZ = 1
+    thickness = 25
+    for iteration in range(iterations):
+        cmds.polyExtrudeFacet(face, thickness=thickness, localScale=[localScaleX, localScaleY, localScaleZ])
 
     return face
 
 def concaveExtrude(face):
     """ extrude a concave rooftop """
-
-    return face
-
-def convexExtrude(face):
-    """ extrude a convex rooftop """
+    iterations = 3
+    localScale = 0.85
+    thickness = 25
+    for iteration in range(iterations):
+        cmds.polyExtrudeFacet(face, thickness=thickness, localScale=[localScale, localScale, localScale])
+        localScale += 0.04
+        thickness += 5
 
     return face
 
 def holeExtrude(face):
     """ extrude a rounded and  """
     iterations = 5
-    localScale = 0.85
+    localScale = 0.9
     thickness = 25
     for iteration in range(iterations):
         cmds.polyExtrudeFacet(face, thickness=thickness, localScale=[localScale, localScale, localScale])
-        thickness -= 15
+        thickness -= 10
     
     return face
 
@@ -66,8 +82,8 @@ def separateShells(selection):
 
     shells = []
     try:
-        sep = True
-        while sep:
+        separate = True
+        while separate:
             try:
                 cmds.select(selection+'.f[1]')
                 mel.eval('polyConvertToShell;')
@@ -75,7 +91,7 @@ def separateShells(selection):
                 separation = mayaCommands.faceSeparate()
                 shells.append(separation)
             except:
-                sep = False
+                separate = False
         if shells:
             cmds.delete(selection)
         else:
@@ -84,7 +100,7 @@ def separateShells(selection):
         pass
 
     return shells
-
+"""
 def extrudeRooftops_old(face):
     firstThickness = 0
     secondThickness = random.randint(30,65)
@@ -107,44 +123,69 @@ def extrudeRooftops_old(face):
     cmds.polyExtrudeFacet(ch=HISTORY, keepFacesTogether=False, thickness=thirdThickness, localScale=thirdLocalScale)
 
     return face
+"""
 
-def getTopFaces(meshes):
+def getTopFaces(mesh):
     """ extrude top faces of given meshes """    
 
-    blocks = {}
-    for mesh in meshes:
-        # rooftop faces dict
-        blocks[mesh] = []
-        cmds.select(mesh, r=True)
-        meshFaces = cmds.ls(mesh+".f[*]")
-        faces = cmds.ls(meshFaces, fl=True)
-        
-        # if the face normal is facing the sky, then fill the rooftop faces dict
-        for face in faces:
-            if float(cmds.polyInfo(face, fn=True)[0].split(' ')[-2]) >= 1.0:
-                blocks[mesh].append(face)
+    # rooftop faces
+    topfaces = []
+    cmds.select(mesh, r=True)
+    meshFaces = cmds.ls(mesh+".f[*]")
+    faces = cmds.ls(meshFaces, fl=True)
+    
+    # if the face normal is facing the sky, then fill the rooftop faces dict
+    for face in faces:
+        if float(cmds.polyInfo(face, fn=True)[0].split(' ')[-2]) >= 1.0:
+            topfaces.append(face)
 
-    return blocks
+    return topfaces
 
 def main():
     selection = cmds.ls(sl=True)
-    for node in selection:
+    # main dict
+    sections = {}
+    for section in selection:
+        # create group of section
+        grouptmp = cmds.group(section)
+        cmds.rename(grouptmp, section)
         # try to separate groups of shells from a selection
-        shells = separateShells(node)
+        sections[section] = {}
+        blocks = separateShells(section)
         # go through all the shells and get the rooftop faces
-        rooftops = getTopFaces(shells)
-
-        # go through all the shells and their rooftop faces
-        for mesh in rooftops:
-            for face in rooftops[mesh]:
-                print face
-
-    return rooftops
+        for block in blocks:
+            # get top faces
+            sections[section][block] = {}
+            sections[section][block]['topfaces'] = getTopFaces(block)
+            # faces utils
+            faceAreas = []
+            # get the face area and put it in the main dict
+            [faceAreas.append(getFaceArea(face)['faceArea']) for face in sections[block][shell]]
+            # get the average area
+            faceAreasAverage = float(sum(faceAreas))/float(len(faceAreas))
+            print "average area for", mesh, "is", faceAreasAverage
+            for face in sections[block][shell]:
+                # compare thr actual face by the average and put them in the main dict
+                sections[block][shell]['big'] = []
+                sections[block][shell]['small'] = []
+                if getFaceArea(face)['faceArea'] >= faceAreasAverage:
+                    print "area bigger than average", face
+                    sections[block][shell]['big'].append(face)
+                if getFaceArea(face)['faceArea'] <= faceAreasAverage:
+                    print "area smaller than average", face
+                    sections[block][shell]['small'].append(face)
+            """
+    return sections
 
 if __name__ == '__main__':
     main()
 
 """
+for section in sections:
+    print section
+    for block in sections[section]:
+        print block, sections[section][block]['topfaces']
+
 faceArea = getFaceArea(face)
 
 area = faceArea['facearea']
@@ -157,5 +198,9 @@ faceBBZMax = faceArea['faceBB'][2][1]
 
 print "area:", area
 print "bbox:", faceBBXMin, faceBBXMax, faceBBYMin, faceBBYMax, faceBBZMin, faceBBZMax
-"""
 
+for block in rooftops:
+    for faces in rooftops[block]:
+        cmds.select(rooftops[block][faces], add=True)
+
+"""
