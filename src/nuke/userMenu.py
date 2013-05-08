@@ -52,7 +52,7 @@ m.addCommand('Other/Unselect All', 'import dmptools.macros.nukeCommands as nukeC
 #root
 m.addCommand('Execute', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.writeRender()', "Alt+E")
 m.addCommand('Import exported file', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.importScript()', "Ctrl+Shift+I")
-m.addCommand('Open terminal from selection', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.openTerminal()', "Alt+X")
+m.addCommand('Open terminal from selection', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.openTerminal()', "Ctrl+Alt+X")
 m.addCommand('Start server', 'execfile("/usr/people/michael-ha/python/nukeserver.py");threaded_server()')
 m.addCommand('Set Shot FrameRange', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setShotFrameRange()')
 m.addCommand('Show modules...', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.showModules()')

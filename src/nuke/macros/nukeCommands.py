@@ -13,7 +13,7 @@ import commands as cmd
 import sys
 import time
 import re
-        
+
 def frameRangeOverrideTab():
     """add an frame override field to a write node"""
     
@@ -483,39 +483,29 @@ def replaceStereoStr(node, view):
     return outputPath
 
 def openTerminal():
-    """open a gnome-terminal with the correct job set.
-     if there a read or a write node selected, it will go to the file directory"""
-    sel = nuke.selectedNodes()
-    job = os.environ['JOB']
-    shot = os.environ['SHOT']
-    discipline = os.environ['DISCIPLINE']
-    jobCmd = 'source some stuff'
-    if sel:
-        for node in sel:
+    """open a gnome-terminal from a read or a write node in selection"""
+
+    nodes = nuke.selectedNodes()
+    if nodes:
+        for node in nodes:
             if node.Class() in ['Read', 'Write']:
-                try:
-                    views = node['views'].value()
-                except:
-                    views = '(mono)'
-                if not views in ['(mono)', 'main']:
-                    panel = nuke.Panel('select view')
-                    panel.addEnumerationPulldown("views", 'left right')
-                    value = panel.show()
-                    if value:
-                        view = panel.value('views')
-                        outputpath = replaceStereoStr(node, view)
-                        filename = os.path.basename(outputpath)
-                        path = os.path.dirname(outputpath)
-                        title = path.split('/')[-1]+'/'+filename
-                        os.system('gnome-terminal --title '+title+' -x csh -c "'+jobCmd+';cd '+path+';csh"&')
-                        
+                if 'views' in node.knobs().keys():
+                    path = os.path.dirname(node['file'].evaluate())
+                    if os.path.exists(path):
+                        view = node['views'].value().split(' ')[0]
+                        subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
+                    else:
+                        raise UserWarning("No such file or directory")
                 else:
-                    filename = os.path.basename(node['file'].value())
-                    path = os.path.dirname(node['file'].value())
-                    title = path.split('/')[-1]+'/'+filename
-                    os.system('gnome-terminal --title '+title+' -x tcsh -c "'+jobCmd+';cd '+path+';tcsh"&')
+                    path = os.path.dirname(node['file'].evaluate())
+                    if os.path.exists(path):
+                        subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
+                    else:
+                        raise UserWarning("No such file or directory")
+            else:
+                raise UserWarning("No node to explore")
     else:
-        os.system('gnome-terminal --title '+job+'--'+shot+' -x tcsh -c "'+jobCmd+';tcsh"&')
+        raise UserWarning("No node to explore")
 
 def getLatestAutosave():
     """returns the latest autosave nuke script"""

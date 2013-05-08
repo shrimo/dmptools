@@ -2,6 +2,10 @@ import nuke
 import fnmatch
 import os
 
+from dmptools.settings import settings
+
+SETTINGS = SettingsManager('nuke')
+
 def deselectAll():
     for node in nuke.allNodes():
         node.setSelected(False)
@@ -10,7 +14,7 @@ def demosaicer(node):
     """
         takes a tiled image and deconstruct it to multiple pieces
     """
-
+    savedPath = SETTINGS.getSetting('demosaicerPath')
     panel = nuke.Panel('Demosaicer')
     panel.addFilenameSearch('Output path: ', '/job/aynik/dev/set/LouvrePlaza/work/mhavart/maya/textures/COL/v004')
     panel.addSingleLineInput('Texture name: ', 'eastEntrance')
@@ -20,6 +24,7 @@ def demosaicer(node):
         path = panel.value('Output path: ')
         texturename = panel.value('Texture name: ')
         tilesNumber = panel.value('Tiles number: ')
+        SETTINGS.addSetting('demosaicerPath', path)
     else:
         nuke.message('No tiles!')
         raise UserWarning('No tiles!')

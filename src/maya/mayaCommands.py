@@ -65,9 +65,9 @@ def faceSeparate():
     faces = cmds.ls(sl=True, fl=True)
     temp = faces[0].split('.')
 
-    if not faces or len(temp) == 1:
-        cmds.error('Select at lease one face!')
-
+    if not faces or len(temp) == 1 or len(faces) == cmds.polyEvaluate(f=True):
+        cmds.error('Select at lease one face and not the entire mesh!')
+    
     temp = faces[0].split('.')
     mesh = temp[0]
     temp = cmds.duplicate(mesh, n=mesh, rr=True)
@@ -96,6 +96,8 @@ def faceSeparate():
     cmds.delete(faces)
     cmds.select(newMesh)
     cmds.xform(cp=True)
+
+    return newMesh
 
 def openNodeEditor():
     mel.eval('NodeEditorWindow;')

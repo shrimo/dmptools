@@ -2,6 +2,10 @@ import nuke
 import fnmatch
 import os
 
+from dmptools.settings import settings
+
+SETTINGS = SettingsManager('nuke')
+
 def deselectAll():
     for node in nuke.allNodes():
         node.setSelected(False)

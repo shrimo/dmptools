@@ -156,6 +156,7 @@ toolbar.addCommand('Macros/3d/Textured',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayTextured()', "Ctrl+Alt+6")
 toolbar.addCommand('Macros/3d/Textured+Lines',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayTexturedLines()', "Ctrl+Alt+7")
+# toggle default lighting on/off
 toolbar.addCommand('Macros/3d/Enable-Disable gl lighting',
     'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.gl_lighting()', "Ctrl+Alt+0")
 
