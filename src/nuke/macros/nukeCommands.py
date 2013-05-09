@@ -710,7 +710,7 @@ def setDefaultSettings():
     preferenceNode['middleButtonPans'].setValue(False)
 
     # script editor settings
-    preferenceNode['clearOnSucess'].setValue(False)
+    preferenceNode['clearOnSuccess'].setValue(False)
     preferenceNode['echoAllCommands'].setValue(True)
     preferenceNode['ScriptEditorFont'].setValue(font)
     preferenceNode['ScriptEditorFontSize'].setValue(12.0)
