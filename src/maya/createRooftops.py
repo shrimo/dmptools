@@ -91,10 +91,9 @@ def separateShells(selection):
                 separation = mayaCommands.faceSeparate()
                 shells.append(separation)
             except:
+                shells.append(selection)
                 separate = False
-        if shells:
-            cmds.delete(selection)
-        else:
+        if not shells:
             shells = [selection]
     except:
         pass
@@ -147,8 +146,8 @@ def main():
     sections = {}
     for section in selection:
         # create group of section
-        grouptmp = cmds.group(section)
-        cmds.rename(grouptmp, section)
+        # grouptmp = cmds.group(section)
+        # cmds.rename(grouptmp, section)
         # try to separate groups of shells from a selection
         sections[section] = {}
         blocks = separateShells(section)
@@ -160,21 +159,19 @@ def main():
             # faces utils
             faceAreas = []
             # get the face area and put it in the main dict
-            [faceAreas.append(getFaceArea(face)['faceArea']) for face in sections[block][shell]]
+            [faceAreas.append(getFaceArea(face)['faceArea']) for face in sections[section][block]['topfaces']]
             # get the average area
             faceAreasAverage = float(sum(faceAreas))/float(len(faceAreas))
-            print "average area for", mesh, "is", faceAreasAverage
-            for face in sections[block][shell]:
+            # print "average area for", block, "is", faceAreasAverage
+            for face in sections[section][block]['topfaces']:
                 # compare thr actual face by the average and put them in the main dict
-                sections[block][shell]['big'] = []
-                sections[block][shell]['small'] = []
+                sections[section][block]['big'] = []
+                sections[section][block]['small'] = []
                 if getFaceArea(face)['faceArea'] >= faceAreasAverage:
-                    print "area bigger than average", face
-                    sections[block][shell]['big'].append(face)
+                    sections[section][block]['big'].append(face)
                 if getFaceArea(face)['faceArea'] <= faceAreasAverage:
-                    print "area smaller than average", face
-                    sections[block][shell]['small'].append(face)
-            """
+                    sections[section][block]['small'].append(face)
+
     return sections
 
 if __name__ == '__main__':
