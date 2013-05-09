@@ -49,17 +49,19 @@ MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup as setup;setup.main()")
 # platform globals
 if PLATFORM == 'nt':
     HOMEPATH = os.environ['USERPROFILE']
+    GOOGLEDRIVE_PATH = HOMEPATH+'/google\ drive/code/python/'
     # nuke nt globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
 
     # maya nt globals
-    MAYA_GLOBAL = os.environ['USERPROFILE']+'/documents/maya/'
+    MAYA_GLOBAL = HOMEPATH+'/documents/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
 if PLATFORM == 'posix':
     HOMEPATH = os.environ['HOME']
+    GOOGLEDRIVE_PATH = HOMEPATH+'/code/python/'
     # nuke posix globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
@@ -74,6 +76,7 @@ REPLACEMENTS = \
     {
         '!VERSION!' : VERSION,
         '!HOMEPATH!' : HOMEPATH,
+        '!GOOGLEDRIVE_PATH!' : GOOGLEDRIVE_PATH,
 
         '!NUKE_SHARE!' : NUKE_PATH+MODULE_NAME+'/pictures',
 
