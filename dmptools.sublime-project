@@ -2,10 +2,10 @@
 	"build_systems":
 	[
 		{
-			"name": "dmptools",
 			"cmd": "python $project_path/install.py",
-			"working_dir": "$project_path",
-			"shell": true
+			"name": "dmptools",
+			"shell": true,
+			"working_dir": "$project_path"
 		}
 	],
 	"folders":
