@@ -9,6 +9,7 @@ import nuke
 import nukescripts
 import re
 import os
+import subprocess
 import commands as cmd
 import sys
 import time

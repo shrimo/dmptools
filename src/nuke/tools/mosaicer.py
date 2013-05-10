@@ -2,7 +2,7 @@ import nuke
 import fnmatch
 import os
 
-from dmptools.settings import settings
+from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('nuke')
 
@@ -134,4 +134,9 @@ def mosaicer():
     #for m in merges:
     #    m.setSelected(True)
     #nuke.createNode('Merge', inpanel=False)
+    
+def main():
+    mosaicer()
 
+if __name__ == '__main__':
+    main()

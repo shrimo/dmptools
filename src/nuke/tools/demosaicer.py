@@ -2,7 +2,7 @@ import nuke
 import fnmatch
 import os
 
-from dmptools.settings import settings
+from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('nuke')
 
@@ -82,3 +82,9 @@ def demosaicer(node):
         x = 0
         t += tile
         y += tile
+
+def main():
+    demosaicer(nuke.selectedNode())
+
+if __name__ == '__main__':
+    main()

@@ -9,14 +9,20 @@
 
 import nuke
 import nukescripts
+import os
 import sys
 
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
+DRIVE = '!GOOGLEDRIVE_PATH!'
 
 # import macros that are loaded at nuke startup
 import dmptools.macros.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
+
+# add google drive path to sys if exists
+if os.path.exists(DRIVE):
+    sys.path.append(DRIVE)
 
 #============================
 #   DEFAULT STARTUP TOOLS 
@@ -68,7 +74,7 @@ toolbar.addCommand('Tools/Psd to Nuke...',
     icon=NUKE_SHARE+'/psdToNuke.png')
 # ratio calculator
 toolbar.addCommand('Tools/Ratio calculator...',
-    'import dmptools.tools.nukeRatioCalculator as nukeRatioCalculator;nukeRatioCalculator.ratioCalculator()',
+    'import dmptools.tools.nukeRatioCalculator as ratioCalculator;ratioCalculator.ratioCalculator()',
     icon=NUKE_SHARE+'/ratioCalculator.png')
 # bake camera projections into uv textures
 toolbar.addCommand('Tools/Bake projection to UV...',
@@ -78,9 +84,15 @@ toolbar.addCommand('Tools/Bake projection to UV...',
 # scanline render manager
 sc = ScanlineRenderManager()
 pane = nuke.menu("Pane")
-pane.addCommand( "scanlineRenderManager", sc.addToPane)
+pane.addCommand( "ScanlineRender Manager", sc.addToPane)
 nukescripts.registerPanel('ScanlineRenderManager', sc.addToPane)
-toolbar.addCommand('Tools/Scanline Render Manager', sc.show, icon=NUKE_SHARE+'/scanline.png')
+toolbar.addCommand('Tools/ScanlineRender Manager', sc.show, icon=NUKE_SHARE+'/scanline.png')
+
+# mosaicer
+toolbar.addCommand('Tools/Mosaicer...', 'import dmptools.tools.mosaicer as mosaicer;mosaicer.main()')
+
+# demosaicer
+toolbar.addCommand('Tools/Demosaicer...', 'import dmptools.tools.demosaicer as demosaicer;demosaicer.main()')
 
 #===================
 #    NODES MENU
