@@ -49,7 +49,7 @@ MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup as setup;setup.main()")
 # platform globals
 if PLATFORM == 'nt':
     HOMEPATH = os.environ['USERPROFILE']
-    GOOGLEDRIVE_PATH = HOMEPATH+'/google\ drive/code/python/'
+    GOOGLEDRIVE_PATH = HOMEPATH+'/google drive/code/python/'
     # nuke nt globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
