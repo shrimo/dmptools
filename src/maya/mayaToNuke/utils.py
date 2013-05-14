@@ -19,7 +19,7 @@ class Utils(object):
         self.platform = sys.platform
         self.user = os.getenv('USERNAME')
         self.computer = os.getenv('HOST') if os.getenv('COMPUTERNAME') is None else "None"
-        self.tempPath = os.getenv('TEMP')
+        self.tempPath = self.getTempPath()
         self.nukePath = self.getNukePath()
         self.nonEditableFields = ['user', 'os', 'platform', 'computer']
         # maya display infos
@@ -43,6 +43,12 @@ class Utils(object):
         SETTINGS.addSetting('computer', self.computer)
         SETTINGS.addSetting('os', self.os)
         SETTINGS.addSetting('platform', self.platform)
+
+    def getTempPath(self):
+        tempPath = os.getenv('TEMP')
+        if not tempPath:
+            tempPath = '/tmp'
+        return tempPath
 
     def getTime(self):
         # get time
@@ -79,7 +85,7 @@ class Utils(object):
         """
         # get current selection
         cmds.select(hi=True)
-        selection = [str(item) for item in cmds.ls(s=True)]
+        selection = [str(item) for item in cmds.ls(sl=True)]
 
         # fill the items dict from the raw selection
         items = {}

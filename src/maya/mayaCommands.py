@@ -9,7 +9,7 @@ from dmptools.settings import SettingsManager
 
 # globals
 SETTINGS = SettingsManager('maya')
-normalAngle = 85
+normalAngle = 35
 perspNear = 1
 perspFar = 20000
 
@@ -559,7 +559,7 @@ def nukePathFinder():
     # linux
     if OS == 'posix':
         defaultNukePath = [
-        '/',
+        os.getenv('NUKE')+'/nuke',
                             ]
         searchDir = '/'
         fileFilter = '*'

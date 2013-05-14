@@ -644,7 +644,9 @@ def executeSelection(firstFrame=nuke.frame(), lastFrame=nuke.frame()):
     nodes = nuke.selectedNodes()
     if nodes:
         try:
-            nuke.execute(node, firstFrame, lastFrame)
+            for node in nodes:
+                print "executing", node.name(), nuke.frame()
+                nuke.execute(node, firstFrame, lastFrame)
         except:
             print 'cannot execute', node.name(), '...'
     else:
@@ -704,6 +706,7 @@ def setDefaultSettings():
     print '> dmptools default settings...'
     preferenceNode = nuke.toNode('preferences')
     # viewer settings
+    preferenceNode['maxPanels'].setValue(5)
     preferenceNode['TextureSize'].setValue('2048x2048')
     preferenceNode['viewer_bg_color_3D'].setValue(1280068863)
     preferenceNode['viewer_fg_color_3D'].setValue(4294967295L)

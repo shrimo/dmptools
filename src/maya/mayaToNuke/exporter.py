@@ -6,7 +6,7 @@ import subprocess
 from dmptools.mayaToNuke.utils import Utils
 UTILS = Utils()
 
-class Exporter(object):
+class Exporter(object):e
     """
         generate a nuke script (.nk) from a selection.
     """
@@ -25,7 +25,7 @@ class Exporter(object):
         timeInfo = UTILS.getTime()
         self.currTime = timeInfo['current']
         self.timeStr = timeInfo['str']
-        # get the nuke.exe path
+        # get the nuke bin path
         self.nukePath = UTILS.nukePath
         
     def startExport(self):
@@ -40,19 +40,20 @@ class Exporter(object):
         if self.os == 'nt':
             generateNukeScript = '"'+self.nukePath+'" -t '+pyFile+''
         if self.os == 'posix':
-            generateNukeScript = 'nuke -t '+pyFile+' &'
+            generateNukeScript = self.nukePath+' -t '+pyFile+' &'
 
         # writing header of the python file
         self.filePy = open(pyFile, "a")
         
-        self.filePy.write("# this python file is generated automatically by the mayaToNuke.py tool.\n")
+        self.filePy.write("# this python file is generated automatically by dmptools.mayaToNuke tool.\n")
         self.filePy.write("# it will be processed by nuke and will create a .nk file.\n\n")
         self.filePy.write("# path of nuke binary: "+self.nukePath+"\n")
         self.filePy.write("# name of the python file: "+pyFile+"\n")
         self.filePy.write("# name of the nuke file: "+self.outputFile+"\n")
         self.filePy.write("# command to execute: "+generateNukeScript+"\n")
         self.filePy.write("# generated the : "+self.timeStr+"\n\n")
-        self.filePy.write('import nuke\n\n')
+        self.filePy.write('import nuke\n')
+        self.filePy.write('import nukescripts\n\n')
         self.filePy.write('nuke.root().knob("first_frame").setValue('+str(self.firstFrame)+')\n')
         self.filePy.write('nuke.root().knob("last_frame").setValue('+str(self.lastFrame)+')\n\n')
         
@@ -75,7 +76,15 @@ class Exporter(object):
             print "-exporting "+str(len(locators))+" locators:"
             self.writeLocatorsToPyFile(locators, self.filePy)
         
+
         self.filePy.write('\n')
+        self.filePy.write('nuke.selectAll()\n')
+        self.filePy.write('nuke.createNode("Scene", inpanel=False)\n')
+        self.filePy.write('for node in nuke.allNodes():\n')
+        self.filePy.write('\tnode.autoplace()\n')
+        # self.filePy.write('_autoplace()\n')
+        self.filePy.write('nuke.selectAll()\n')
+        self.filePy.write('backdrop = nukescripts.autoBackdrop()\n\n')
         self.filePy.write('nuke.frame('+str(self.currentFrame)+')\n\n')             
         self.filePy.write('nuke.scriptSave("'+self.outputFile+'")\n\n\n') 
         self.filePy.close()
@@ -91,10 +100,11 @@ class Exporter(object):
                 print ' > time spent: '+str(t)+' second(s)...'
                 # generating the nuke script in the first iteration of the wait loop
                 if t == 0:
-                    subprocess.Popen(generateNukeScript)
+                    os.system(generateNukeScript)
+                    # subprocess.Popen(generateNukeScript)
                 if os.path.exists(self.outputFile):
                         break
-                if t == 10:
+                if t == 15:
                     break
                 else:
                     time.sleep(1)

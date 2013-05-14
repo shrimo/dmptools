@@ -164,6 +164,9 @@ def getSections(selection):
             [faceAreas.append(getFaceArea(face)['faceArea']) for face in sections[section][block]['topfaces']]
             # get the average area
             sections[section][block]['averageArea'] = float(sum(faceAreas))/float(len(faceAreas))
+            faceAreas.sort()
+            sections[section][block]['minArea'] = faceAreas[0]
+            sections[section][block]['maxArea'] = faceAreas[-1]
             # compare thr actual face by the average and put them in the main dict
             sections[section][block]['big'] = []
             sections[section][block]['small'] = []
