@@ -1,11 +1,7 @@
-#==============================================================================
-#
-# script by michael-ha - michael.havart@gmail.com
-# 3dmp nuke toolbar
-# 
-# 13 jul 2011
-#
-#==============================================================================
+"""
+    main dmptools menu
+
+"""
 
 import nuke
 import nukescripts

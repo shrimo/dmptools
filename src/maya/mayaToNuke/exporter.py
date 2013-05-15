@@ -6,17 +6,18 @@ import subprocess
 from dmptools.mayaToNuke.utils import Utils
 UTILS = Utils()
 
-class Exporter(object):e
+class Exporter(object):
     """
         generate a nuke script (.nk) from a selection.
     """
-    def __init__(self, items={}, outputFile='', framerange={}):
+    def __init__(self, items={}, outputFile='', framerange={}, createScene=bool):
         # get  utils stuff
         self.tempPath = UTILS.tempPath
         self.os = UTILS.os
         # get the stuff to export and the outputFile
         self.items = items
         self.outputFile = outputFile
+        self.createScene = createScene
         # get the framerange info
         self.currentFrame = framerange['current']
         self.firstFrame = framerange['first']
@@ -65,26 +66,29 @@ class Exporter(object):e
 
         # if items found, write the exported items to the tmp python file
         if objects:
-            print "-exporting "+str(len(objects))+" objects:"
+            print "-exporting "+str(len(objects))+" object(s):"
             self.writeObjectsToPyFile(objects, self.filePy)
         
         if cameras:
-            print "-exporting "+str(len(cameras))+" cameras:"
+            print "-exporting "+str(len(cameras))+" camera(s):"
             self.writeCamerasToPyFile(cameras, self.filePy)
 
         if locators:
-            print "-exporting "+str(len(locators))+" locators:"
+            print "-exporting "+str(len(locators))+" locator(s):"
             self.writeLocatorsToPyFile(locators, self.filePy)
         
-
+        # write the last part of the nuke script
         self.filePy.write('\n')
-        self.filePy.write('nuke.selectAll()\n')
-        self.filePy.write('nuke.createNode("Scene", inpanel=False)\n')
-        self.filePy.write('for node in nuke.allNodes():\n')
-        self.filePy.write('\tnode.autoplace()\n')
-        # self.filePy.write('_autoplace()\n')
-        self.filePy.write('nuke.selectAll()\n')
-        self.filePy.write('backdrop = nukescripts.autoBackdrop()\n\n')
+        # create e backdrop and a scene node to clean the script
+        if self.createScene:
+            self.filePy.write('nuke.selectAll()\n')
+            self.filePy.write('nuke.createNode("Scene", inpanel=False)\n')
+            self.filePy.write('for node in nuke.allNodes():\n')
+            self.filePy.write('\tnode.autoplace()\n')
+            # self.filePy.write('_autoplace()\n')
+            self.filePy.write('nuke.selectAll()\n')
+            self.filePy.write('backdrop = nukescripts.autoBackdrop()\n\n')
+        # go to the current frame and save the script
         self.filePy.write('nuke.frame('+str(self.currentFrame)+')\n\n')             
         self.filePy.write('nuke.scriptSave("'+self.outputFile+'")\n\n\n') 
         self.filePy.close()
@@ -93,6 +97,7 @@ class Exporter(object):e
         if objects or cameras or locators or lights:
             # wait loop
             print " > generating and saving the nuke script ..."
+            print " > command:", generateNukeScript
             if os.path.exists(self.outputFile):
                 os.remove(self.outputFile)
             t=0
@@ -100,8 +105,9 @@ class Exporter(object):e
                 print ' > time spent: '+str(t)+' second(s)...'
                 # generating the nuke script in the first iteration of the wait loop
                 if t == 0:
-                    os.system(generateNukeScript)
-                    # subprocess.Popen(generateNukeScript)
+                    subprocess.Popen(generateNukeScript, shell=True,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT)
                 if os.path.exists(self.outputFile):
                         break
                 if t == 15:
@@ -111,7 +117,7 @@ class Exporter(object):e
                     t += 1
             if os.path.exists(self.outputFile):
                 # print some debug stuff
-                print "export successfully: "+self.outputFile
+                print "export successful: "+self.outputFile
                 print '### debug python file:'
                 print "os.system('sublime_text "+pyFile+" &')"
                 print '### nuke file:'
@@ -119,7 +125,7 @@ class Exporter(object):e
                 print "os.system('nuke "+self.outputFile+" &')"
 
                 result = cmds.confirmDialog(t='Success !',
-                                    b=['Okay', 'Script Editor'],
+                                    b=['Neat!', 'Script Editor'],
                                     m='The nuke script has been generated.\nSee script editor for more informations.')
                 if result == 'Script Editor':
                     UTILS.openScriptEditor()
@@ -129,7 +135,7 @@ class Exporter(object):e
                 print "os.system('sublime_text "+pyFile+" &')"
                 
                 result = cmds.confirmDialog(t='Error !',
-                                    b=['Okay', 'Script Editor'],
+                                    b=['Bummer', 'Script Editor'],
                                     m='The nuke script has NOT been generated.\nSee script editor for more informations.')
                 if result == 'Script Editor':
                     UTILS.openScriptEditor()

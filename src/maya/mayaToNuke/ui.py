@@ -157,7 +157,8 @@ class MayaToNukeUI(object):
                                     configuration='vertical2',
                                     paneSize=[[1,0,100],[2,100,100]])
         # build the left panelayout
-        leftPanel = self.leftPane()
+        items = ['list of items', ]
+        leftPanel = self.scrollListPane(items)
         # build the right panelayout
         rightPanel = self.rightPane()
         # set the panes on their good position
@@ -185,18 +186,17 @@ class MayaToNukeUI(object):
                         )
         return form
     
-    def leftPane(self):
+    def scrollListPane(self, items):
         """obsolete pane but maybe useful"""
         # pass scroll layout on the left side of the pane layout
-        passesL = cmds.formLayout('mtn_leftPaneForm')
+        form = cmds.formLayout('mtn_leftPaneForm')
         colLayout = cmds.columnLayout(adj=True)
         cmds.setParent('..')
         # fill with stuff
-        passes = ['infos']
-        passList = cmds.textScrollList(append=passes, sii=True, ams=True)
+        passList = cmds.textScrollList(append=items, sii=True, ams=True)
         cmds.setParent('..')
         # attach form
-        cmds.formLayout(passesL,
+        cmds.formLayout(form,
                         edit=True,
                         attachForm=[
                             (passList, "left", 5),
@@ -204,7 +204,7 @@ class MayaToNukeUI(object):
                             (passList, "top", 15),
                             (passList, "bottom", 5)
                             ])
-        return passesL
+        return form
 
     def rightPane(self):
         """main layout where the selection is displayed"""
@@ -263,9 +263,15 @@ class MayaToNukeUI(object):
     
     def editableFrameLayout(self, items):
         """name of the object"""
+
+        # new frame layout test
+        """
+        #self.scrollListPane(items)
+        """
         form = cmds.formLayout('mtn_itemForm')
         txt = cmds.text('mtn_itemText', al="left", label=UTILS.strFromList(items)[1])
         cmds.setParent('..')
+
         return txt
 
     def helpLine(self):
@@ -411,23 +417,23 @@ class MayaToNukeUI(object):
         # save settings
         self.saveSettings()
         if self.items:
-            # get display values
+            # get display values and turn them off
             UTILS.getDisplayItems()
-            #set display off
             UTILS.setDisplayOff()
             # get the output path from the textfield
             outputFile = self.textfieldValidator(cmds.textField(self.textField, text=True, q=True))
+            createScene = False
             if outputFile:
                 # generate the nuke script
-                EXPORTER = exporter.Exporter(self.items, outputFile, self.framerange)
+                EXPORTER = exporter.Exporter(self.items, outputFile, self.framerange, False)
                 EXPORTER.startExport()
             else:
                 cmds.confirmDialog(t='Error', m='The output file is not correct.\nex: /<path>/nukefile.nk')
-            #set display back on
+            # set display back on
             UTILS.setDisplayOn()
             # set playback at the original frame
             cmds.currentTime(self.framerange['current'])
-            #select original selection
+            # select original selection
             if self.originalSel:
                 cmds.select(self.originalSel, r=True)
             

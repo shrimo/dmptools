@@ -1,3 +1,8 @@
+"""
+    user dmptools menu
+
+"""
+
 import nuke
 import os
 import random
@@ -18,6 +23,7 @@ m = nuke.toolbar("Nodes").addMenu('dmptools/Misc', tooltip=iconTooltip, icon=ico
 
 # 3D
 m.addCommand('3d/Shadow Generator', 'nuke.createNode("shadow_generator")')
+m.addCommand('3d/Connect Master Scene', 'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.connectMasterScene()', 'Ctrl+1')
 
 # 2D
 m.addCommand('2d/Nuke Image Converter...', 'import dmptools.tools.imageConverter as imageConverter");imageConverter.makeProxyUI()')

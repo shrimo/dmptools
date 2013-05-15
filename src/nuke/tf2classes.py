@@ -4,7 +4,7 @@ quotes of the 9 tf2 characters.
 """
 
 CLASSES = {
-    'red_spy' : [
+      'red_spy' : [
             "Gentlemen.",
             "I never really was on your side.",
             "They should call you whiners Dr. NOOOOOOOOOOOOOOOOOOOOO!",
@@ -54,7 +54,7 @@ CLASSES = {
             "Does it hurt when I do that? It does, doesn't it?!",
             "With my apologies!",
         ],
-    'red_soldier' : [
+      'red_soldier' : [
             "Maggots!",
             "Give 'em hell, boys!",
             "The worm has turned, gentlemen!",
@@ -105,7 +105,7 @@ CLASSES = {
             "Now hear this, camper: you are not WANTED on my beloved battlefield!",
             "You will NOT turn my battlefield into a camp ground!",
         ],
-    'red_sniper' : [
+      'red_sniper' : [
             "G'day!",
             "Crikey!",
             "Boom. headshot.",
@@ -146,7 +146,7 @@ CLASSES = {
             "Oh my god, you've been shot. Did you get a look at the handsome rogue who did it?",
             "Here's a touching story. Once upon a time you died and I lived happily ever after. The end.",
         ],
-    'red_scout' : [
+      'red_scout' : [
             "Bonk!",
             "Boink!",
             "Pancakes.",
@@ -218,10 +218,10 @@ CLASSES = {
             "Suck it, Bra!",
             "I don't know who to thank first. Oh I know, ME!",
         ],
-    'red_pyro' : [
+      'red_pyro' : [
             "OUUUMMMPHHHH MMMPPFFHHH MPFHH!",
         ],
-    'red_medic' : [
+      'red_medic' : [
             "Did the Frauleins have their Mittelschmerz?",
             "All I can tell you about this next procedure is that it will be... excruciating!",
             "Eins, zwei, drei... Ugh, I do not think we brought enough body bags.",
@@ -257,7 +257,7 @@ CLASSES = {
             "Thank you Herr Doctor!",
             "Thank you my hard-hatted friend!",
         ],
-    'red_heavy' : [
+      'red_heavy' : [
             "Who touch my gun?!",
             "Entire team is babies!",
             "Cry some more!",
@@ -300,7 +300,7 @@ CLASSES = {
             "Engineer is credit to team!",
             "You are so small! It's funny to me!",
         ],
-     'red_demoman' : [
+      'red_demoman' : [
             "Oh, they're gonna have to glue you back together ... in Hell!",
             "G-gonna blow your ass on the grass and I'm the grass...man...punk...",
             "They're gonna hafta' bury whats left of ye in a soup can!",
@@ -334,7 +334,7 @@ CLASSES = {
             "Oh, I'm goin' to liquefy ya...",
             "I've been Shagging ya Wife!",
         ],
-    'red_engineer' : [
+      'red_engineer' : [
             "You ladies shoulda' oughta' brought some menfolk with ya.",
             "I built that.",
             "Cream gravy!",

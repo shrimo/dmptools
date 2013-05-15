@@ -494,13 +494,17 @@ def openTerminal():
                     path = os.path.dirname(node['file'].evaluate())
                     if os.path.exists(path):
                         view = node['views'].value().split(' ')[0]
-                        subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
+                        command = ['gnome-terminal', '--working-directory=%s/' % path]
+                        print runCommand(command)
+                        #subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
                     else:
                         raise UserWarning("No such file or directory")
                 else:
                     path = os.path.dirname(node['file'].evaluate())
                     if os.path.exists(path):
-                        subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
+                        command = ['gnome-terminal', '--working-directory=%s/' % path]
+                        print runCommand(command)
+                        #subprocess.Popen(['gnome-terminal', '--working-directory=%s/' % path])
                     else:
                         raise UserWarning("No such file or directory")
             else:
@@ -712,6 +716,7 @@ def setDefaultSettings():
     preferenceNode['viewer_fg_color_3D'].setValue(4294967295L)
     preferenceNode['Viewer3DControlEmulation'].setValue('Maya')
     preferenceNode['middleButtonPans'].setValue(False)
+    preferenceNode['dot_node_scale'].setValue(1.5)
 
     # script editor settings
     preferenceNode['clearOnSuccess'].setValue(False)
@@ -726,9 +731,54 @@ def setDefaultSettings():
 
 def helpButton():
     """
-    open the github page as the help
+        open the github page as the help
     """
     nuke.tcl("start", "https://github.com/michael-ha/dmptools")
+
+def connectMasterScene():
+    """
+        try to connect the master scene to the Viewer1 is exists
+    """
+    try:
+        nuke.toNode('Viewer1').setInput(0, nuke.toNode('MASTER_SCENE'))
+    except:
+        print 'no master scene found!'
+
+def runCommand(command):
+    """
+        run a command to a shell in background
+    """
+    process = subprocess.Popen(command, shell=True,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT)
+
+    return process.communicate()
+
+def create3ddmpFavoriteDir():
+    """
+        create favorite directory if env var are found
+    """
+    if os.getenv('JOB') and os.getenv('SHOT'):
+        dmpPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/images/env/')
+        dmpmasterPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/masters/env/')
+
+        nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/'+os.environ['USER']+'/')
+        if not os.path.exists(nukePath):
+            nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/')
+
+        mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/'+os.environ['USER']+'/')
+        if not os.path.exists(mayaEnv):
+            mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/')
+
+        mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/'+os.environ['USER']+'/')
+        if not os.path.exists(mayaPath):
+            mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/')
+
+        nuke.addFavoriteDir('Maya env dir', "%s" %(mayaEnv))
+        nuke.addFavoriteDir('Maya renders dir', "%s" %(mayaPath))
+        nuke.addFavoriteDir('Nuke user dir', "%s" %(nukePath))
+        nuke.addFavoriteDir('DMP images', "%s" %(dmpPath))
+        nuke.addFavoriteDir('DMP master', "%s" %(dmpmasterPath))
 
 # ======================
 # CALLBACKS
