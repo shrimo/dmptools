@@ -8,6 +8,9 @@ import dmptools.utils.mayaCommands as mayaCommands
 from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('mayaToNuke')
+PLATFORM = '!PLATFORM!'
+HOST = '!HOST!'
+MACHINE = '!MACHINE!'
 
 class Utils(object):
     """
@@ -15,13 +18,13 @@ class Utils(object):
     """
     def __init__(self):
         # os infos
-        self.os = os.name
-        self.platform = sys.platform
+        self.platform = PLATFORM
+        self.machine = MACHINE
+        self.host = HOST
         self.user = os.getenv('USERNAME')
-        self.computer = os.getenv('HOST') if os.getenv('COMPUTERNAME') is None else "None"
         self.tempPath = self.getTempPath()
         self.nukePath = self.getNukePath()
-        self.nonEditableFields = ['user', 'os', 'platform', 'computer']
+        self.nonEditableFields = ['user', 'platform', 'machine', 'host']
         # maya display infos
         self.panelsDisplay = {}
         self.modelPanelObjects = [
@@ -39,10 +42,10 @@ class Utils(object):
                     'strokes', 'subdivSurfaces',
                     ]
         # set settings
-        SETTINGS.addSetting('user', self.user)
-        SETTINGS.addSetting('computer', self.computer)
-        SETTINGS.addSetting('os', self.os)
-        SETTINGS.addSetting('platform', self.platform)
+        SETTINGS.add('user', self.user)
+        SETTINGS.add('host', self.host)
+        SETTINGS.add('platform', self.platform)
+        SETTINGS.add('machine', self.machine)
 
     def getTempPath(self):
         tempPath = os.getenv('TEMP')
@@ -139,6 +142,6 @@ class Utils(object):
     
     def getNukePath(self):
         nukePath = mayaCommands.nukePathFinder()
-        SETTINGS.addSetting('nukePath', nukePath)
+        SETTINGS.add('nukePath', nukePath)
 
         return nukePath

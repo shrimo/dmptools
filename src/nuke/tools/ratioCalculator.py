@@ -119,7 +119,7 @@ class RatioCalculator(nukescripts.PythonPanel):
     def intRound(self, value):
         return int(round(value, 0))
     
-def ratioCalculator():
+def main():
     nodes = nuke.selectedNodes()
 
     if len(nodes) == 2:
@@ -136,4 +136,7 @@ def ratioCalculator():
     if len(nodes) == 0 or len(nodes) >= 2:
         nuke.message('please select a Camera node')
         
-    nukescripts.registerPanel( 'ratioCalculator', ratioCalculator)
+    nukescripts.registerPanel('ratioCalculator', main)
+
+if __name__ == '__main__':
+    main()

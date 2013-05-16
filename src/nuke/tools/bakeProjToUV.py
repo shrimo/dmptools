@@ -1,22 +1,18 @@
 import nuke
 import nukescripts
 
-def deselectAll():
-    for n in nuke.allNodes():
-        n['selected'].setValue(False)
+import dmptools.utils.nukeCommands as nukeCommands
+from dmptools.settings import SettingsManager
 
-def selectReplace(node):
-    for n in nuke.allNodes():
-        n['selected'].setValue(False)
-    node['selected'].setValue(True)
-
-def selectAdd(node):
-    node['selected'].setValue(True)
+SETTINGS = SettingsManager('nuke')
 
 def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, connectToObj, alpha, antialiasing, samples, shutter):
-    
-    if fileSize == '1K':
-        
+    """
+    main method used to render the selected node from the UV perspective
+
+    """
+    # create render format
+    if fileSize == '1K':        
         formatN = ("bakeUV_1K")
         form = ("1024 1024 1 %s" % (formatN))
         nuke.addFormat(form)
@@ -25,8 +21,7 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
             formatDict[item.name()]=item
         nuke.Root()['format'].setValue(formatDict[formatN])
     
-    if fileSize == '2K':
-        
+    if fileSize == '2K':        
         formatN = ("bakeUV_2K")
         form = ("2048 2048 1 %s" % (formatN))
         nuke.addFormat(form)
@@ -35,8 +30,7 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
             formatDict[item.name()]=item
         nuke.Root()['format'].setValue(formatDict[formatN])
 
-    if fileSize == '4K':
-        
+    if fileSize == '4K':        
         formatN = ("bakeUV_4K")
         form = ("4096 4096 1 %s" % (formatN))
         nuke.addFormat(form)
@@ -45,8 +39,7 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
             formatDict[item.name()]=item
         nuke.Root()['format'].setValue(formatDict[formatN])
     
-    if fileSize == '8K':
-        
+    if fileSize == '8K':        
         formatN = ("bakeUV_8K")
         form = ("8192 8192 1 %s" % (formatN))
         nuke.addFormat(form)
@@ -55,8 +48,9 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
             formatDict[item.name()]=item
         nuke.Root()['format'].setValue(formatDict[formatN])	
     
-    selectReplace(node)
+    nukeCommands.selectReplace(node)
     
+    # create the renderer
     scanlineR = nuke.createNode('ScanlineRender', inpanel = False)
     scanlineR['name'].setValue("Scanline_"+node.name()+"_bake")
     scanlineR['projection_mode'].setValue('uv')
@@ -65,27 +59,24 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
     scanlineR['samples'].setValue(samples)
     scanlineR['shutter'].setValue(shutter)
     
-    deselectAll()
+    nukeCommands.deselectAll()
     
+    # create the format node
     reformatBake = nuke.createNode('Reformat', inpanel = False)
     reformatBake['name'].setValue("reformat_"+node.name()+"_bake")
     reformatBake['format'].setValue("bakeUV_"+fileSize)
     
-    deselectAll()
+    nukeCommands.deselectAll()
     
     scanlineR.setInput(0, reformatBake)
-    selectReplace(scanlineR)
+    nukeCommands.selectReplace(scanlineR)
     
-    mpcCol = nuke.createNode('MPC_ColIO_!MPC_COLIO_VERSION!', inpanel = False)
-    mpcCol['inspace'].setValue('Linear')
-    mpcCol['output_space'].setValue(outcolorspace)
+    # mpcCol = nuke.createNode('MPC_ColIO_!MPC_COLIO_VERSION!', inpanel = False)
+    # mpcCol['inspace'].setValue('Linear')
+    # mpcCol['output_space'].setValue(outcolorspace)
     
-    writeNode = nuke.createNode('Write', inpanel = False)
-    try:
-        writeNode['views'].setValue('left')
-    except:
-        pass
-        
+    # create the write node
+    writeNode = nuke.createNode('Write', inpanel = False)        
     writeNode['file_type'].setValue(fileType)
     writeNode['name'].setValue("write_"+node.name()+"_bake")
     writeNode['raw'].setValue(True)
@@ -106,25 +97,29 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
     if alpha == 1:	
         writeNode['channels'].setValue('rgba')
     
+    # start the render
     nuke.execute(writeNode, startF, endF)
     
-    deselectAll()
-    selectAdd(scanlineR)
-    selectAdd(reformatBake)
-    selectAdd(mpcCol)
-    selectAdd(writeNode)
+    # clean the uneccessary nodes
+    nukeCommands.deselectAll()
+    nukeCommands.selectAdd(scanlineR)
+    nukeCommands.selectAdd(reformatBake)
+    # nukeCommands.selectAdd(mpcCol)
+    nukeCommands.selectAdd(writeNode)
     nukescripts.node_delete()
-    deselectAll()
+    nukeCommands.deselectAll()
     
-    deselectAll()
+    # create the UV texture read node
     readUV = nuke.createNode('Read', inpanel = False)
     readUV['name'].setValue("Read_"+node.name()+"_baked")
     readUV['file'].setValue(filePath+node.name()+"_COL."+fileType)
     readUV['raw'].setValue(True)
     
-    lastNode = nuke.createNode('MPC_ColIO_'+MPC_colio, inpanel = False)
-    lastNode['inspace'].setValue('Linear')
-    lastNode['output_space'].setValue(outcolorspace)
+    lastNode = readUV
+
+    # lastNode = nuke.createNode('MPC_ColIO_'+MPC_colio, inpanel = False)
+    # lastNode['inspace'].setValue('Linear')
+    # lastNode['output_space'].setValue(outcolorspace)
     
     if alpha:
         lastNode = nuke.createNode('Premult', inpanel = False)
@@ -132,44 +127,68 @@ def bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, conne
     if connectToObj:    
         node.setInput(0, lastNode)
     
-def bakeItUI():
+def bakeItUI(nodes):
+    """ 
+    UI
+    """
 
-    sel = nuke.selectedNodes()
+    # get settings
+    try:
+        path = SETTINGS.get('bakeProj_path')[0]
+    except:
+        path = ''
+    try:
+        alpha = SETTINGS.get('bakeProj_alpha')[0]
+    except:
+        alpha = False
+    
+    availableColorspace = 'Linear Log sRGB Screen'
+    fileTypes = 'tif exr jpg'
+    fileSizes = '1K 2K 4K 8K'
+    antialiasingMenu = 'none low medium high'
+    
+    panel = nuke.Panel("Bake Proj To UV")
+    panel.setWidth(400)
+    panel.addFilenameSearch("Path of UV output files: ", path)
+    panel.addEnumerationPulldown("Size: ", fileSizes)
+    panel.addEnumerationPulldown("File type: ", fileTypes)
+    panel.addBooleanCheckBox("alpha channel", alpha)
+    panel.addEnumerationPulldown("output colorspace: ", availableColorspace)
+    panel.addSingleLineInput("Frame Range: ", str(int(nuke.root()['first_frame'].getValue()))+"-"+str(int(nuke.root()['last_frame'].getValue())))
+    panel.addEnumerationPulldown("Antialiasing: ", antialiasingMenu)
+    panel.addSingleLineInput("S-R Samples", '1')
+    panel.addSingleLineInput("S-R Shutter", '0')
+    panel.addBooleanCheckBox("Connect to object ?", 0)
+    
+    retVar = panel.show()
+    if retVar:
+        # get panel values
+        filePath = panel.value("Path of UV output files: ")
+        fileSize = panel.value("Size: ")
+        fileType = panel.value("File type: ")
+        outcolorspace = panel.value("output colorspace: ")
+        framerange = panel.value("Frame Range: ")
+        connectToObj = panel.value("Connect to object ?")
+        alpha = int(panel.value("alpha channel"))
+        antialiasing = panel.value("Antialiasing: ")
+        samples = int(panel.value("S-R Samples"))
+        shutter = int(panel.value("S-R Shutter"))
+        
+        # add settings
+        SETTINGS.add('bakeProj_alpha', alpha)
+        SETTINGS.add('bakeProj_path', filePath)
 
-    if sel:	
-        availableColorspace = 'Linear Log sRGB Screen'
-        fileTypes = 'tif exr jpg'
-        fileSizes = '1K 2K 4K 8K'
-        antialiasingMenu = 'none low medium high'
-        
-        panel = nuke.Panel("Bake Proj To UV")
-        panel.setWidth(400)
-        panel.addFilenameSearch("Path of UV output files: ","")
-        panel.addEnumerationPulldown("Size: ", fileSizes)
-        panel.addEnumerationPulldown("File type: ", fileTypes)
-        panel.addBooleanCheckBox("alpha channel", 0)
-        panel.addEnumerationPulldown("output colorspace: ", availableColorspace)
-        panel.addSingleLineInput("Frame Range: ", str(int(nuke.root()['first_frame'].getValue()))+"-"+str(int(nuke.root()['last_frame'].getValue())))
-        panel.addEnumerationPulldown("Antialiasing: ", antialiasingMenu)
-        panel.addSingleLineInput("S-R Samples", '1')
-        panel.addSingleLineInput("S-R Shutter", '0')
-        panel.addBooleanCheckBox("Connect to object ?", 0)
-        
-        retVar = panel.show()
-        if retVar == 1:
-            for node in sel:
-                
-                filePath = panel.value("Path of UV output files: ")
-                fileSize = panel.value("Size: ")
-                fileType = panel.value("File type: ")
-                outcolorspace = panel.value("output colorspace: ")
-                framerange = panel.value("Frame Range: ")
-                connectToObj = panel.value("Connect to object ?")
-                alpha = int(panel.value("alpha channel"))
-                antialiasing = panel.value("Antialiasing: ")
-                samples = int(panel.value("S-R Samples"))
-                shutter = int(panel.value("S-R Shutter"))
-                
-                bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, connectToObj, alpha, antialiasing, samples, shutter)
+        for node in nodes:
+            bakeIt(node, filePath, fileSize,  fileType, outcolorspace, framerange, connectToObj, alpha, antialiasing, samples, shutter)
+    else:
+        print 'abort by the user...'
+
+def main():
+    nodes = nuke.selectedNodes()
+    if nodes:     
+        bakeItUI(nodes)
     else:
         nuke.message('Please select one or multiple 3d objects.')
+
+if __name__ == '__main__':
+    main()

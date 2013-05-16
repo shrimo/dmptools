@@ -481,5 +481,8 @@ class PsdToNukeUI:
         else:
             print 'abort'
             
-def psdToNuke():
+def main():
     PsdToNukeUI()
+
+if __name__ == '__main__':
+    main()

@@ -14,7 +14,7 @@ class MayaToNukeUI(object):
     def __init__(self):
         """ get all the necessary values """
         # get stuff from settings
-        textFieldValue = SETTINGS.getSetting('mtn_textField')
+        textFieldValue = SETTINGS.get('mtn_textField')
         if not textFieldValue:
             self.textFieldValue = UTILS.tempPath
         else:
@@ -444,12 +444,12 @@ class MayaToNukeUI(object):
         # get settings values
         textField = cmds.textField(self.textField, text=True, q=True)
         # set settings
-        SETTINGS.addSetting('mtn_textField', textField)
+        SETTINGS.add('mtn_textField', textField)
 
     def settingsUI(self, non=None):
         """UI of mayaToNuke settings """
-        settings = SETTINGS.getSettings()
-        settingsStr = SETTINGS.getStrSettings()
+        settings = SETTINGS.gets()
+        settingsStr = SETTINGS.getStr()
         # create ui
         if cmds.window('mtn_settings', exists=True):
             cmds.deleteUI('mtn_settings', window=True)

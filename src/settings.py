@@ -11,33 +11,33 @@ class SettingsManager(object):
     you can only set one setting at a time.
 
     usage:
-    >>> settings = SettingsManager('default')
-    >>> newsettings = settings.addSetting(key='', value=None)
+    >>> settings = SettingsManager(name='default')
+    >>> newsettings = settings.add(key='', value=None)
 
     to remove a setting:
     >>> settings = SettingsManager('default')
-    >>> newSettings = settings.removeSetting(key='')
+    >>> newSettings = settings.remove(key='')
 
     to get a setting value (returns a list):
     >>> settings = SettingsManager('default')
-    >>> setting = settings.getSetting(key='')
+    >>> setting = settings.get(key='')
 
     to get a print version of all the settings (keys and values):
     >>> settings = settingManager('default')
-    >>> print settings.getStrsettings()
+    >>> print settings.getStr()
 
     to open the settings file:
     >>> settings = SettingsManager('default')
-    >>> settings.openSettingsFile()
+    >>> settings.openFile()
 
     to clear the settings and recreate (or not) the file:
     >>> settings = SettingsManager('default')
-    >>> settings.clearSettingsFile(recreate=False) # this will erase the file
-    >>> settings.clearSettingsFile(recreate=True) # this will erase the file and recreate it
+    >>> settings.clearFile(recreate=False) # this will erase the file
+    >>> settings.clearFile(recreate=True) # this will erase the file and recreate it
 
     """
     
-    def __init__(self, filename=''):
+    def __init__(self, name=''):
         """
         if the setting file doesn't exists create it.
         """
@@ -45,7 +45,7 @@ class SettingsManager(object):
         dmptoolspath = HOMEPATH+'/.dmptools'
         if not os.path.exists(dmptoolspath):
             os.mkdir(dmptoolspath)
-        self.settingsfile = dmptoolspath+'/'+filename+'.settings'
+        self.settingsfile = dmptoolspath+'/'+name+'.settings'
         
         # create the setting file if it doesnt exists
         if not os.path.exists(self.settingsfile):
@@ -54,10 +54,10 @@ class SettingsManager(object):
             with open(self.settingsfile, 'w') as FILE:
                 FILE.write('')
 
-    def checkForSettingsFile(self):
+    def checkForFile(self):
         if not os.path.exists(self.settingsfile): raise UserWarning("You need to recreate the SettingsManager with a new file")
 
-    def clearSettingsFile(self, recreate=False):
+    def clearFile(self, recreate=False):
         """
         clear the settings file and recreate it if 'recreate' == True
 
@@ -69,7 +69,7 @@ class SettingsManager(object):
             with open(self.settingsfile, 'w') as FILE:
                 FILE.write('')
 
-    def addSetting(self, key='', value=None):
+    def add(self, key='', value=None):
         """
         the setting key need to be a string and the value can be anything.
         if the key already exists in the setting file,
@@ -77,10 +77,10 @@ class SettingsManager(object):
 
         returns a list of all the settings in the file.
         """
-        self.checkForSettingsFile()
+        self.checkForFile()
         dic = {key:value}
         # checking if the setting already exists
-        settingList = self.getSettings()
+        settingList = self.getAll()
         newsettingList = []
         if settingList:
             for setting in settingList:
@@ -94,16 +94,16 @@ class SettingsManager(object):
             for setting in newsettingList:
                 FILE.write(str(setting)+'\n')
 
-        return self.getSettings()
+        return self.getAll()
 
-    def removeSetting(self, key=''):
-        self.checkForSettingsFile()
+    def remove(self, key=''):
+        self.checkForFile()
         """
         remove a setting from the setting file.
 
         returns a list of all the settings in the file.
         """
-        settingList = self.getSettings()
+        settingList = self.getAll()
         newsettingList = []
         if settingList:
             for setting in settingList:
@@ -116,13 +116,13 @@ class SettingsManager(object):
             for setting in newsettingList:
                 FILE.write(str(setting)+'\n')
 
-        return self.getSettings()
+        return self.getAll()
 
-    def getSetting(self, key=''):
+    def get(self, key=''):
         """
         return the setting matching the key.
         """
-        self.checkForSettingsFile()
+        self.checkForFile()
         values = None
         with open(self.settingsfile, 'r') as FILE:
             for line in FILE.readlines():
@@ -136,11 +136,11 @@ class SettingsManager(object):
 
         return values
 
-    def getSettings(self):
+    def getAll(self):
         """
         returns a list of dict from the setting file.
         """
-        self.checkForSettingsFile()
+        self.checkForFile()
         dictList = []
         with open(self.settingsfile, 'r') as FILE:
             for line in FILE.readlines():
@@ -151,20 +151,20 @@ class SettingsManager(object):
 
         return dictList
         
-    def openSettingsFile(self):
+    def openFile(self):
         """
         open the setting file with notepad
         """
-        self.checkForSettingsFile()
+        self.checkForFile()
         subprocess.Popen('notepad '+self.settingsfile)
 
-    def getStrSettings(self):
+    def getStr(self):
         """ 
         convert settings dicts to str
         """
-        self.checkForSettingsFile()
+        self.checkForFile()
         global settingsStr
-        settingsL = self.getSettings()
+        settingsL = self.getAll()
         # recursive method
         def setStr(setting):
             global settingsStr

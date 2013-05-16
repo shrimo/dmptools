@@ -13,11 +13,11 @@ normalAngle = 35
 perspNear = 1
 perspFar = 20000
 
-OS = os.name
+PLATFORM = '!PLATFORM!'
 
-SETTINGS.addSetting('default_normalAngle', normalAngle)
-SETTINGS.addSetting('default_perspNear', perspNear)
-SETTINGS.addSetting('default_perspFar', perspFar)
+SETTINGS.add('default_normalAngle', normalAngle)
+SETTINGS.add('default_perspNear', perspNear)
+SETTINGS.add('default_perspFar', perspFar)
 
 def openScriptEditor():
     mel.eval("ScriptEditor;")
@@ -156,11 +156,11 @@ def setUserSetting():
     
     if result == 'OK':
         inputText = cmds.promptDialog(query=True, text=True)
-        SETTINGS.addSetting(inputText, cmds.ls(sl=True))
-        print SETTINGS.getSetting('faceSelection')
+        SETTINGS.add(inputText, cmds.ls(sl=True))
+        print SETTINGS.get('faceSelection')
 
 def getUserSetting():
-    allSettings = SETTINGS.getSettings()
+    allSettings = SETTINGS.gets()
     lines = []
     for item in allSettings:
         lines.append(item.keys()[0])
@@ -183,7 +183,7 @@ def selectSetting():
                         q=True,
                         si=True)
     try:
-        cmds.select(SETTINGS.getSetting(settingText[0])[0])
+        cmds.select(SETTINGS.get(settingText[0])[0])
     except:
         print 'failed to select setting...'
 
@@ -487,9 +487,9 @@ def launchConsole():
         ]
     for path in defaultConsolePath:
         if os.path.exists(path):
-            SETTINGS.addSetting('terminator', path)
+            SETTINGS.add('terminator', path)
 
-    consolePath = SETTINGS.getSetting('terminator')
+    consolePath = SETTINGS.get('terminator')
     if consolePath and os.path.exists(consolePath[0]):
         # launch console
         subprocess.Popen(consolePath[0])
@@ -503,7 +503,7 @@ def launchConsole():
             consolePath = str(filedialog[0])
             if os.path.exists(consolePath):
                 # setting Setting
-                SETTINGS.addSetting('terminator', consolePath)
+                SETTINGS.add('terminator', consolePath)
                 # launch console
                 subprocess.Popen(consolePath)
         else:
@@ -520,9 +520,9 @@ def sublimeTextPathFinder():
         ]
     for path in defaultSublimePath:
         if os.path.exists(path):
-            SETTINGS.addSetting('sublime_text_path', path)
+            SETTINGS.add('sublime_text_path', path)
 
-    sublimeTextPath = SETTINGS.getSetting('sublime_text_path')
+    sublimeTextPath = SETTINGS.get('sublime_text_path')
     if sublimeTextPath and os.path.exists(sublimeTextPath[0]):
         # launch sublime text
         subprocess.Popen(sublimeTextPath[0])
@@ -536,7 +536,7 @@ def sublimeTextPathFinder():
             sublimeTextPath = str(filedialog[0])
             if os.path.exists(sublimeTextPath):
                 # setting Setting
-                SETTINGS.addSetting('sublime_text_path', sublimeTextPath)
+                SETTINGS.add('sublime_text_path', sublimeTextPath)
                 return sublimeTextPath
         else:
             raise UserWarning('No exe found !')
@@ -550,14 +550,14 @@ def nukePathFinder():
     get nuke exe/bin path
     """
     # windows
-    if OS == 'nt':
+    if PLATFORM == 'Windows':
         defaultNukePath = [
         'C:/Program Files/Nuke7.0v4/Nuke7.0.exe',
                             ]
         searchDir = 'C:\\Program Files\\'
         fileFilter = '*.exe'
     # linux
-    if OS == 'posix':
+    if PLATFORM == 'Linux':
         defaultNukePath = [
         os.getenv('NUKE')+'/nuke',
                             ]
@@ -567,10 +567,10 @@ def nukePathFinder():
     # check if the default path exists 
     for path in defaultNukePath:
         if os.path.exists(path):
-            SETTINGS.addSetting('nukePath', path)
+            SETTINGS.add('nukePath', path)
     
     # get the nuke path setting if exists
-    nukePath = SETTINGS.getSetting('nukePath')[0]
+    nukePath = SETTINGS.get('nukePath')[0]
     if nukePath:
         if os.path.exists(nukePath):
             return nukePath
@@ -586,7 +586,7 @@ def nukePathFinder():
             nukePath = str(filedialog[0])
             if os.path.exists(nukePath):
                 # setting setting
-                SETTINGS.addSetting('nukePath', nukePath)
+                SETTINGS.add('nukePath', nukePath)
                 return nukePath
             else:
                 raise UserWarning('No Nuke found !')

@@ -15,6 +15,8 @@ import sys
 import time
 import re
 
+PLATFORM = '!PLATFORM!'
+
 def frameRangeOverrideTab():
     """add an frame override field to a write node"""
     
@@ -83,24 +85,19 @@ def loopnodes(knobs={}):
                 node[knob].setValue(knobs[knob])
             except:
                 print 'FAILED', node.name(), knob, knobs[knob]
-                
-def unselectAll():
+
+def deselectAll():
     """selection utils"""
-    for node in nuke.allNodes():
+    for node in nuke.allNodes(recurseGroups=True):
         node['selected'].setValue(False)
-        if node.Class() == 'Group':
-            node.begin()
-            for child in nuke.allNodes():
-                child['selected'].setValue(False)
-            node.end()
 
 def selectReplace(sel):
     """select replace"""
-    if type(sel).__name__ == 'str':
-        unselectAll()
+    if type(sel).__name__ == 'Node':
+        deselectAll()
         sel['selected'].setValue(True)
     if type(sel).__name__ == 'list':
-        unselectAll()
+        deselectAll()
         for node in sel:
             node['selected'].setValue(True)
     
@@ -451,15 +448,15 @@ def replaceStringInFile():
 
     if val and sel:
         for node in sel:
-            if node.Class() in ['Read', 'Write, ReadGeo2']:
-                try:
-                    str1 = pane.value('replace this')
-                    str2 = pane.value('by this')
-                    file = str(node['file'].value())
-                    newfile = file.replace(str1, str2)
-                    node['file'].setValue(newfile)
-                except:
-                    print 'failed'
+            try:
+                str1 = pane.value('replace this')
+                str2 = pane.value('by this')
+                file = str(node['file'].value())
+                newfile = file.replace(str1, str2)
+                node['file'].setValue(newfile)
+                print 'replacing string in', node.name()
+            except:
+                print 'failed on', node.name()
 
 def importScript():
     """import exported nuke script from maya"""
@@ -701,8 +698,7 @@ def setDefaultSettings():
     """
     set some default startup settings
     """
-
-    if os.name == 'nt':
+    if PLATFORM == 'Windows':
         font = 'Consolas'
     else:
         font = 'Monospace'
@@ -754,31 +750,34 @@ def runCommand(command):
 
     return process.communicate()
 
-def create3ddmpFavoriteDir():
+def createFavoriteDirs():
     """
         create favorite directory if env var are found
     """
-    if os.getenv('JOB') and os.getenv('SHOT'):
-        dmpPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/images/env/')
-        dmpmasterPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/masters/env/')
+    show = os.getenv('PL_SHOW')
+    if show:
+        division = os.getenv('PL_DIVISION')
+        if division:
+            sequence = os.getenv('PL_SEQ')
+            if sequence:
+                shot = os.getenv('PL_SHOT')
+                if shot:
+                    # create paths
+                    shotPath = os.getenv('PL_SHOT_PATH')
+                    mayaPath = shotPath+'/work/'+os.getenv('USER')+'/maya/'
+                    nukeScriptsPath = shotPath+'/work/'+os.getenv('USER')+'/nuke/scripts/'
+                    renderWorkP = shotPath+'/work/'+os.getenv('USER')+'/render/'
+                    texturePath = shotPath+'/asset/texture/'
+                    renderPath = shotPath+'/render/'
+                    renderWPath = shotPath+'/renderw/'
 
-        nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/'+os.environ['USER']+'/')
-        if not os.path.exists(nukePath):
-            nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/')
-
-        mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/'+os.environ['USER']+'/')
-        if not os.path.exists(mayaEnv):
-            mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/')
-
-        mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/'+os.environ['USER']+'/')
-        if not os.path.exists(mayaPath):
-            mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/')
-
-        nuke.addFavoriteDir('Maya env dir', "%s" %(mayaEnv))
-        nuke.addFavoriteDir('Maya renders dir', "%s" %(mayaPath))
-        nuke.addFavoriteDir('Nuke user dir', "%s" %(nukePath))
-        nuke.addFavoriteDir('DMP images', "%s" %(dmpPath))
-        nuke.addFavoriteDir('DMP master', "%s" %(dmpmasterPath))
+                    # add favorite dirs
+                    nuke.addFavoriteDir(name='-work maya ', directory=mayaPath)
+                    nuke.addFavoriteDir(name='-work nuke', directory=nukeScriptsPath)
+                    nuke.addFavoriteDir(name='-work render', directory=renderWorkP)
+                    nuke.addFavoriteDir(name='-textures', directory=texturePath)
+                    nuke.addFavoriteDir(name='-render', directory=renderPath)
+                    nuke.addFavoriteDir(name='-renderw', directory=renderWPath)
 
 # ======================
 # CALLBACKS

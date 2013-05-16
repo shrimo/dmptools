@@ -9,6 +9,7 @@
 
 from __future__ import with_statement
 
+import platform
 import os
 import sys
 import time
@@ -25,10 +26,13 @@ __email__ = "michael.havart@gmail.com"
 __status__ = "Production"
 
 # platform check
-PLATFORMS = ['nt', 'posix']
-PLATFORM = os.name
-if os.name not in PLATFORMS:
-    raise UserWarning('This install only works on windows and linux!')
+PLATFORM = platform.uname()[0]
+HOST = platform.uname()[1]
+MACHINE = platform.machine()
+
+PLATFORMS = ['Window', 'Linux']
+if PLATFORM not in PLATFORMS:
+    raise UserWarning('This install only works on Windows and Linux!')
 
 # globals
 MODULE_NAME = 'dmptools'
@@ -43,30 +47,30 @@ EXCLUDE_DIRS = \
         'doc',
         'gizmos',
     ]
-EXCLUDE_FILES = ['pyc']
+EXCLUDE_FILES = ['pyc', '~']
 MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup.init as init;init.main()");// automatically added by the dmptools installation'
 
 # platform globals
-if PLATFORM == 'nt':
+if PLATFORM == 'Windows':
     HOMEPATH = os.environ['USERPROFILE']
     GOOGLEDRIVE_PATH = HOMEPATH+'/google drive/code/python/'
-    # nuke nt globals
+    # nuke windows globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
 
-    # maya nt globals
+    # maya windows globals
     MAYA_GLOBAL = HOMEPATH+'/documents/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
-if PLATFORM == 'posix':
+if PLATFORM == 'Linux':
     HOMEPATH = os.environ['HOME']
     GOOGLEDRIVE_PATH = HOMEPATH+'/code/python/'
-    # nuke posix globals
+    # nuke Linux globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
 
-    # maya posix globals
+    # maya Linux globals
     MAYA_GLOBAL = os.environ['HOME']+'/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
@@ -74,6 +78,9 @@ if PLATFORM == 'posix':
 # string replacements
 REPLACEMENTS = \
     {
+        '!PLATFORM!' : PLATFORM,
+        '!HOST!' : HOST,
+        '!MACHINE!' : MACHINE,
         '!VERSION!' : VERSION,
         '!HOMEPATH!' : HOMEPATH,
         '!GOOGLEDRIVE_PATH!' : GOOGLEDRIVE_PATH,
@@ -255,6 +262,7 @@ def main():
     run the install
     """
     print 'executing',' '.join(sys.argv)
+    print 'We are on', PLATFORM, '!'
     # install Nuke dmptools
     if IS_NUKE_EXISTS:
         installNuke()

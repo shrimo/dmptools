@@ -486,6 +486,14 @@ hotkeysItems = [
 # shelf buttons list
 shelfItems = [
     {
+        'name':'DmptoolsSetup',
+        'iconLabel':'setup',
+        'command':'import dmptools.setup.init as init;\
+            reload(init);init.main()',
+        'icon':'pythonFamily.png',
+        'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.'
+    },
+    {
         'name':'HotkeysList',
         'iconLabel':'hotkey',
         'command':'import dmptools.setup.hotkeys as hotkeys;\

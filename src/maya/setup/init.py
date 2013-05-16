@@ -19,9 +19,10 @@ def createHotkeys():
     hotkeys.main()
 
 def addDrivePath():
-    # add google drive path to sys
-    import sys
+    # add google drive path to sys if exists
+    # this is for using dmptools_misc modules
     import os
+    import sys
     if os.path.exists(DRIVE):
         sys.path.append(DRIVE)
 

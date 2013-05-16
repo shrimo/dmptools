@@ -602,7 +602,7 @@ class ExportToMaya():
 
 def exportToMayaUI():
 
-    mayapy = SETTINGS.getSetting('mayapyPath')
+    mayapy = SETTINGS.get('mayapyPath')
     if os.name == 'posix':
         if not mayapy:
             mayaVersion = os.environ['MAYA_VERSION']
@@ -639,7 +639,7 @@ def exportToMayaUI():
             val = panel.show()
             if val:
                 mayapy = panel.value("mayapy.exe: ")
-                SETTINGS.addSetting('mayapyPath', mayapy)
+                SETTINGS.add('mayapyPath', mayapy)
             else:
                 mayapy = None
         else:
@@ -709,3 +709,9 @@ def exportToMayaUI():
             nuke.message("select some stuff !")
     else:
         print 'aborted...'
+
+def main():
+    exportToMayaUI()
+
+if __name__ == '__main__':
+    main()

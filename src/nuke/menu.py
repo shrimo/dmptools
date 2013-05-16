@@ -17,6 +17,7 @@ import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 
 # add google drive path to sys if exists
+# this is for using dmptools_misc modules
 if os.path.exists(DRIVE):
     sys.path.append(DRIVE)
 
@@ -26,6 +27,9 @@ if os.path.exists(DRIVE):
 
 # default Nuke settings
 nukeCommands.defaultSettings()
+
+# create default favorite dirs
+nukeCommands.createFavoriteDirs()
 
 # add a frame range override on write node creation for the alfredRender tool
 # nukeCommands.addFrameRangeOverride()
@@ -62,20 +66,23 @@ toolbar.addMenu('Macros/3d')
 
 #export nuke to maya
 toolbar.addCommand('Tools/Nuke to Maya...',
-    'import dmptools.tools.nukeToMaya as nukeToMaya;nukeToMaya.exportToMayaUI()',
+    'import dmptools.tools.nukeToMaya as nukeToMaya;reload(nukeToMaya);nukeToMaya.main()',
     icon=NUKE_SHARE+'/nukeToMaya.png')
 # psd to nuke 
 toolbar.addCommand('Tools/Psd to Nuke...',
-    'import dmptools.tools.psdToNuke as psdToNuke;psdToNuke.psdToNuke()',
+    'import dmptools.tools.psdToNuke as psdToNuke;reload(psdToNuke);psdToNuke.main()',
     icon=NUKE_SHARE+'/psdToNuke.png')
 # ratio calculator
 toolbar.addCommand('Tools/Ratio calculator...',
-    'import dmptools.tools.nukeRatioCalculator as ratioCalculator;ratioCalculator.ratioCalculator()',
+    'import dmptools.tools.ratioCalculator as ratioCalculator;reload(ratioCalculator);ratioCalculator.main()',
     icon=NUKE_SHARE+'/ratioCalculator.png')
 # bake camera projections into uv textures
 toolbar.addCommand('Tools/Bake projection to UV...',
-    'import dmptools.tools.bakeProjToUV as bakeProjToUV;bakeProjToUV.bakeItUI()',
+    'import dmptools.tools.bakeProjToUV as bakeProjToUV;reload(bakeProjToUV);bakeProjToUV.main()',
     icon=NUKE_SHARE+'/bake.png')
+# resize the selected node and create a new read
+toolbar.addCommand('Tools/Image Converter...',
+    'import dmptools.tools.imageConverter as imageConverter;reload(imageConverter);imageConverter.main()')
 
 # scanline render manager
 sc = ScanlineRenderManager()

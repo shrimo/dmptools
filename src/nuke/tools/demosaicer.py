@@ -14,9 +14,13 @@ def demosaicer(node):
     """
         takes a tiled image and deconstruct it to multiple pieces
     """
-    savedPath = SETTINGS.getSetting('demosaicerPath')
+    savedPath = ''
+    try:
+        savedPath = SETTINGS.get('demosaicerPath')[0]
+    except:
+        pass
     panel = nuke.Panel('Demosaicer')
-    panel.addFilenameSearch('Output path: ', '/job/aynik/dev/set/LouvrePlaza/work/mhavart/maya/textures/COL/v004')
+    panel.addFilenameSearch('Output path: ', savedPath)
     panel.addSingleLineInput('Texture name: ', 'eastEntrance')
     panel.addSingleLineInput('Tiles number: ', '10')
     show = panel.show()
@@ -24,7 +28,7 @@ def demosaicer(node):
         path = panel.value('Output path: ')
         texturename = panel.value('Texture name: ')
         tilesNumber = panel.value('Tiles number: ')
-        SETTINGS.addSetting('demosaicerPath', path)
+        SETTINGS.add('demosaicerPath', path)
     else:
         nuke.message('No tiles!')
         raise UserWarning('No tiles!')
