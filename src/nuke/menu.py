@@ -13,7 +13,7 @@ NUKE_SHARE = '!NUKE_SHARE!'
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
 # import macros that are loaded at nuke startup
-import dmptools.macros.nukeCommands as nukeCommands
+import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 
 # add google drive path to sys if exists
@@ -38,7 +38,7 @@ nukeCommands.viewerSettings()
 
 # add a latestAutosave menu item 
 nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',
-    'import dmptools.macros.nukeCommands as nukeCommands;nuke.scriptOpen(nukeCommands.getLatestAutosave())')
+    'import dmptools.utils.nukeCommands as nukeCommands;nuke.scriptOpen(nukeCommands.getLatestAutosave())')
 
 #========================
 #   BUILD THE TOOLBAR 
@@ -121,54 +121,54 @@ toolbar.addCommand('Nodes/3d/Sequence Manager',
 # 2D
 # set the colorspace of the selected read nodes
 toolbar.addCommand('Macros/2d/Set colorspace...',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setColorspace()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setColorspace()')
 # try to reload the selected nodes
 toolbar.addCommand('Macros/2d/Reload selected nodes',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.reloadReadNodes()', "Shift+Alt+R")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.reloadReadNodes()', "Shift+Alt+R")
 # flip the viewer
 toolbar.addCommand('Macros/2d/Flip',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.flipViewer()', "`")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.flipViewer()', "`")
 # flop the viewer
 toolbar.addCommand('Macros/2d/Flop',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.flopViewer()', "Alt+`")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.flopViewer()', "Alt+`")
 # align nodes in the nodegraph
 toolbar.addCommand('Macros/2d/Align Up',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.upAlignSelectedNodes()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.upAlignSelectedNodes()')
 toolbar.addCommand('Macros/2d/Align Center',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.centerAlignSelectedNodes()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.centerAlignSelectedNodes()')
 toolbar.addCommand('Macros/2d/Align Down',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.downAlignSelectedNodes()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.downAlignSelectedNodes()')
 # search and replace string in file knob
 toolbar.addCommand('Macros/2d/Search and replace string in file knob...',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.replaceStringInFile()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.replaceStringInFile()')
 # show the path of all or selected read nodes
 toolbar.addCommand('Macros/2d/Show paths of all or selected Read nodes...',
     'import dmptools.tools.getFilePath as getFilePath;getFilePath.printPath()')
 # unselect and close all nodes control panel
 toolbar.addCommand('Macros/2d/Close all the nodes control panel',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.closeAllControlPanel()')
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.closeAllControlPanel()')
 # create viewerinput node check
 toolbar.addCommand('Macros/2d/Viewerinput Check node',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.createViewerInput()', "CTRL+ALT+X")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.createViewerInput()', "CTRL+ALT+X")
 
 # 3D
 # toggle visibility of 3d nodes
 toolbar.addCommand('Macros/3d/toggle camera and geo display',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.toggleCamGeoDisplay()',"Ctrl+Alt+Shift+C")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.toggleCamGeoDisplay()',"Ctrl+Alt+Shift+C")
 # go through wireframe, shaded, textured and textured+wireframe
 toolbar.addCommand('Macros/3d/Wireframe',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayWireframe()', "Ctrl+Alt+4")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setDisplayWireframe()', "Ctrl+Alt+4")
 toolbar.addCommand('Macros/3d/Shaded',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayShaded()', "Ctrl+Alt+5")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setDisplayShaded()', "Ctrl+Alt+5")
 toolbar.addCommand('Macros/3d/Textured',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayTextured()', "Ctrl+Alt+6")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setDisplayTextured()', "Ctrl+Alt+6")
 toolbar.addCommand('Macros/3d/Textured+Lines',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.setDisplayTexturedLines()', "Ctrl+Alt+7")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setDisplayTexturedLines()', "Ctrl+Alt+7")
 # toggle default lighting on/off
 toolbar.addCommand('Macros/3d/Enable-Disable gl lighting',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.gl_lighting()', "Ctrl+Alt+0")
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.gl_lighting()', "Ctrl+Alt+0")
 
 # intranet help
 toolbar.addCommand('Help !',
-    'import dmptools.macros.nukeCommands as nukeCommands;nukeCommands.helpButton()',
+    'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.helpButton()',
     icon=NUKE_SHARE+'/help.png')
