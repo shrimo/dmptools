@@ -9,7 +9,6 @@ REQUIREMENTS:
     - python2.7 installed in c:/python27.
 
 INSTALL:
-
 I - with Sublime Text editor:
     - clone dmptools: git clone git://github.com/michael-ha/dmptools.git
     - open Sublime Text
