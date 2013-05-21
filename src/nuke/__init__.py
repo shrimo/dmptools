@@ -9,3 +9,10 @@ __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Michael Havart"
 __email__ = "michael.havart@gmail.com"
 __status__ = "Production"
+
+# build menus
+import dmptools.menu as menu
+import dmptools.userMenu as userMenu
+
+menu.main()
+userMenu.main()

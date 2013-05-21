@@ -1,10 +1,12 @@
+# maya cmds module
 import maya.cmds as cmds
-import os
 
-import dmptools.tools.mayaToNuke.exporter as exporter
-
-from dmptools.tools.mayaToNuke.utils import Utils
+# dmptools settings manager module
 from dmptools.settings import SettingsManager
+
+# mayaToNuke exporter and utils modules
+import dmptools.tools.mayaToNuke.exporter as exporter
+from dmptools.tools.mayaToNuke.utils import Utils
 
 WINDOW_NAME = 'mtn_Window'
 SETTINGS = SettingsManager('mayaToNuke')
@@ -328,7 +330,7 @@ class MayaToNukeUI(object):
         """opens a file dialog to point to the output path"""
         textfieldValue = cmds.textField(self.textField, text=True, q=True)
         if textfieldValue:
-            directoryMask = os.path.dirname(textfieldValue+"/*.nk")
+            directoryMask = UTILS.getDirname(textfieldValue+"/*.nk")
         else:
             directoryMask = "/*.nk"
             

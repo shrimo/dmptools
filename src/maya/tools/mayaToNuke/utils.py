@@ -1,9 +1,12 @@
+# system and time modues
 import os
 import sys
 import time
 
+# maya cmds module
 import maya.cmds as cmds
 
+# dmptools maya commands and settings manager modules
 import dmptools.utils.mayaCommands as mayaCommands
 from dmptools.settings import SettingsManager
 
@@ -46,6 +49,9 @@ class Utils(object):
         SETTINGS.add('host', self.host)
         SETTINGS.add('platform', self.platform)
         SETTINGS.add('machine', self.machine)
+
+    def getDirname(self, path):
+        return os.path.dirname(path)
 
     def getTempPath(self):
         tempPath = os.getenv('TEMP')

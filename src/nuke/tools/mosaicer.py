@@ -81,7 +81,7 @@ def getTextureNodes():
         values['reads'] = getTextureFiles(values['textureRoot'], values['component'], values['texturePrefix'])
         return values
     else:
-        raise UserWarning('Canceld by the user.')
+        print 'Canceled by the user.'
 
 def mosaicer():
 
