@@ -94,6 +94,15 @@ markingMenuItems = [
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
+        'name':'Run command',
+        'subMenu':False,
+        'position':False,
+        'annotation':'Run command',
+        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.executeCommand();\
+            import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
         'name':'HotkeysList',
         'subMenu':False,
         'position':False,
@@ -116,6 +125,15 @@ hotkeysItems = [
             reload(markingMenu);markingMenu.createMenu()");',
         'releaseCommand':'python("import dmptools.setup.markingMenu as markingMenu;\
             reload(markingMenu);markingMenu.deleteMarkingMenu()");',
+    },
+    {
+        'name':'executeCommand',
+        'key':'e',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.executeCommand()");',
     },
     {
         'name':'openNodeEditor',
@@ -488,8 +506,8 @@ shelfItems = [
     {
         'name':'DmptoolsSetup',
         'iconLabel':'setup',
-        'command':'import dmptools.setup.init as init;\
-            reload(init);init.main()',
+        'command':'import dmptools;\
+            reload(dmptools)',
         'icon':'pythonFamily.png',
         'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.'
     },

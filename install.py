@@ -7,8 +7,10 @@
 
 """
 
+# with statement
 from __future__ import with_statement
 
+# system modules
 import platform
 import os
 import sys
@@ -17,8 +19,9 @@ import fileinput
 import shutil
 from shutil import *
 
+# module vars
 __author__ = "Michael Havart"
-__copyright__ = "Copyright (C) 2012 Michael Havart"
+__copyright__ = "Copyright (C) 2013 Michael Havart"
 __credits__ = "Michael Havart, Jordi Riera, Julien Bolbach, Eddy Richard"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Michael Havart"
@@ -48,11 +51,12 @@ EXCLUDE_DIRS = \
         'gizmos',
     ]
 EXCLUDE_FILES = ['pyc', '~']
-MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup.init as init;init.main()");// automatically added by the dmptools installation'
+MAYA_USERSETUP_MEL_FILE = 'python("import dmptools");// automatically added by the dmptools installation'
+NUKE_MENU_FILE = 'import dmptools # automatically added by the dmptools installation'
 
 # platform globals
 if PLATFORM == 'Windows':
-    HOMEPATH = os.environ['USERPROFILE']
+    HOMEPATH = os.getenv('USERPROFILE')
     GOOGLEDRIVE_PATH = HOMEPATH+'/google drive/code/python/'
     # nuke windows globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
@@ -64,33 +68,33 @@ if PLATFORM == 'Windows':
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
 if PLATFORM == 'Linux':
-    HOMEPATH = os.environ['HOME']
+    HOMEPATH = os.getenv('HOME')
     GOOGLEDRIVE_PATH = HOMEPATH+'/code/python/'
     # nuke Linux globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
 
     # maya Linux globals
-    MAYA_GLOBAL = os.environ['HOME']+'/maya/'
+    MAYA_GLOBAL = os.getenv('HOME')+'/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
     MAYA_PATH = MAYA_GLOBAL+'/scripts/'
 
 # string replacements
 REPLACEMENTS = \
     {
-        '!PLATFORM!' : PLATFORM,
-        '!HOST!' : HOST,
-        '!MACHINE!' : MACHINE,
-        '!VERSION!' : VERSION,
-        '!HOMEPATH!' : HOMEPATH,
-        '!GOOGLEDRIVE_PATH!' : GOOGLEDRIVE_PATH,
+        '!PLATFORM!'            : PLATFORM,
+        '!HOST!'                : HOST,
+        '!MACHINE!'             : MACHINE,
+        '!VERSION!'             : VERSION,
+        '!HOMEPATH!'            : HOMEPATH,
+        '!GOOGLEDRIVE_PATH!'    : GOOGLEDRIVE_PATH,
 
-        '!NUKE_SHARE!' : NUKE_PATH+MODULE_NAME+'/pictures',
+        '!NUKE_SHARE!'          : NUKE_PATH+MODULE_NAME+'/pictures',
 
-        '!MAYA_GLOBAL!' : MAYA_GLOBAL,
-        '!MAYA_PATH!' : MAYA_PATH+MODULE_NAME,
-        '!MAYA_PICTURES!' : MAYA_PATH+MODULE_NAME+'/pictures',
-        '!MAYA_SHELF!' : MAYA_PATH+MODULE_NAME+'/pictures/shelf',
+        '!MAYA_GLOBAL!'         : MAYA_GLOBAL,
+        '!MAYA_PATH!'           : MAYA_PATH+MODULE_NAME,
+        '!MAYA_PICTURES!'       : MAYA_PATH+MODULE_NAME+'/pictures',
+        '!MAYA_SHELF!'          : MAYA_PATH+MODULE_NAME+'/pictures/shelf',
     }
 
 def installNuke():
@@ -114,6 +118,8 @@ def installNuke():
     # replacements
     print ' > doing replacements...'
     replacements(NUKE_PATH+MODULE_NAME)
+    # createnuke menu file
+    createNukeMenu()
     print ' > done.'
 
 def installMaya():
@@ -160,9 +166,9 @@ def createMelUserSetup():
     create the userSetup file for Maya startup
     '''
     mel_file = MAYA_PATH+'/userSetup.mel'
-    is_mel_file = os.path.exists(mel_file)
+    is_menu_file = os.path.exists(mel_file)
     # scan the mel file if exists
-    if is_mel_file:
+    if is_menu_file:
         print " > mel userSetup already exists, need to edit it."
         newlines = []
         with open(mel_file, "r+") as FILE:
@@ -184,9 +190,42 @@ def createMelUserSetup():
     # the mel file doesn't exist so create it
     else:
         print " > mel userSetup doesn't exist, need to create it."
-        print ' > creating '+MAYA_PATH+'/userSetup.mel'
+        print ' > creating', mel_file
         with open(mel_file, 'w') as FILE:
             FILE.write(MAYA_USERSETUP_MEL_FILE)
+
+def createNukeMenu():
+    '''
+    create the menu.py file for Nuke startup
+    '''
+    menu_file = NUKE_PATH+'/menu.py'
+    is_menu_file = os.path.exists(menu_file)
+    # scan the menu file if exists
+    if is_menu_file:
+        print " > nuke menu already exists, need to edit it."
+        newlines = []
+        with open(menu_file, "r+") as FILE:
+            lines = FILE.readlines()
+            add = False
+            for line in lines:
+                if 'import dmptools' in line:
+                    lines.remove(line)
+                    lines.append(NUKE_MENU_FILE)
+                    add = False
+                    break
+                else:
+                    add = True
+            if add:
+                lines.append(NUKE_MENU_FILE)
+            newlines = lines
+        with open(menu_file, "w") as FILE:
+            FILE.write(str(''.join(newlines)))
+    # the mel file doesn't exist so create it
+    else:
+        print " > nuke menu file doesn't exist, need to create it."
+        print ' > creating', menu_file
+        with open(menu_file, 'w') as FILE:
+            FILE.write(NUKE_MENU_FILE)
      
 def install(src, dst, symlinks=False, ignore=None):
     '''

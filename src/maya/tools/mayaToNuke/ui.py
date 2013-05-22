@@ -30,7 +30,7 @@ class MayaToNukeUI(object):
         # user info
         self.user = UTILS.user
         self.platform = UTILS.platform
-        self.computer = UTILS.computer
+        self.host = UTILS.host
         self.headerText = self.generateHeader()
         self.nonEditableFields = UTILS.nonEditableFields
 
@@ -471,7 +471,7 @@ class MayaToNukeUI(object):
         generate the header of the ui
         """
         headerText = \
-                'infos: '+self.platform+' | '+self.user+'@'+self.computer.lower()+\
+                'infos: '+self.platform+' | '+self.user+'@'+self.host.lower()+\
                 ' | frame range: ['\
                 +str(self.framerange['first'])+' - '\
                 +str(self.framerange['last'])+']'

@@ -82,58 +82,62 @@ def getTextureNodes():
         return values
     else:
         print 'Canceled by the user.'
+        return None
 
 def mosaicer():
-
     values = getTextureNodes()
     
-    nodes = values['reads']
-    tiles = values['tilesNumber']
-    prefix = values['texturePrefix']
-    #resolution = getResolutionFromNodes(nodes)
-    resolution = values['resolution']
-    tileSize = float(resolution)/float(tiles)
+    if values:
+        nodes = values['reads']
+        tiles = values['tilesNumber']
+        prefix = values['texturePrefix']
+        #resolution = getResolutionFromNodes(nodes)
+        resolution = values['resolution']
+        tileSize = float(resolution)/float(tiles)
 
-    # add format
-    formatN = ("mosaicFormat")
-    form = ("%s %s 1 %s" % (resolution, resolution, formatN))
-    nuke.addFormat(form)
-    formatDict = {}
-    for item in nuke.formats():
-        formatDict[item.name()]=item
-    nuke.Root()['format'].setValue(formatDict[formatN])
-    
-    # create background node
-    bg = nuke.createNode('Constant', inpanel=False)
-    bg['format'].setValue(formatN)
+        # add format
+        formatN = ("mosaicFormat")
+        form = ("%s %s 1 %s" % (resolution, resolution, formatN))
+        nuke.addFormat(form)
+        formatDict = {}
+        for item in nuke.formats():
+            formatDict[item.name()]=item
+        nuke.Root()['format'].setValue(formatDict[formatN])
+        
+        # create background node
+        bg = nuke.createNode('Constant', inpanel=False)
+        bg['format'].setValue(formatN)
 
-    merges = []
-    deselectAll()
-    for node in nodes:
-        node.setSelected(True)
-        filename = os.path.basename(node['file'].value())
-        s, t = filename.split('_')[-3].split('s')[-1].split('t')
-        # create reformat
-        reformat = nuke.createNode('Reformat', inpanel=False)
-        reformat['type'].setValue(1)
-        reformat['box_fixed'].setValue(True)
-        reformat['box_width'].setValue(tileSize)
-        reformat['box_height'].setValue(tileSize)
-        # create transform
-        transform = nuke.createNode('Transform', inpanel=False)
-        transform['center'].setValue([0, 0])
-        transform['translate'].setValue([float(s)*tileSize, float(t)*tileSize])
+        merges = []
         deselectAll()
-        # create merge
-        merge = nuke.createNode('Merge', inpanel=False)
-        merge.setInput(1, transform)
-        merge.setInput(0, bg)
-        merges.append(merge)
 
-    #deselectAll()
-    #for m in merges:
-    #    m.setSelected(True)
-    #nuke.createNode('Merge', inpanel=False)
+        for node in nodes:
+            node.setSelected(True)
+            filename = os.path.basename(node['file'].value())
+            s, t = filename.split('_')[-3].split('s')[-1].split('t')
+            # create reformat
+            reformat = nuke.createNode('Reformat', inpanel=False)
+            reformat['type'].setValue(1)
+            reformat['box_fixed'].setValue(True)
+            reformat['box_width'].setValue(tileSize)
+            reformat['box_height'].setValue(tileSize)
+            # create transform
+            transform = nuke.createNode('Transform', inpanel=False)
+            transform['center'].setValue([0, 0])
+            transform['translate'].setValue([float(s)*tileSize, float(t)*tileSize])
+            deselectAll()
+            # create merge
+            merge = nuke.createNode('Merge', inpanel=False)
+            merge.setInput(1, transform)
+            merge.setInput(0, bg)
+            merges.append(merge)
+
+        #deselectAll()
+        #for m in merges:
+        #    m.setSelected(True)
+        #nuke.createNode('Merge', inpanel=False)
+    else:
+        print "abort."
     
 def main():
     mosaicer()

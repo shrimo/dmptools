@@ -1,4 +1,7 @@
+# with statement
 from __future__ import with_statement
+
+# system modules
 import os
 import subprocess
 

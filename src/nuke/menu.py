@@ -17,7 +17,6 @@ from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
-DRIVE = '!GOOGLEDRIVE_PATH!'
 
 def buildMenu():
     """
@@ -192,11 +191,7 @@ def main():
         initiate nuke dmptools menu
     """
     print ">> initiate dmptools..."
-    
-    # add google drive path to sys if exists
-    # this is for using dmptools_misc modules
-    if os.path.exists(DRIVE):
-        sys.path.append(DRIVE)
+
     # main menu
     buildMenu()
     
