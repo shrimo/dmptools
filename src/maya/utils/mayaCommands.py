@@ -19,33 +19,6 @@ SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
-
-def executeCommand():
-    result = cmds.promptDialog(
-            title='Run a command',
-            message='Enter the command:',
-            button=['OK', 'Cancel'],
-            defaultButton='OK',
-            cancelButton='Cancel',
-            dismissString='Cancel')
-    if result == 'OK':
-
-        cmd = cmds.promptDialog(query=True, text=True)
-        command = cmd.split()
-        popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        out = popObj.communicate()
-
-        windowName = 'runCommand'
-        if cmds.window(windowName, exists=True):
-            cmds.deleteUI(windowName, window=True)
-
-        cmds.window(windowName, title='Result')
-        #form = cmds.formLayout()
-        txt = cmds.textFieldGrp('hotkeysScrollList', text=out[0])
-
-        #cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
-        cmds.showWindow(windowName)
-
 def openScriptEditor():
     mel.eval("ScriptEditor;")
 

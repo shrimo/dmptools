@@ -1,6 +1,5 @@
 """
 dmptools for Maya
-init the dmptools for Maya
 
 """
 __author__ = "Michael Havart"
@@ -11,21 +10,3 @@ __maintainer__ = "Michael Havart"
 __email__ = "michael.havart@gmail.com"
 __status__ = "Production"
 
-import os
-import sys
-
-DRIVE = '!GOOGLEDRIVE_PATH!'
-
-# add google drive path to sys if exists
-# this is for using dmptools_misc modules
-if os.path.exists(DRIVE):
-    sys.path.append(DRIVE)
-
-# create shelf
-import dmptools.setup.shelf as shelf
-
-# create hotkeys
-import dmptools.setup.hotkeys as hotkeys
-
-shelf.main()
-hotkeys.main()

@@ -51,7 +51,7 @@ EXCLUDE_DIRS = \
         'gizmos',
     ]
 EXCLUDE_FILES = ['pyc', '~']
-MAYA_USERSETUP_MEL_FILE = 'python("import dmptools");// automatically added by the dmptools installation'
+MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup.init");// automatically added by the dmptools installation'
 NUKE_MENU_FILE = 'import dmptools # automatically added by the dmptools installation'
 
 # platform globals

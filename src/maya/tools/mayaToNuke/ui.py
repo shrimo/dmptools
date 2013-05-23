@@ -450,8 +450,7 @@ class MayaToNukeUI(object):
 
     def settingsUI(self, non=None):
         """UI of mayaToNuke settings """
-        settings = SETTINGS.gets()
-        settingsStr = SETTINGS.getStr()
+        settings = SETTINGS.getAll()
         # create ui
         if cmds.window('mtn_settings', exists=True):
             cmds.deleteUI('mtn_settings', window=True)
