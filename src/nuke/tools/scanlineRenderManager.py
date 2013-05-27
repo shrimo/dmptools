@@ -1,10 +1,8 @@
-#====================================================
-#
-# create a scanline render manager dockable panel
-# 
-# it drives the common attributes of all the scanline render nodes in the script
-#
-#====================================================
+"""
+    create a scanline render manager dockable panel
+    it drives the common attributes of all the scanline render nodes in the script
+
+"""
 
 import nuke
 import nukescripts
@@ -12,7 +10,6 @@ from threading import Thread
 
 class ScanlineRenderManager(nukescripts.PythonPanel, Thread):
     def __init__(self):
-        
         nukescripts.PythonPanel.__init__( self, 'ScanlineRenderManager', 'ScanlineRenderManager')
         Thread.__init__(self)
 
@@ -58,7 +55,6 @@ class ScanlineRenderManager(nukescripts.PythonPanel, Thread):
             self.addKnob(knob)
         
     def knobChanged(self, knob):
-
         scanlineRenders = nuke.allNodes('ScanlineRender')
         
         if scanlineRenders:
@@ -70,8 +66,8 @@ class ScanlineRenderManager(nukescripts.PythonPanel, Thread):
                     Zbuffer = self.ZbufferKnob.value()
                     node.knob('ztest_enabled').setValue(Zbuffer)
                 if knob == self.filterKnob:
-                    filter = self.filterKnob.value()
-                    node.knob('filter').setValue(filter)
+                    filterVal = self.filterKnob.value()
+                    node.knob('filter').setValue(filterVal)
                 if knob == self.antialiasingKnob:
                     antialiasing = self.antialiasingKnob.value()
                     node.knob('antialiasing').setValue(antialiasing)

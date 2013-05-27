@@ -1,7 +1,8 @@
-import maya.cmds as cmds
 import time
 import os
 import subprocess
+
+import maya.cmds as cmds
 
 from dmptools.tools.mayaToNuke.utils import Utils
 UTILS = Utils()

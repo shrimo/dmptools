@@ -512,7 +512,7 @@ def openTerminal():
 def getLatestAutosave():
     """returns the latest autosave nuke script"""
     nukeAutoSavePath = nuke.toNode("preferences").knob('AutoSaveName').evaluate()
-    if os.exists(nukeAutoSavePath):
+    if os.path.exists(nukeAutoSavePath):
         latestAutosave = cmd.getstatusoutput('ls -1tr '+nukeAutoSavePath+' | tail -1')[1]
         latestAutosavePy = latestAutosave.split('.')[0]+'.nk'
         cmd.getstatusoutput('cp '+nukeAutoSavePath+latestAutosave+' '+nukeAutoSavePath+latestAutosavePy)

@@ -1,3 +1,7 @@
+"""
+    list of items  used in marking menu, hotkeys, and shelf
+"""
+
 # markingMenu items list
 markingMenuItems = [
     {

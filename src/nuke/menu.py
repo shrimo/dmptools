@@ -14,6 +14,7 @@ import nukescripts
 # dmptools nuke commands modules
 import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
+from dmptools.tools.runCommand import RunCommand
 
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
@@ -89,7 +90,7 @@ def buildMenu():
     # scanline render manager
     sc = ScanlineRenderManager()
     pane = nuke.menu("Pane")
-    pane.addCommand( "ScanlineRender Manager", sc.addToPane)
+    pane.addCommand("ScanlineRender Manager", sc.addToPane)
     nukescripts.registerPanel('ScanlineRenderManager', sc.addToPane)
     toolbar.addCommand('Tools/ScanlineRender Manager', sc.show, icon=NUKE_SHARE+'/scanline.png')
 
@@ -102,6 +103,13 @@ def buildMenu():
 
     # demosaicer
     toolbar.addCommand('Tools/Demosaicer...', 'import dmptools.tools.demosaicer as demosaicer;demosaicer.main()')
+
+    # run command
+    run = RunCommand()
+    pane = nuke.menu("Pane")
+    pane.addCommand("Run Command", run.addToPane)
+    nukescripts.registerPanel('RunCommand', run.addToPane)
+    toolbar.addCommand('Tools/Run Command...', run.show)
 
     #===================
     #    NODES MENU
