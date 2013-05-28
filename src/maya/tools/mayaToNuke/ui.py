@@ -11,6 +11,7 @@ from dmptools.tools.mayaToNuke.utils import Utils
 WINDOW_NAME = 'mtn_Window'
 SETTINGS = SettingsManager('mayaToNuke')
 UTILS = Utils()
+HELP_PAGE = '!HELP_PAGE!'
 
 class MayaToNukeUI(object):
     def __init__(self):
@@ -20,7 +21,7 @@ class MayaToNukeUI(object):
         if not textFieldValue:
             self.textFieldValue = UTILS.tempPath
         else:
-            self.textFieldValue = textFieldValue[0]
+            self.textFieldValue = textFieldValue
         # stuff
         self.items = {}
         # get selection
@@ -314,7 +315,7 @@ class MayaToNukeUI(object):
         cmds.menuItem(label='Exit', c=exitC)
         # add help menu
         cmds.menu(label='Help', helpMenu=True)
-        helpC = 'import webbrowser;webbrowser.open("http://github.com/michael-ha/dmptools/blob/master/README")'
+        helpC = 'import webbrowser;webbrowser.open("'+HELP_PAGE+'"")'
         cmds.menuItem(label='Github', c=helpC)
         
         fun1C = 'import webbrowser;webbrowser.open("http://www.google.com/images?q=mecha &")'
@@ -448,7 +449,7 @@ class MayaToNukeUI(object):
         # set settings
         SETTINGS.add('mtn_textField', textField)
 
-    def settingsUI(self, non=None):
+    def settingsUI(self, none=None):
         """UI of mayaToNuke settings """
         settings = SETTINGS.getAll()
         # create ui

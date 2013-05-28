@@ -15,7 +15,12 @@ import sys
 import time
 import re
 
+from dmptools.settings import SettingsManager
+
+SETTINGS = SettingsManager('nuke')
+
 PLATFORM = '!PLATFORM!'
+HELP_PAGE = '!HELP_PAGE!'
 
 def frameRangeOverrideTab():
     """add an frame override field to a write node"""
@@ -729,7 +734,7 @@ def helpButton():
     """
         open the github page as the help
     """
-    nuke.tcl("start", "https://github.com/michael-ha/dmptools")
+    nuke.tcl("start", HELP_PAGE)
 
 def connectMasterScene():
     """
@@ -752,7 +757,7 @@ def runCommand(command):
 
 def createFavoriteDirs():
     """
-        create favorite directory if env var are found
+        create favorite directory if env vars are found
     """
     show = os.getenv('PL_SHOW')
     if show:
@@ -769,15 +774,15 @@ def createFavoriteDirs():
                     renderWorkP = shotPath+'/work/'+os.getenv('USER')+'/render/'
                     texturePath = shotPath+'/asset/texture/'
                     renderPath = shotPath+'/render/'
-                    renderWPath = shotPath+'/renderw/'
+                    renderWsPath = shotPath+'/renderws/'
 
                     # add favorite dirs
-                    nuke.addFavoriteDir(name='-work maya ', directory=mayaPath)
-                    nuke.addFavoriteDir(name='-work nuke', directory=nukeScriptsPath)
-                    nuke.addFavoriteDir(name='-work render', directory=renderWorkP)
-                    nuke.addFavoriteDir(name='-textures', directory=texturePath)
-                    nuke.addFavoriteDir(name='-render', directory=renderPath)
-                    nuke.addFavoriteDir(name='-renderw', directory=renderWPath)
+                    nuke.addFavoriteDir(name='|-work maya ', directory=mayaPath)
+                    nuke.addFavoriteDir(name='|-work nuke', directory=nukeScriptsPath)
+                    nuke.addFavoriteDir(name='|-work render', directory=renderWorkP)
+                    nuke.addFavoriteDir(name='|-textures', directory=texturePath)
+                    nuke.addFavoriteDir(name='|-render', directory=renderPath)
+                    nuke.addFavoriteDir(name='|-renderws', directory=renderWsPath)
 
 # ======================
 # CALLBACKS

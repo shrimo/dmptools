@@ -9,8 +9,9 @@ import commands as cmd
 
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager('nuke')
-
+SETTINGS = SettingsManager('nukeToMaya')
+PLATFORM = '!PLATFORM!'
+HOST = '!HOST!'
 sys.setrecursionlimit(100)
 
 class ExportToMaya():
@@ -29,9 +30,11 @@ class ExportToMaya():
             nuke.scriptSave()
         else:
             print 'no script to save...'
-            
+
+        self.tmpPath = os.getenv('TEMP')
+        if not self.tempPath:
+            self.tempPath = '/tmp'
         self.mayapy = mayapy
-        self.tmpPath = os.path.abspath(os.getenv('TEMP'))
         self.objects = objects
         self.cameras = cameras
         self.axiis = axiis
@@ -113,7 +116,7 @@ class ExportToMaya():
             nuke.message("failed to create maya file (see script editor for more infos)...")
             print "failed to create maya file..."
         
-        print "-- debug"	
+        print "-- debug"
         print "scite "+self.filePathPy
         print "os.system('sublime_text "+self.filePathPy+"&')"
         print "os.system('maya "+self.filePath+"&')"
@@ -130,9 +133,7 @@ class ExportToMaya():
         fileInfo.close()   
 
     def sendStuffToMaya(self, mayaScene):
-
-        host = os.environ['HOSTNAME']	
-        
+        host = HOST        
         mayaShots = []
         #print cmd.getstatusoutput('echo `more /tmp/mayaInfo.shot`')[1]
         
@@ -179,7 +180,6 @@ class ExportToMaya():
 
 
     def exportObj(self, filePy, objects, filePath, objPath):
-
         objPathList = []        
         filePy.write("# importing obj files...\n\n")        
         for node in objects:
@@ -215,7 +215,6 @@ class ExportToMaya():
         filePy.write("	cmds.rename(node, node[-0:-5])\n\n")
 
     def exportAxis(self, filePy, axiis, filePath, startFrame, lastFrame):
-
         filePy.write("# creating locators ... \n\n")
         filePy.write("locatorList = []\n\n")
 
@@ -291,7 +290,6 @@ class ExportToMaya():
         filePy.write("cmds.select(cl = True)\n\n")
 
     def exportAxis_old(self, filePy, axiis, filePath, startFrame, lastFrame):
-
         filePy.write("# creating locators ... \n\n")
         filePy.write("locatorList = []\n\n")
 
@@ -366,7 +364,6 @@ class ExportToMaya():
         filePy.write("cmds.select(cl = True)\n\n")
 
     def exportCam(self, filePy, cameras, filePath, startFrame, lastFrame):
-
         filePy.write("# creating cameras ... \n\n")
         filePy.write("camerasList = []\n\n")
 
@@ -466,7 +463,6 @@ class ExportToMaya():
         filePy.write("cmds.select(cl = True)\n\n")
 
     def exportCam_old(self, filePy, cameras, filePath, startFrame, lastFrame):
-
         filePy.write("# creating cameras ... \n\n")
         filePy.write("camerasList = []\n\n")
 
@@ -566,7 +562,6 @@ class ExportToMaya():
         filePy.write("cmds.select(cl = True)\n\n")
 
     def exportLights(self, filePy, lights, filePath, startFrame, lastFrame):
-
         filePy.write("# creating lights ... \n\n")
         filePy.write("lightsList = []\n\n")
 
@@ -574,7 +569,6 @@ class ExportToMaya():
             print light.name()
         
     def getWorldMatrix(self, node, frame):
-
         worldMatrix = node['world_matrix']
         worldMatrixAt = node['world_matrix'].getValueAt(frame)
         
@@ -601,49 +595,46 @@ class ExportToMaya():
         return scale, rotate, translate
 
 def exportToMayaUI():
-
     mayapy = SETTINGS.get('mayapyPath')
-    if os.name == 'posix':
-        if not mayapy:
-            mayaVersion = os.environ['MAYA_VERSION']
-            platform = os.environ['PLATFORM']
-            mayapy = '/software/maya/'+mayaVersion+'/'+platform+'/bin/mayapy'
-        else:
-            mayapy = '/software/maya/'+mayaVersion+'/'+platform+'/bin/mayapy'
 
-        # collect info for each open maya
-        # test all maya found between port 9700-9711 and ask for the actual job, shot, host ...
-        
-        host = os.environ['HOSTNAME']
+    if not mayapy:
+        if PLATFORM == 'Linux':
+            mayapy = '/opt/autodesk/maya-2013.ext/bin/mayapy'
+            SETTINGS.add('mayapyPath', mayapy)
 
-        for port in range (9700, 9711):
-            try:
-                maya = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                maya.connect((host,port))
-                
-                message = 'python ("import mpc.nuke.dmpTools.tools.askMaya as askMaya");'
-                message += 'python ("askMaya.writeToFile()");'
-                
-                maya.send(message)
-                maya.close()
-                print "gather maya:"+str(port)+" infos..."
-            except:
-                pass
-            
-        #---------
+            # collect info for each open maya
+            # test all maya found between port 9700-9711 and ask for the actual job, shot, host ...            
+            host = HOST
+            """
+            for port in range (9700, 9711):
+                try:
+                    maya = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    maya.connect((host,port))
+                    
+                    message = 'python ("import dmpTools.tools.askMaya as askMaya");'
+                    message += 'python ("askMaya.writeToFile()");'
+                    
+                    maya.send(message)
+                    maya.close()
+                    print "gather maya:"+str(port)+" infos..."
+                except:
+                    pass
+            """ 
+            #---------
 
-    if os.name == 'nt':
-        if not mayapy:
-            panel = nuke.Panel('please give me the path of mayapy.exe')
-            panel.addFilenameSearch("mayapy.exe: ","")
-            val = panel.show()
-            if val:
-                mayapy = panel.value("mayapy.exe: ")
-                SETTINGS.add('mayapyPath', mayapy)
+        if PLATFORM == 'Windows':
+            if not mayapy:
+                panel = nuke.Panel('please give me the path of mayapy.exe')
+                panel.addFilenameSearch("mayapy.exe: ","")
+                val = panel.show()
+                if val:
+                    mayapy = panel.value("mayapy.exe: ")
+                    SETTINGS.add('mayapyPath', mayapy)
+                else:
+                    mayapy = None
             else:
-                mayapy = None
-        else:
-            mayapy = mayapy[0]
+                mayapy = mayapy[0]
+
     selOriginal = nuke.selectedNodes()
 
     for item in selOriginal:
@@ -655,14 +646,13 @@ def exportToMayaUI():
 
     sel = nuke.selectedNodes()
 
-    if mayapy and os.path.exists(mayapy):
-        
+    if mayapy and os.path.exists(mayapy):        
         if sel:
             panel = nuke.Panel("Export stuff from nuke to maya")
             panel.setWidth(400)
             panel.addFilenameSearch("Maya output file: ","")
             panel.addBooleanCheckBox("Save obj files ? (also save .obj separately)", 0)
-            if os.name == 'posix':
+            if PLATFORM == 'Linux':
                 panel.addBooleanCheckBox("Send to Maya ?", 0)
             retVar = panel.show()
             if retVar == 1:
@@ -691,10 +681,12 @@ def exportToMayaUI():
                 outputFile = panel.value("Maya output file: ")
                 
                 if outputFile.split('.')[-1] == "ma":
-                    if os.name == 'posix':
-                        ExportToMaya(mayapy, objects, cameras, axiis, lights, outputFile, panel.value("Save obj files ? (also save .obj separately)"), panel.value("Send to Maya ?"))
-                    if os.name == 'nt':
-                        ExportToMaya(mayapy, objects, cameras, axiis, lights, outputFile, panel.value("Save obj files ? (also save .obj separately)"), False)
+                    saveOBJ = panel.value("Save obj files ? (also save .obj separately)")
+                    if PLATFORM == 'Linux':
+                        send = panel.value("Send to Maya ?")
+                        ExportToMaya(mayapy, objects, cameras, axiis, lights, outputFile, saveOBJ, send)
+                    if PLATFORM == 'Windows':
+                        ExportToMaya(mayapy, objects, cameras, axiis, lights, outputFile, saveOBJ, False)
                 else:
                     nuke.message('the output file is not correct !\nex: /path/mayafile.ma')
             else:

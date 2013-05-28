@@ -14,11 +14,10 @@ def demosaicer(node):
     """
         takes a tiled image and deconstruct it to multiple pieces
     """
-    savedPath = ''
-    try:
-        savedPath = SETTINGS.get('demosaicerPath')[0]
-    except:
-        pass
+    savedPath = SETTINGS.get('demosaicerPath')
+    if not savedPath:
+        savedPath = ''
+
     panel = nuke.Panel('Demosaicer')
     panel.addFilenameSearch('Output path: ', savedPath)
     panel.addSingleLineInput('Texture name: ', 'eastEntrance')

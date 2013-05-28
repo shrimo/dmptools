@@ -15,6 +15,7 @@ import nukescripts
 import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 from dmptools.tools.runCommand import RunCommand
+from dmptools.tools.webBrowser import WebBrowser
 
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
@@ -110,6 +111,11 @@ def buildMenu():
     pane.addCommand("Run Command", run.addToPane)
     nukescripts.registerPanel('RunCommand', run.addToPane)
     toolbar.addCommand('Tools/Run Command...', run.show)
+
+    # web browser
+    web = WebBrowser()
+    nukescripts.panels.registerWidgetAsPanel(WebBrowser, 'Web Browser','Web Browser')
+    toolbar.addCommand('Tools/Web Browser...', web.show)
 
     #===================
     #    NODES MENU

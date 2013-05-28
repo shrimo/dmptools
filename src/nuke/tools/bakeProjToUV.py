@@ -133,13 +133,11 @@ def bakeItUI(nodes):
     """
 
     # get settings
-    try:
-        path = SETTINGS.get('bakeProj_path')[0]
-    except:
+    path = SETTINGS.get('bakeProj_path')
+    if not path:
         path = ''
-    try:
-        alpha = SETTINGS.get('bakeProj_alpha')[0]
-    except:
+    alpha = SETTINGS.get('bakeProj_alpha')
+    if not alpha:
         alpha = False
     
     availableColorspace = 'Linear Log sRGB Screen'

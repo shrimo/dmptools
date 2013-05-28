@@ -14,7 +14,7 @@ class Exporter(object):
     def __init__(self, items={}, outputFile='', framerange={}, createScene=bool):
         # get  utils stuff
         self.tempPath = UTILS.tempPath
-        self.os = UTILS.os
+        self.platform = UTILS.platform
         # get the stuff to export and the outputFile
         self.items = items
         self.outputFile = outputFile
@@ -39,9 +39,9 @@ class Exporter(object):
         # python tmp file used to generate the nk file
         pyFile = self.tempPath+"/"+self.outputFile.split('/')[-1].split('.')[-2]+"_"+self.currTime+".py"
         # nuke command to generate the nk file from the py file
-        if self.os == 'nt':
+        if self.platform == 'Windows':
             generateNukeScript = '"'+self.nukePath+'" -t '+pyFile+''
-        if self.os == 'posix':
+        if self.platform == 'Linux':
             generateNukeScript = self.nukePath+' -t '+pyFile+' &'
 
         # writing header of the python file

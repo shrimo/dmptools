@@ -14,6 +14,8 @@ import random
 import os
 import time
 
+PLATFORM = '!PLATFORM!'
+
 class CreateArcs(object):
     def __init__(self, none=None):
         
@@ -45,9 +47,9 @@ class CreateArcs(object):
 
     def writeLog(self, arcSystem):
         prefix = arcSystem["baseCurve"][0]
-        if os.name == "posix":
+        if PLATFORM == "Linux":
             filepath = "/tmp"
-        if os.name == "nt":
+        if PLATFORM == "Windows":
             filepath = "C:/tmp"
         
         # convert arcSystem dict to str

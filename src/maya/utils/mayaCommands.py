@@ -183,7 +183,7 @@ def selectSetting():
                         q=True,
                         si=True)
     try:
-        cmds.select(SETTINGS.get(settingText[0])[0])
+        cmds.select(SETTINGS.get(settingText[0]))
     except:
         print 'failed to select setting...'
 
@@ -490,7 +490,7 @@ def launchConsole():
             SETTINGS.add('terminator', path)
 
     consolePath = SETTINGS.get('terminator')
-    if consolePath and os.path.exists(consolePath[0]):
+    if consolePath and os.path.exists(consolePath):
         # launch console
         subprocess.Popen(consolePath[0])
     else:
@@ -523,7 +523,7 @@ def sublimeTextPathFinder():
             SETTINGS.add('sublime_text_path', path)
 
     sublimeTextPath = SETTINGS.get('sublime_text_path')
-    if sublimeTextPath and os.path.exists(sublimeTextPath[0]):
+    if sublimeTextPath and os.path.exists(sublimeTextPath):
         # launch sublime text
         subprocess.Popen(sublimeTextPath[0])
     else:
@@ -570,7 +570,7 @@ def nukePathFinder():
             SETTINGS.add('nukePath', path)
     
     # get the nuke path setting if exists
-    nukePath = SETTINGS.get('nukePath')[0]
+    nukePath = SETTINGS.get('nukePath')
     if nukePath:
         if os.path.exists(nukePath):
             return nukePath

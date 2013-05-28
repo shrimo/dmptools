@@ -110,29 +110,23 @@ def frameRange():
     
 def makeProxyUI(nodes):
 
-    try:
-        path = SETTINGS.get('imageConvert_path')[0]
-    except:
+    path = SETTINGS.get('imageConvert_path')
+    if not path:
         path = ''
-    try:
-        createRead = SETTINGS.get('imageConvert_createRead')[0]
-    except:
+    createRead = SETTINGS.get('imageConvert_createRead')
+    if not createRead:
         createRead = False
-    try:
-        alpha = SETTINGS.get('imageConvert_alpha')[0]
-    except:
+    alpha = SETTINGS.get('imageConvert_alpha')
+    if not alpha:
         alpha = False
-    try:
-        sourcePath = SETTINGS.get('imageConvert_sameAsSource')[0]
-    except:
+    sourcePath = SETTINGS.get('imageConvert_sameAsSource')
+    if not sourcePath:
         sourcePath = False
-    try:
-        overwrite = SETTINGS.get('imageConvert_overwrite')[0]
-    except:
+    overwrite = SETTINGS.get('imageConvert_overwrite')
+    if not overwrite:
         overwrite = True
-    try:
-        anim = SETTINGS.get('imageConvert_anim')[0]
-    except:
+    anim = SETTINGS.get('imageConvert_anim')
+    if not anim:
         anim = True
 
     panel = nuke.Panel('Nuke Converter')

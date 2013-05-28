@@ -132,7 +132,7 @@ class SettingsManager(object):
                 try:
                     dic = eval(line)
                     if key in dic.keys():
-                        values = dic.values()
+                        values = dic.values()[0]
                         break
                 except:
                     pass
