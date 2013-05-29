@@ -9,6 +9,7 @@ __credits__ = "Michael Havart, Jordi Riera, Julien Bolbach, Eddy Richard"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Michael Havart"
 __email__ = "michael.havart@gmail.com"
+__github__ = "https://github.com/michael-ha/dmptools"
 __status__ = "Production"
 
 import os
