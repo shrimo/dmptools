@@ -784,6 +784,60 @@ def createFavoriteDirs():
                     nuke.addFavoriteDir(name='|-render', directory=renderPath)
                     nuke.addFavoriteDir(name='|-renderws', directory=renderWsPath)
 
+def texTab():
+    
+    #node = nuke.createNode('Write')
+    node = nuke.thisNode()
+
+    node.knob('afterFrameRender').setValue('import dmptools.utils.nukeCommands as nc;nc.texConvert()')
+
+    tab = nuke.Tab_Knob("texConvertTab","Tex Convert")
+
+    checkBox = nuke.Boolean_Knob("texConvertCheckbox","Do Convertion")
+    checkBox.setValue(False)
+
+    sMode = nuke.Enumeration_Knob("sMode","sMode",['black','periodic','clamp'])
+    tMode = nuke.Enumeration_Knob("tMode","tMode",['black','periodic','clamp'])
+
+    otherFlags = nuke.EvalString_Knob('otherFlags', 'Other Flags', '-filter box -resize up-')
+
+    node.addKnob(tab)
+    node.addKnob(checkBox)
+    node.addKnob(sMode)
+    node.addKnob(tMode)
+    node.addKnob(otherFlags)
+
+    node.knob('file').setFlag(True)
+
+def texConvert():
+    node = nuke.thisNode()
+    convert = node.knob('texConvertCheckbox').value()
+
+    if convert == True:
+        currentFrame = nuke.frame() 
+
+        fileIn = node.knob('file').getValue().replace('.####.','.%s.' %currentFrame).replace('.%4d.','.%s.' %currentFrame)
+        ext = fileIn.split('.')[-1]
+        fileOut = fileIn.replace('/%s/' %ext,'/tex/').replace('.%s' %ext,'.tex').replace('.####.','.%s.' %currentFrame).replace('.%4d.','.%s.' %currentFrame)
+        
+        depth = 'float'
+        inColorSpace = 'Linear'
+        outColoSpace = 'Linear'
+        sMode = node.knob('sMode').value()
+        tMode = node.knob('tMode').value()
+        
+        otherFlags = node.knob('otherFlags').value()
+        
+        command = 'txmake -verbose -%s -smode %s -tmode %s %s %s %s\n' %(depth,sMode,tMode,otherFlags,fileIn,fileOut)
+        
+        print ''
+        print '############ TEX CONVERTION ###########'
+        print command
+        popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        out = popObj.communicate()
+        
+        print '####### TEX CONVERTION COMPLETE #######'
+
 # ======================
 # CALLBACKS
 # ======================
@@ -803,3 +857,7 @@ def autoCheckAlpha():
 def addFrameRangeOverride():
     """auto add the frame range override tab on write nodes"""
     nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
+
+def addTexConverter():
+    """auto add the tex converter to write nodes"""
+    nuke.callbacks.addOnUserCreate(texTab, args=(), kwargs={}, nodeClass='Write')

@@ -519,7 +519,7 @@ shelfItems = [
     {
         'name':'DmptoolsSetup',
         'iconLabel':'setup',
-        'command':'import dmptools.setup.init;',
+        'command':'import dmptools.setup.init;init.main()',
         'icon':'pythonFamily.png',
         'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.'
     },

@@ -40,6 +40,9 @@ def buildMenu():
 
     # auto check alpha on write node creation 
     nukeCommands.autoCheckAlpha()
+    
+    # create a tex converter on write nodes
+    nukeCommands.addTexConverter()
 
     # auto check gl_light on viewers 
     nukeCommands.viewerSettings()
@@ -100,10 +103,12 @@ def buildMenu():
         'import dmptools.tools.imageConverter as imageConverter;reload(imageConverter);imageConverter.main()')
 
     # mosaicer
-    toolbar.addCommand('Tools/Mosaicer...', 'import dmptools.tools.mosaicer as mosaicer;mosaicer.main()')
+    toolbar.addCommand('Tools/Mosaicer...',
+        'import dmptools.tools.mosaicer as mosaicer;reload(mosaicer);mosaicer.main()')
 
     # demosaicer
-    toolbar.addCommand('Tools/Demosaicer...', 'import dmptools.tools.demosaicer as demosaicer;demosaicer.main()')
+    toolbar.addCommand('Tools/Demosaicer...',
+        'import dmptools.tools.demosaicer as demosaicer;reload(demosaicer);demosaicer.main()')
 
     # run command
     run = RunCommand()

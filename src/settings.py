@@ -58,6 +58,10 @@ class SettingsManager(object):
                 FILE.write('')
 
     def checkForFile(self):
+        """
+        checks if the setting file exists.
+        raise an error if not.
+        """
         if not os.path.exists(self.settingsfile): raise UserWarning("You need to recreate the SettingsManager with a new file")
 
     def clearFile(self, recreate=False):
@@ -103,7 +107,6 @@ class SettingsManager(object):
         self.checkForFile()
         """
         remove a setting from the setting file.
-
         returns a list of all the settings in the file.
         """
         settingList = self.getAll()

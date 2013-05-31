@@ -11,13 +11,23 @@ from dmptools.settings import SettingsManager
 SETTINGS = SettingsManager('maya')
 normalAngle = 35
 perspNear = 1
-perspFar = 20000
+perspFar = 200000
 
 PLATFORM = '!PLATFORM!'
 
 SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
+
+def texmaker(inputfile, outputfile):
+    """
+        convert exr input file to tex file
+    """
+    cmd = 'txmake -resize up -smode black -tmode black '+inputfile+' '+outputfile
+    print '> converting', inputfile, outputfile
+    popObj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    out = popObj.communicate()
+    return out[0]
 
 def openScriptEditor():
     mel.eval("ScriptEditor;")
@@ -194,14 +204,14 @@ def makeTube():
     mesh = cmds.polyTorus(r=2, sr=0.2,  sx=50, sy=4, tw=45)
     cmds.setAttr(mesh[0]+'.sy', 5)
 
-def softEdgeSelection():
+def softEdgeSelection(angle=normalAngle, history=True):
     """
     unlock normals and soft edge
     """
     sel = cmds.ls(sl=True)
     for node in sel:
         cmds.polyNormalPerVertex(node, ufn=True)
-        cmds.polySoftEdge(node, angle=normalAngle)
+        cmds.polySoftEdge(node, angle=angle, ch=history)
         
 def invertSelection():
     """invert selection"""
