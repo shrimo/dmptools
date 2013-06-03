@@ -31,6 +31,13 @@ class ImageConverter(nukescripts.PythonPanel, Thread):
         self.fileMultiline = nuke.Multiline_Eval_String_Knob('files to convert', 'files', '')
         knobs.append(self.fileMultiline)
 
+        # create read checkbox
+        createRead = SETTINGS.get('img_converter_createRead')
+        if not 'createRead' in locals():
+            createRead = False
+        self.createRead = nuke.Boolean_Knob('Cread read nodes', createRead)
+        knobs.append(self.createRead)
+
         # create the knobs
         for knob in knobs:
             self.addKnob(knob)

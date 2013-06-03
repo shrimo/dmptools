@@ -98,9 +98,13 @@ def buildMenu():
     nukescripts.registerPanel('ScanlineRenderManager', sc.addToPane)
     toolbar.addCommand('Tools/ScanlineRender Manager', sc.show, icon=NUKE_SHARE+'/scanline.png')
 
-    # resize the selected node and create a new read
+    # converts the selected node(s) and create a new read
     toolbar.addCommand('Tools/Image Converter...',
         'import dmptools.tools.imageConverter as imageConverter;reload(imageConverter);imageConverter.main()')
+
+    # imgage converter dev
+    toolbar.addCommand('Tools/Image Converter dev...',
+        'import dmptools.tools.imageConverter_dev as imageConverter;reload(imageConverter);i = imageConverter.ImageConverter();i.show()')
 
     # mosaicer
     toolbar.addCommand('Tools/Mosaicer...',
