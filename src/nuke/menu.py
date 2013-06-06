@@ -16,9 +16,11 @@ import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 from dmptools.tools.runCommand import RunCommand
 from dmptools.tools.webBrowser import WebBrowser
+import dmptools.scripts as dmptoolsScripts
 
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
+GIZMO_PATH = dmptoolsScripts.__path__[0]
 
 def buildMenu():
     """
@@ -148,7 +150,7 @@ def buildMenu():
         'import dmptools.tools.populate as populate;populate.main()')
     # sequence manager (dev)
     toolbar.addCommand('Nodes/3d/Sequence Manager',
-        'nuke.createNode("sequenceManager")')
+        'nuke.nodePaste("'+GIZMO_PATH+'/sequenceManager.nk")')
 
     #===================
     #   MACROS MENU

@@ -25,6 +25,3 @@ II - without Sublime Text editor:
 RESULT:
     - Maya: You should see a new shelf 'dmptools' and the marking menu of the tools is mapped to the 'n' key.
     - Nuke: You should see a new toolbar 'dmptools'.
-
-todo:
-    - Nuke: edit or create the menu.py automatically.

@@ -53,7 +53,7 @@ def fetchReadNode():
             print str(nuke.frame())
             print str(read.name()), 'the file '+str(read['file'].getEvaluatedValue())+' exists ...'
         
-def checkDependencies(node):
+def checkDependencies(node, type='Read'):
     #print node.name()
     depNodes = nuke.dependencies(node, nuke.INPUTS | nuke.HIDDEN_INPUTS | nuke.EXPRESSIONS)
     #print depNodes
@@ -72,7 +72,7 @@ def checkDependencies(node):
 
 def fetchReadNodeInTree(node):
     """return read node in the branch"""
-    readNode = checkDependencies(node)
+    readNode = checkDependencies(node, 'Read')
     return readNode
 
 def loopnodes(knobs={}):
