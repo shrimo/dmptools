@@ -22,6 +22,30 @@ SETTINGS = SettingsManager('nuke')
 PLATFORM = '!PLATFORM!'
 HELP_PAGE = '!HELP_PAGE!'
 
+def getNextRender():
+    try:
+        fnode = nuke.toNode('fRenderTarget1')
+        try:
+            renderList = fnode['Source'].values()
+            currentRender = int(fnode['Source'].getValue())        
+            fnode['Source'].setValue(renderList[currentRender+1])
+        except:
+            print 'render not found...'
+    except:
+        print 'fRenderTarget node not found...'
+
+def getPreviousRender():
+    try:
+        fnode = nuke.toNode('fRenderTarget1')
+        try:        
+            renderList = fnode['Source'].values()
+            currentRender = int(fnode['Source'].getValue())            
+            fnode['Source'].setValue(renderList[currentRender-1])
+        except:
+           print 'render not found...' 
+    except:
+        print 'fRenderTarget node not found...'
+
 def frameRangeOverrideTab():
     """add an frame override field to a write node"""
     

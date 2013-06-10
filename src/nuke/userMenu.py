@@ -55,7 +55,9 @@ def buildMenu():
     m.addCommand('Other/Set selected Write the only active write', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setSelWriteActive()')
     m.addCommand('Other/How many nodes', 'nuke.message(str(len(nuke.allNodes()))+" nodes in comp.")', "Ctrl+Shift+Alt+A")
     m.addCommand('Other/Expression arrows', '_internal_expression_arrow_cmd()', "Alt+Shift+E")
-    m.addCommand('Other/Unselect All', 'import dmptools.utils.nukeCommands as nukeCommands ; nukeCommands.deselectAll();nukeCommands.closeAllControlPanel()', "Ctrl+Space")
+    m.addCommand('Other/Unselect All', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.deselectAll();nukeCommands.closeAllControlPanel()', "Ctrl+Space")
+    m.addCommand('Other/fNextRender', 'import dmptools.utils.nukeCommands as nukeCommands;reload(nukeCommands);nukeCommands.getNextRender();', "Alt+]")
+    m.addCommand('Other/fPreviousRender', 'import dmptools.utils.nukeCommands as nukeCommands;reload(nukeCommands);nukeCommands.getPreviousRender();', "Alt+[")
 
     # misc
     m.addCommand('Execute', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.executeSelection()', "Alt+E")
