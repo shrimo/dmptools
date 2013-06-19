@@ -36,7 +36,6 @@ def getParentPanel():
 def buildMenu(item):
     # fill the marking menu items
     name = item['name']
-    annotation = item['annotation']
     subMenu = item['subMenu']
     position = item['position']
     command = item['command']
@@ -52,7 +51,6 @@ def buildMenu(item):
             enableCommandRepeat=True,
             image="commandButton.png",
             echoCommand=1,
-            annotation=annotation,
             sourceType="python",
             )
     else:
@@ -70,7 +68,6 @@ def buildMenu(item):
                 enableCommandRepeat=True,
                 image="commandButton.png",
                 echoCommand=1,
-                annotation=annotation,
                 sourceType="python",
                 )
 

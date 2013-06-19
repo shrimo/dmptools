@@ -66,6 +66,7 @@ def buildMenu():
     m.addCommand('Start server', 'execfile("/usr/people/michael-ha/python/nukeserver.py");threaded_server()')
     m.addCommand('Set Shot FrameRange', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setShotFrameRange()')
     m.addCommand('Show modules...', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.showModules()')
+    m.addCommand('Merge...', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.merge()', 'M')
     m.addCommand('Refresh OCIO nodes...', 'import dmptools_misc.framestore.refreshOCIONodes as refreshOCIONodes;refreshOCIONodes.refreshOCIONodes()')
 
 def main():

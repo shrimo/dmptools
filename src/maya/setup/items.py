@@ -6,7 +6,6 @@
 markingMenuItems = [
     {
         'name':'Combine',
-        'annotation':'Combine clean.',
         'subMenu':False,
         'position':'N',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -14,7 +13,6 @@ markingMenuItems = [
     },
     {
         'name':'Separate',
-        'annotation':'Separate clean.',
         'subMenu':False,
         'position':'NE',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -22,7 +20,6 @@ markingMenuItems = [
     },
     {
         'name':'Symmetry',
-        'annotation':'Symmetry.',
         'subMenu':False,
         'position':'NW',
         'command':'import dmptools.tools.symmetry as symmetry;\
@@ -30,14 +27,12 @@ markingMenuItems = [
     },
     {
         'name':'separator',
-        'annotation':None,
         'subMenu':None,
         'position':None,
         'command':None
     },
     {
         'name':'MayaToNuke',
-        'annotation':'Launch Maya to Nuke bridge.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.tools.mayaToNuke.launcher as mtn;\
@@ -45,7 +40,6 @@ markingMenuItems = [
     },
     {
         'name':'Nuke',
-        'annotation':'Launch Nuke.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -54,7 +48,6 @@ markingMenuItems = [
     },
     {
         'name':'Terminator',
-        'annotation':'Launch the Console2 terminal.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -63,7 +56,6 @@ markingMenuItems = [
     },
     {
         'name':'SublimeText',
-        'annotation':'Launch the Sublime Text editor.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -72,7 +64,6 @@ markingMenuItems = [
     },
     {
         'name':'newScriptEditor',
-        'annotation':'New Script Editor.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
@@ -81,7 +72,6 @@ markingMenuItems = [
     },
     {
         'name':'ratioCalculator',
-        'annotation':'Camera-Image ratio calculator.',
         'subMenu':False,
         'position':False,
         'command':'import dmptools.tools.ratioCalculator as ratioCalculator;\
@@ -92,7 +82,6 @@ markingMenuItems = [
         'name':'Camera Constraint',
         'subMenu':False,
         'position':False,
-        'annotation':'Camera Constraint',
         'command':'import dmptools.tools.camConstraint as camC;\
             reload(camC);camC.main();\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
@@ -101,7 +90,6 @@ markingMenuItems = [
         'name':'Run command',
         'subMenu':False,
         'position':False,
-        'annotation':'Run command',
         'command':'import dmptools.tools.runCommand as runCommand;\
             reload(runCommand);runCommand.main();\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
@@ -110,9 +98,16 @@ markingMenuItems = [
         'name':'Arc System',
         'subMenu':False,
         'position':False,
-        'annotation':'Arc System',
         'command':'import dmptools.tools.arcSystem as arcSystem;\
             reload(arcSystem);arcSystem.main();\
+            import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
+        'name':'Batch Rename',
+        'subMenu':False,
+        'position':False,
+        'command':'import dmptools.tools.batchRename as batchRename;\
+            reload(batchRename);batchRename.main();\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {

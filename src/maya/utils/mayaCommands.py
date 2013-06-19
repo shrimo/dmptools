@@ -360,11 +360,12 @@ def setCustomColors():
     set the custom maya environment color scheme
     """
     
+    # outliner
+    cmds.displayRGBColor('outlinerInvisibleColor', 0.943999, 0.233173, 0.233173)
     # background
     cmds.displayRGBColor('background', 0.6, 0.6, 0.6)
     cmds.displayRGBColor('backgroundBottom', 0.3, 0.3, 0.3)
     cmds.displayRGBColor('backgroundTop', 0.025, 0.025, 0.025)
-
     # meshes
     cmds.displayRGBColor('lead', 0.4, 0.4, 0.4, create=True)
     cmds.displayColor('hilite', 2, active=True)

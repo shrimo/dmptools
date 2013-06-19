@@ -22,6 +22,19 @@ SETTINGS = SettingsManager('nuke')
 PLATFORM = '!PLATFORM!'
 HELP_PAGE = '!HELP_PAGE!'
 
+def merge():
+
+    sel = nuke.selectedNodes()
+    sel3d = []
+    for node in sel:
+        if node.knob('display'):
+            sel3d.append(node)
+
+    if sel3d and len(sel) == len(sel3d):
+        nuke.createNode('Scene')
+    else:
+        nuke.createNode('Merge2')
+
 def getNextRender():
     try:
         fnode = nuke.toNode('fRenderTarget1')
