@@ -35,20 +35,27 @@ class MayaToNukeUI(object):
         self.headerText = self.generateHeader()
         self.nonEditableFields = UTILS.nonEditableFields
 
-    def buildUI(self):
+    def buildUI(self, dockable):
         """ build the interface UI """
         # destroy the mayaToNuke windows if exists
-        if cmds.window(WINDOW_NAME, exists=True):
-            cmds.deleteUI(WINDOW_NAME, window=True)
+
+
+        if dockable:
+            if cmds.dockControl('mtn_mainDock', ex=True):
+                cmds.deleteUI('mtn_mainDock', control=True)
+        else:
+            if cmds.window(WINDOW_NAME, exists=True):
+                cmds.deleteUI(WINDOW_NAME, window=True)
+            
         # create the main window
-        self.win = cmds.window(WINDOW_NAME,
+        mtnWindow = cmds.window(WINDOW_NAME,
                         title="Maya To Nuke Interface",
                         mb=True,
                         w=650, h=300)
         # build menu bar
         self.menuBar()
         # create the main master form
-        mainform = cmds.formLayout("mtn_mainForm")
+        mainform = cmds.formLayout("mtn_mainForm", parent=mtnWindow)
         # create the header of the interface
         self.header = cmds.text('mtn_textHeader', label=self.headerText)
         # create the text field where to put the nuke output script
@@ -140,7 +147,10 @@ class MayaToNukeUI(object):
                             (closeButton, "left", 5, 50)
                         ]
                     )
-        cmds.showWindow(WINDOW_NAME)
+        if dockable:
+            cmds.dockControl('mtn_mainDock', label='Maya to Nuke', floating=True, area='right', content=mtnWindow)
+        else:
+            cmds.showWindow(WINDOW_NAME)
         
     def doublePane(self):
         """build the double pane layout for the selection display"""
@@ -413,7 +423,10 @@ class MayaToNukeUI(object):
         # get settings before closing
         self.saveSettings()
         # close ui
-        cmds.deleteUI(WINDOW_NAME, window=True)
+        try:
+            cmds.deleteUI('mtn_mainDock', control=True)
+        except:
+            cmds.deleteUI(WINDOW_NAME, window=True)
 
     def export(self, selection):
         """start the export procedure"""

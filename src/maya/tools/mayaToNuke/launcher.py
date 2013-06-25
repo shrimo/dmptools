@@ -11,7 +11,7 @@ import dmptools.tools.mayaToNuke.ui as ui
 def main():
     # run the maya to nuke UI
     mayaToNukeUI = ui.MayaToNukeUI()
-    mayaToNukeUI.buildUI()
+    mayaToNukeUI.buildUI(dockable=True)
 
 if __name__ == '__main__':
     main()

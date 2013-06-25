@@ -7,8 +7,8 @@ Maya and Nuke python tools for Windows and Linux.
 INSTALL
 
 REQUIREMENTS:
-    - MayaX and/or NukeX.X installed.
-    - python2.7 installed in c:/python27.
+    - Maya 2011+ and/or Nuke6.4+ installed.
+    - Windows: python2.7 installed in c:/python27.
 
 I - with Sublime Text editor:
     - clone dmptools: git clone git://github.com/michael-ha/dmptools.git

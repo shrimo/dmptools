@@ -47,7 +47,7 @@ def parseFilterSelection(none=None):
     meshType = cmds.checkBoxGrp('selecter_typecheck', q=True, value1=True)
     cameraType = cmds.checkBoxGrp('selecter_typecheck', q=True, value2=True)
     lightType = cmds.checkBoxGrp('selecter_typecheck', q=True, value3=True)
-    print parseText, '-dag:', dag, '-tranform:', tranform, '-shapes:', shapes, '-meshType:', meshType, '-cameraType:', cameraType, '-lightType:', lightType
+    # print parseText, '-dag:', dag, '-tranform:', tranform, '-shapes:', shapes, '-meshType:', meshType, '-cameraType:', cameraType, '-lightType:', lightType
 
     items = fnmatch.filter(cmds.ls(dag=True, tr=True), '*'+parseText+'*')
 
@@ -221,9 +221,12 @@ def closeUI(none=None):
     """ save the fields and close the ui """
 
     saveSettings()
-    cmds.deleteUI('batch_rename', window=True)
+    try:
+        cmds.deleteUI('batch_renameDock', control=True)
+    except:
+        cmds.deleteUI('batch_rename', window=True)
 
-def ui():
+def ui(dockable):
     """ batch rename main UI """
 
     # get settings
@@ -260,11 +263,15 @@ def ui():
 
     # create ui
     windowName = 'batch_rename'
-    if cmds.window(windowName, exists=True):
-        cmds.deleteUI(windowName, window=True)
-    
-    cmds.window(windowName, t='Batch rename selection')
-    form = cmds.formLayout()
+    if dockable:
+        if cmds.dockControl('batch_renameDock', ex=True):
+            cmds.deleteUI('batch_renameDock', control=True)
+    else:
+        if cmds.window(windowName, exists=True):
+            cmds.deleteUI(windowName, window=True)
+
+    myWindow = cmds.window(windowName, t='Batch rename selection')
+    form = cmds.formLayout(parent=myWindow)
 
     # rename with counter frame layout
     frameRename = cmds.frameLayout('rename_frameLayoutRename',
@@ -318,7 +325,7 @@ def ui():
     frameSelection = cmds.frameLayout('selecter_frameLayoutSelection',
                             label='Items Selecter',
                             cll=True,
-                            cl=False,
+                            cl=True,
                             bv=True)
     #outPane = cmds.scrollField('selecter_output', editable=False, wordWrap=False, text='')
     outPane = cmds.textScrollList('selecter_output', append=[], sii=True, ams=True, sc=selectItem)
@@ -356,13 +363,17 @@ def ui():
                     (closeButton, 'bottom', 5),
                     ])
     
-    cmds.showWindow(windowName)
-
+    
     parseInputText()
     parseFilterSelection()
+    
+    if dockable:
+        cmds.dockControl('batch_renameDock', label='Batch rename', floating=True, area='right', content=windowName)
+    else:
+        cmds.showWindow(windowName)
 
 def main():
-    ui()
+    ui(dockable=True)
 
 if __name__ == '__main__':
     main()
