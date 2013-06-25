@@ -111,14 +111,6 @@ markingMenuItems = [
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
-        'name':'Selecter',
-        'subMenu':False,
-        'position':False,
-        'command':'import dmptools.tools.selecter as selecter;\
-            reload(selecter);selecter.main();\
-            import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
-    },
-    {
         'name':'HotkeysList',
         'subMenu':False,
         'position':False,

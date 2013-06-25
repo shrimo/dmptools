@@ -1,8 +1,14 @@
 import maya.cmds as cmds
+import fnmatch
+
 from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('batchRename')
 
+def selectItem(none=None):
+    item = cmds.textScrollList('selecter_output', q=True, si=True)
+    cmds.select(item, replace=True)
+    
 def saveSettings(none=None):
     """ stuff to save """
     
@@ -28,6 +34,72 @@ def saveSettings(none=None):
     SETTINGS.add('asset', asset)
     SETTINGS.add('desc', desc)
     SETTINGS.add('category', category)
+
+def parseFilterSelection(none=None):
+    """ change the preview name as the user is typing """
+
+    parseText = cmds.textFieldGrp('selecter_nameField', q=True, text=True)
+    
+    dag = cmds.checkBoxGrp('selecter_dagcheck', q=True, value1=True)
+    tranform = cmds.checkBoxGrp('selecter_dagcheck', q=True, value2=True)
+    shapes = cmds.checkBoxGrp('selecter_dagcheck', q=True, value3=True)
+
+    meshType = cmds.checkBoxGrp('selecter_typecheck', q=True, value1=True)
+    cameraType = cmds.checkBoxGrp('selecter_typecheck', q=True, value2=True)
+    lightType = cmds.checkBoxGrp('selecter_typecheck', q=True, value3=True)
+    print parseText, '-dag:', dag, '-tranform:', tranform, '-shapes:', shapes, '-meshType:', meshType, '-cameraType:', cameraType, '-lightType:', lightType
+
+    items = fnmatch.filter(cmds.ls(dag=True, tr=True), '*'+parseText+'*')
+
+    if dag:
+        items = fnmatch.filter(cmds.ls(dag=False), '*'+parseText+'*')      
+
+    if tranform:
+        newitems = []
+        for item in items:
+            if cmds.nodeType(item) == 'transform':
+                newitems.append(item)
+        items = newitems
+    if shapes:
+        newitems = []
+        print items
+        for item in items:
+            try:
+                shape = cmds.listRelatives(item, shapes=True)[0]
+                newitems.append(shape)
+            except:
+                continue
+        items = newitems
+    if meshType:
+        newitems = []
+        for item in items:
+            try:
+                if cmds.nodeType(cmds.listRelatives(item, shapes=True)[0]) == 'mesh':
+                    newitems.append(item)
+            except:
+                continue
+        items = newitems
+    if cameraType:
+        newitems = []
+        for item in items:
+            try:
+                if cmds.nodeType(cmds.listRelatives(item, shapes=True)[0]) == 'camera':
+                    newitems.append(item)
+            except:
+                continue
+        items = newitems
+    if lightType:
+        newitems = []
+        for item in items:
+            try:            
+                if cmds.nodeType(cmds.listRelatives(item, shapes=True)[0]) == 'light':
+                    newitems.append(item)
+            except:
+                continue
+        items = newitems
+
+    cmds.textScrollList('selecter_output', e=True, removeAll=True)
+    cmds.textScrollList('selecter_output', e=True, append=items)
 
 def removeArnoldAttr(none=None):
     selection = cmds.ls(sl=True)
@@ -242,16 +314,19 @@ def ui():
     removeAttrButton = cmds.button('rename_removeattrbutton', l='Remove attributes', command=removeArnoldAttr)
     cmds.setParent('..')
 
-    """
     # frame layout containing selection items
-    frameSelection = cmds.frameLayout('rename_frameLayoutSelection',
-                            label='Selection:',
+    frameSelection = cmds.frameLayout('selecter_frameLayoutSelection',
+                            label='Items Selecter',
                             cll=True,
                             cl=False,
                             bv=True)
-    outPane = cmds.scrollField('rename_output', editable=False, wordWrap=False, text='')
+    #outPane = cmds.scrollField('selecter_output', editable=False, wordWrap=False, text='')
+    outPane = cmds.textScrollList('selecter_output', append=[], sii=True, ams=True, sc=selectItem)
+    inputText = cmds.textFieldGrp('selecter_nameField', editable=True, l='Filter:', text='', fcc=True, cc=parseFilterSelection, tcc=parseFilterSelection)
+    nodeCheckbox = cmds.checkBoxGrp('selecter_dagcheck', numberOfCheckBoxes=3, labelArray3=['Dag objects', 'Transforms', 'Shapes'], cc=parseFilterSelection)
+    typeCheckbox = cmds.checkBoxGrp('selecter_typecheck', numberOfCheckBoxes=3, labelArray3=['Meshes', 'Cameras', 'Lights'], cc=parseFilterSelection)
+
     cmds.setParent('..')
-    """
 
     separatorBottom = cmds.separator('rename_separatorBottom', style='in')
     closeButton = cmds.button('rename_close', l='Close', command=closeUI)
@@ -259,6 +334,8 @@ def ui():
     cmds.formLayout(form, e=True,
         attachControl=[(frameReplace, 'top', 5, frameRename),
                         (frameAttr, 'top', 5, frameReplace),
+                        (frameSelection, 'top', 5, frameAttr),
+                        (frameSelection, 'bottom', 5, separatorBottom),
                         (separatorBottom, 'bottom', 5, closeButton),
                         ])
 
@@ -270,6 +347,8 @@ def ui():
                     (frameReplace, 'right', 5),
                     (frameAttr, 'left', 5),
                     (frameAttr, 'right', 5),
+                    (frameSelection, 'left', 5),
+                    (frameSelection, 'right', 5),
                     (separatorBottom, 'left', 5),
                     (separatorBottom, 'right', 5),
                     (closeButton, 'left', 5),
@@ -278,7 +357,9 @@ def ui():
                     ])
     
     cmds.showWindow(windowName)
+
     parseInputText()
+    parseFilterSelection()
 
 def main():
     ui()
