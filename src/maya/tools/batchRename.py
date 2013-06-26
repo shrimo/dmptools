@@ -323,7 +323,7 @@ def ui(dockable):
 
     # frame layout containing selection items
     frameSelection = cmds.frameLayout('selecter_frameLayoutSelection',
-                            label='Items Selecter',
+                            label='Item Selecter',
                             cll=True,
                             cl=True,
                             bv=True)

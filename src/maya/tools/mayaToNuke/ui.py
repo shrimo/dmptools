@@ -39,7 +39,6 @@ class MayaToNukeUI(object):
         """ build the interface UI """
         # destroy the mayaToNuke windows if exists
 
-
         if dockable:
             if cmds.dockControl('mtn_mainDock', ex=True):
                 cmds.deleteUI('mtn_mainDock', control=True)
