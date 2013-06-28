@@ -177,16 +177,16 @@ class Exporter(object):
                 objVisible = '%s.visibility' % object
                 # if a connection is found in any of the above
                 # consider the mesh animated/deformed
-                if cmds.connectionInfo(objTx, isDestination=True) or\
-                    cmds.connectionInfo(objTy, isDestination=True) or\
-                    cmds.connectionInfo(objTz, isDestination=True) or\
-                    cmds.connectionInfo(objRx, isDestination=True) or\
-                    cmds.connectionInfo(objRy, isDestination=True) or\
-                    cmds.connectionInfo(objRz, isDestination=True) or\
-                    cmds.connectionInfo(objSx, isDestination=True) or\
-                    cmds.connectionInfo(objSy, isDestination=True) or\
-                    cmds.connectionInfo(objSz, isDestination=True) or\
-                    cmds.connectionInfo(objVisible, isDestination=True):
+                if cmds.connectionInfo(objTx, id=True) or\
+                    cmds.connectionInfo(objTy, id=True) or\
+                    cmds.connectionInfo(objTz, id=True) or\
+                    cmds.connectionInfo(objRx, id=True) or\
+                    cmds.connectionInfo(objRy, id=True) or\
+                    cmds.connectionInfo(objRz, id=True) or\
+                    cmds.connectionInfo(objSx, id=True) or\
+                    cmds.connectionInfo(objSy, id=True) or\
+                    cmds.connectionInfo(objSz, id=True) or\
+                    cmds.connectionInfo(objVisible, id=True):
                     deformedMeshes.append(object)
                 else:
                     staticMeshes.append(object)

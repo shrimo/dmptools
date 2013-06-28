@@ -19,6 +19,18 @@ SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
+def replaceDefaultPersp():
+    """ delete the default persp and recreate a new fresh one """
+    # find the default startup persp and delete it
+    defaultPersp = mel.eval('findStartUpCamera( "persp");')
+    cmds.camera(defaultPersp, e=True, sc=False)
+    cmds.delete(defaultPersp)
+    # create new persp, hide it and set it as default startup persp
+    newPersp = cmds.camera(n='persp', hc="viewSet -p %camera")
+    cmds.setAttr(newPersp[0]+'.visibility', False)
+    cmds.rename(newPersp[0], 'persp')
+    cmds.camera('persp', e=True, sc=True)
+
 def texmaker(inputfile, outputfile):
     """
         convert exr input file to tex file

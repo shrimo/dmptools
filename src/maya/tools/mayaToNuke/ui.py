@@ -146,6 +146,7 @@ class MayaToNukeUI(object):
                             (closeButton, "left", 5, 50)
                         ]
                     )
+        # create a dockable control if True. Else create a traditional window
         if dockable:
             cmds.dockControl('mtn_mainDock', label='Maya to Nuke', floating=True, area='right', content=mtnWindow)
         else:

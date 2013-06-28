@@ -111,6 +111,14 @@ markingMenuItems = [
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
+        'name':'Replace default persp',
+        'subMenu':False,
+        'position':False,
+        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.replaceDefaultPersp();\
+            import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
         'name':'HotkeysList',
         'subMenu':False,
         'position':False,
