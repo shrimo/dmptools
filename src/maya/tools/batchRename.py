@@ -5,10 +5,6 @@ from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('batchRename')
 
-def selectItem(none=None):
-    item = cmds.textScrollList('selecter_output', q=True, si=True)
-    cmds.select(item, replace=True)
-    
 def saveSettings(none=None):
     """ stuff to save """
     
@@ -35,6 +31,10 @@ def saveSettings(none=None):
     SETTINGS.add('desc', desc)
     SETTINGS.add('category', category)
 
+def selectItem(none=None):
+    item = cmds.textScrollList('selecter_output', q=True, si=True)
+    cmds.select(item, replace=True)
+    
 def parseFilterSelection(none=None):
     """ change the preview name as the user is typing """
 

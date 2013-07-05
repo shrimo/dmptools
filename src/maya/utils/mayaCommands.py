@@ -839,10 +839,10 @@ def importScene():
             mel.eval('warning "File '+mayaFile+' not found !"')
 
 def isolateSelection():
-    """isolate selection"""
+    """isolate selection toggle"""
     activePanel = cmds.getPanel(wf=True)
     mel.eval('isoSelectAutoAddNewObjs '+activePanel+' true;')
-    mel.eval("enableIsolateSelect {0} {1};".format(activePanel, str(not cmds.isolateSelect(activePanel, q=True, state=True)).lower()))    
+    mel.eval("enableIsolateSelect {0} {1};".format(activePanel, str(not cmds.isolateSelect(activePanel, q=True, state=True)).lower()))
 
 def hideSel():
     

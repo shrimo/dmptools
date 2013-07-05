@@ -22,8 +22,34 @@ SETTINGS = SettingsManager('nuke')
 PLATFORM = '!PLATFORM!'
 HELP_PAGE = '!HELP_PAGE!'
 
-def merge():
+def versionUp():
+    node = nuke.selectedNode()
+    try:
+        versionN = nukescripts.version.version_get(node['file'].getValue(), '.')
+        print 1, versionN[-1]
+    except:
+        versionN = nukescripts.version.version_get(node['file'].getValue(), 'v')
+        print 2, versionN[-1]
 
+def counterUp():
+    fileValue = node['file'].getEvaluatedValue()
+    counter = fileValue.split('.')[-2]
+    try:
+        print node['file'].setValue(fileValue.replace(counter, str(int(counter)+1)))
+    except:
+        
+        print 'failed on', node.name()
+
+def counterDown():
+    node = nuke.selectedNode()
+    fileValue = node['file'].getEvaluatedValue()
+    counter = fileValue.split('.')[-2]
+    try:
+        print node['file'].setValue(fileValue.replace(counter, str(int(counter)-1)))
+    except:
+        print 'failed on', node.name()
+
+def merge():
     sel = nuke.selectedNodes()
     sel3d = []
     for node in sel:
@@ -745,7 +771,7 @@ def setDefaultSettings():
     else:
         font = 'Monospace'
 
-    print '> dmptools default settings...'
+    print 'dmptools default settings...'
     preferenceNode = nuke.toNode('preferences')
     # viewer settings
     preferenceNode['maxPanels'].setValue(5)
@@ -765,7 +791,7 @@ def setDefaultSettings():
     preferenceNode['stringLiteralsFgColourDQ'].setValue(10354943)
     preferenceNode['stringLiteralsFgColourSQ'].setValue(10354943)
     preferenceNode['commentsFgColour'].setValue(2442236415L)
-    print '> done.'
+    print ' > done.'
 
 def helpButton():
     """
@@ -823,7 +849,6 @@ def createFavoriteDirs():
 
 def texTab():
     
-    #node = nuke.createNode('Write')
     node = nuke.thisNode()
 
     node.knob('afterFrameRender').setValue('import dmptools.utils.nukeCommands as nc;nc.texConvert()')
@@ -868,12 +893,11 @@ def texConvert():
         command = 'txmake -verbose -%s -smode %s -tmode %s %s %s %s\n' %(depth,sMode,tMode,otherFlags,fileIn,fileOut)
         
         print ''
-        print '############ TEX CONVERTION ###########'
+        print '> converting tex'
         print command
         popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         out = popObj.communicate()
-        
-        print '####### TEX CONVERTION COMPLETE #######'
+        print 'done.'
 
 # ======================
 # CALLBACKS

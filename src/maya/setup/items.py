@@ -524,7 +524,8 @@ shelfItems = [
         'iconLabel':'setup',
         'command':'import dmptools.setup.init as init',
         'icon':'pythonFamily.png',
-        'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.'
+        'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.',
+        'menu':False,
     },
     {
         'name':'HotkeysList',
@@ -532,31 +533,35 @@ shelfItems = [
         'command':'import dmptools.setup.hotkeys as hotkeys;\
             reload(hotkeys);hotkeys.showHotkeysList()',
         'icon':'pythonFamily.png',
-        'annotation':'Show the hotkeys list window'
+        'annotation':'Show the hotkeys list window',
+        'menu':False,
     },
     {
         'name':'Terminator',
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchConsole()',
-        'icon':'Console.xpm',
-        'annotation':'Launch the Console2 terminal.'
+        'icon':'!MAYA_PICTURES!/shelf/Console.xpm',
+        'annotation':'Launch the Console2 terminal.',
+        'menu':False,
     },
     {
         'name':'SublimeText',
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchSublimeText()',
-        'icon':'SublimeText.xpm',
-        'annotation':'Launch the Sublime Text editor.'
+        'icon':'!MAYA_PICTURES!/shelf/SublimeText.xpm',
+        'annotation':'Launch the Sublime Text editor.',
+        'menu':False,
     },
     {
         'name':'Nuke',
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchNuke()',
-        'icon':'Nuke.xpm',
-        'annotation':'Launch Nuke.'
+        'icon':'!MAYA_PICTURES!/shelf/Nuke.xpm',
+        'annotation':'Launch Nuke.',
+        'menu':False,
     },
     {
         'name':'newScriptEditor',
@@ -564,22 +569,27 @@ shelfItems = [
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.newScriptEditor()',
         'icon':'text.png',
-        'annotation':'New Script Editor.'
+        'annotation':'New Script Editor.',
+        'menu':False,
     },
     {
         'name':'mayaToNuke',
         'iconLabel':'',
         'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;\
             mayaToNukeLauncher.main()',
-        'icon':'MayaToNuke.xpm',
-        'annotation':'Maya to Nuke Exporter.'
+        'icon':'!MAYA_PICTURES!/shelf/MayaToNuke.xpm',
+        'annotation':'Maya to Nuke Exporter.',
+        'menu':True,
+        'menuItems':[('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),\
+                     ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')]
     },
     {
         'name':'ratioCalculator',
         'iconLabel':'',
         'command':'import dmptools.tools.ratioCalculator as ratioCalculator;\
             ratioCalculator.main()',
-        'icon':'RatioCalculator.xpm',
-        'annotation':'Camera-Image ratio calculator.'
+        'icon':'!MAYA_PICTURES!/shelf/RatioCalculator.xpm',
+        'annotation':'Camera-Image ratio calculator.',
+        'menu':False,
     },
   ]

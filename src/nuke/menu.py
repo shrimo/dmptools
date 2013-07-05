@@ -215,12 +215,12 @@ def main():
     """
         initiate nuke dmptools menu
     """
-    print ">> initiate dmptools..."
+    print "initiate dmptools..."
 
     # main menu
     buildMenu()
     
-    print ">> done."
+    print " > done."
 
 if __name__ == '__main__':
     main()

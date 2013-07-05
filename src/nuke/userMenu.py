@@ -73,12 +73,12 @@ def main():
     """
         initiate nuke user menu
     """
-    print ">> initiate user tools..."
+    print "initiate user tools..."
     
     # main menu
     buildMenu()
     
-    print ">> done."
+    print " > done."
 
 if __name__ == '__main__':
     main()
