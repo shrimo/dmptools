@@ -2,6 +2,8 @@
     list of items  used in marking menu, hotkeys, and shelf
 """
 
+ICONSPATH = '!MAYA_SHELF!'
+
 # markingMenu items list
 markingMenuItems = [
     {
@@ -541,7 +543,7 @@ shelfItems = [
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchConsole()',
-        'icon':'!MAYA_PICTURES!/shelf/Console.xpm',
+        'icon':ICONSPATH+'/Console.xpm',
         'annotation':'Launch the Console2 terminal.',
         'menu':False,
     },
@@ -550,7 +552,7 @@ shelfItems = [
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchSublimeText()',
-        'icon':'!MAYA_PICTURES!/shelf/SublimeText.xpm',
+        'icon':ICONSPATH+'/SublimeText.xpm',
         'annotation':'Launch the Sublime Text editor.',
         'menu':False,
     },
@@ -559,7 +561,7 @@ shelfItems = [
         'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchNuke()',
-        'icon':'!MAYA_PICTURES!/shelf/Nuke.xpm',
+        'icon':ICONSPATH+'/Nuke.xpm',
         'annotation':'Launch Nuke.',
         'menu':False,
     },
@@ -577,7 +579,7 @@ shelfItems = [
         'iconLabel':'',
         'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;\
             mayaToNukeLauncher.main()',
-        'icon':'!MAYA_PICTURES!/shelf/MayaToNuke.xpm',
+        'icon':ICONSPATH+'/MayaToNuke.xpm',
         'annotation':'Maya to Nuke Exporter.',
         'menu':True,
         'menuItems':[('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),\
@@ -588,7 +590,7 @@ shelfItems = [
         'iconLabel':'',
         'command':'import dmptools.tools.ratioCalculator as ratioCalculator;\
             ratioCalculator.main()',
-        'icon':'!MAYA_PICTURES!/shelf/RatioCalculator.xpm',
+        'icon':ICONSPATH+'/RatioCalculator.xpm',
         'annotation':'Camera-Image ratio calculator.',
         'menu':False,
     },

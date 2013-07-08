@@ -2,14 +2,11 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
-import dmptools.setup.items as items
+from dmptools.setup.items import shelfItems as SHELF_ITEMS
 
 # globals
-CONFIGPATH = '!MAYA_SHELF!'
-VERSION = '!VERSION!'
 ICONSPATH = '!MAYA_SHELF!'
 SHELF_NAME = 'dmptools'
-SHELF_ITEMS = items.shelfItems
 SHELF_FILE = cmds.internalVar(userShelfDir=True)+'shelf_dmptools'
 
 def createShelf():
@@ -20,21 +17,23 @@ def createShelf():
     # create the shelf
     shelfParent = cmds.shelfTabLayout('ShelfLayout', fpn=True, q=True)
     shelf = cmds.shelfLayout(SHELF_NAME, p=shelfParent)
-    # create shelf buttons
+    # add shelf buttons
     for item in SHELF_ITEMS:
         b = addButton(item, shelf)
-    # select the last created shelf 
+    # select the last created shelf
     i = cmds.shelfTabLayout(shelfParent, numberOfChildren=True, q=True)
     cmds.shelfTabLayout(shelfParent, selectTabIndex=i, e=True)
     # save the shelf
     cmds.saveShelf(SHELF_NAME, SHELF_FILE)
 
 def addButton(item, parent):
-
-    button = cmds.iconTextButton(parent=parent, enable=True,
+    """ add button to the shelf """
+    # create the button itself
+    button = cmds.iconTextButton(parent=parent, enable=True, w=35, h=35,
                 annotation=item['annotation'],
                 image1=item['icon'],
                 command=item['command'])
+    # add right click popup items if exists
     if item['menu']:
         popMenu = cmds.popupMenu(parent=button, b=3)
         for menuI in item['menuItems']:

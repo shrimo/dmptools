@@ -16,9 +16,8 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
-import dmptools.setup.items as items
+from dmptools.setup.items import markingMenuItems as MARKINGMENU_ITEMS
 
-MARKINGMENU_ITEMS = items.markingMenuItems
 MARKINGMENU_FILE = cmds.internalVar(userMarkingMenuDir=True)+'menu_dmptools.mel'
 
 def getParentPanel():
