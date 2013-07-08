@@ -19,12 +19,19 @@ def createShelf():
     shelf = cmds.shelfLayout(SHELF_NAME, p=shelfParent)
     # add shelf buttons
     for item in SHELF_ITEMS:
-        b = addButton(item, shelf)
+        if item['name'] == 'separator':
+            addSeparator(shelf)
+        else:
+            addButton(item, shelf)
     # select the last created shelf
     i = cmds.shelfTabLayout(shelfParent, numberOfChildren=True, q=True)
     cmds.shelfTabLayout(shelfParent, selectTabIndex=i, e=True)
     # save the shelf
     cmds.saveShelf(SHELF_NAME, SHELF_FILE)
+
+def addSeparator(shelf):
+    """ add a vertical separator to the shelf """
+    cmds.separator(horizontal=False, style="out", parent=shelf)
 
 def addButton(item, parent):
     """ add button to the shelf """

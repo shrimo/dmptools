@@ -3,6 +3,7 @@
 """
 
 ICONSPATH = '!MAYA_SHELF!'
+HELP_PAGE = '!HELP_PAGE!'
 
 # markingMenu items list
 markingMenuItems = [
@@ -522,25 +523,36 @@ hotkeysItems = [
 # shelf buttons list
 shelfItems = [
     {
+        'name':'Rebuild shelf',
+        'command':'import dmptools.setup.shelf as shelf;shelf.main()',
+        'icon':'refresh.png',
+        'annotation':'Rebuild the dmptools shelf.',
+        'menu':False,
+    },
+    {
+        'name':'separator'
+    },
+    {
         'name':'DmptoolsSetup',
-        'iconLabel':'setup',
         'command':'import dmptools.setup.init as init',
-        'icon':'pythonFamily.png',
+        'icon':'create.png',
         'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.',
         'menu':False,
     },
     {
         'name':'HotkeysList',
-        'iconLabel':'hotkey',
-        'command':'import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.showHotkeysList()',
-        'icon':'pythonFamily.png',
+        'command':'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)',
+        'icon':'out_list.png',
         'annotation':'Show the hotkeys list window',
-        'menu':False,
+        'menu':True,
+        'menuItems':[('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),\
+                     ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')]
+    },
+    {
+        'name':'separator'
     },
     {
         'name':'Terminator',
-        'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchConsole()',
         'icon':ICONSPATH+'/Console.xpm',
@@ -549,7 +561,6 @@ shelfItems = [
     },
     {
         'name':'SublimeText',
-        'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchSublimeText()',
         'icon':ICONSPATH+'/SublimeText.xpm',
@@ -558,7 +569,6 @@ shelfItems = [
     },
     {
         'name':'Nuke',
-        'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchNuke()',
         'icon':ICONSPATH+'/Nuke.xpm',
@@ -566,8 +576,10 @@ shelfItems = [
         'menu':False,
     },
     {
+        'name':'separator'
+    },
+    {
         'name':'newScriptEditor',
-        'iconLabel':'',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.newScriptEditor()',
         'icon':'text.png',
@@ -576,7 +588,6 @@ shelfItems = [
     },
     {
         'name':'mayaToNuke',
-        'iconLabel':'',
         'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;\
             mayaToNukeLauncher.main()',
         'icon':ICONSPATH+'/MayaToNuke.xpm',
@@ -587,11 +598,21 @@ shelfItems = [
     },
     {
         'name':'ratioCalculator',
-        'iconLabel':'',
         'command':'import dmptools.tools.ratioCalculator as ratioCalculator;\
             ratioCalculator.main()',
         'icon':ICONSPATH+'/RatioCalculator.xpm',
         'annotation':'Camera-Image ratio calculator.',
         'menu':False,
+    },
+    {
+        'name':'separator'
+    },
+    {
+        'name':'dmptools shelf',
+        'command':'import webbrowser;webbrowser.open("'+HELP_PAGE+'"")',
+        'icon':ICONSPATH+'/shelfname.png',
+        'annotation':'dmptools shelf - right click for options.',
+        'menu':True,
+        'menuItems':[('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
   ]
