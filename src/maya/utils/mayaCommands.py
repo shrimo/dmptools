@@ -726,6 +726,8 @@ def toggleNormals():
     
 def unselectAll():
     # unselect all
+    cmds.selectMode(component=True)
+    cmds.selectMode(object=True)
     cmds.select(clear=True)
     
 def setWireframe():
