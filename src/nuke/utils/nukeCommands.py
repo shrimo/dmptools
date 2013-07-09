@@ -14,6 +14,7 @@ import commands as cmd
 import sys
 import time
 import re
+import shutil
 
 from dmptools.settings import SettingsManager
 
@@ -21,6 +22,54 @@ SETTINGS = SettingsManager('nuke')
 
 PLATFORM = '!PLATFORM!'
 HELP_PAGE = '!HELP_PAGE!'
+
+def fRenderTargetBackupTab():
+    """ create a backup tab on fRenderTarget nodes """
+    node = nuke.thisNode()
+    # create tab an button
+    tab = nuke.Tab_Knob("fRenderTargetBackup_tab","Backup Renders")
+    button = nuke.PyScript_Knob('backup')
+    button.setCommand('import dmptools.utils.nukeCommands as nc;nc.fRenderTargetBackup()')
+    button.setName('backup renders')
+    button.setLabel('backup!')
+    button.setTooltip('backup renders to a directory in /tmp/fRenderTarget/<current time>')
+    
+    # create checkbox
+    checkBox = nuke.Boolean_Knob("userCustomPath","Use custom path")
+    checkBox.setValue(False)
+    # add output textfield
+    output = nuke.File_Knob('output', 'backup path')
+    output.setValue('/tmp/fRenderTarget/')
+
+    # add knobs to the node
+    node.addKnob(tab)
+    node.addKnob(button)
+    node.addKnob(checkBox)
+    node.addKnob(output)
+
+def fRenderTargetBackup():
+    """ backup frendertarget pictures """
+    fnode = nuke.thisNode()
+    fRenderTargetPath = '/tmp/fRenderTarget'
+
+    # get the current time
+    currentTime = time.strftime('%d%m%y_%H%M%S')
+    
+    # check if there's a custom path
+    if fnode['userCustomPath'].value():
+        backupPath = fnode['output'].getValue()
+    else:
+        backupPath = fRenderTargetPath+'/'+currentTime
+    # create the directory if not exists
+    if not os.path.exists(backupPath):
+        os.mkdir(backupPath)
+    # copy the render files in the backup path
+    for item in os.listdir(fRenderTargetPath):
+        if os.path.isfile(fRenderTargetPath+'/'+item):
+            print 'copying...', fRenderTargetPath+'/'+item, backupPath+'/'+item
+            shutil.copy2(fRenderTargetPath+'/'+item, backupPath+'/'+item)
+    # set the output to the backup path
+    fnode['output'].setValue(backupPath+'/')
 
 def versionUp():
     node = nuke.selectedNode()
@@ -848,30 +897,33 @@ def createFavoriteDirs():
                     nuke.addFavoriteDir(name='|-renderws', directory=renderWsPath)
 
 def texTab():
-    
+    """ add a tex convert tab on write nodes """
+    # get node
     node = nuke.thisNode()
-
+    # add command in the after frame render field
     node.knob('afterFrameRender').setValue('import dmptools.utils.nukeCommands as nc;nc.texConvert()')
 
+    # create knobs
     tab = nuke.Tab_Knob("texConvertTab","Tex Convert")
 
     checkBox = nuke.Boolean_Knob("texConvertCheckbox","Do Convertion")
     checkBox.setValue(False)
-
     sMode = nuke.Enumeration_Knob("sMode","sMode",['black','periodic','clamp'])
     tMode = nuke.Enumeration_Knob("tMode","tMode",['black','periodic','clamp'])
-
     otherFlags = nuke.EvalString_Knob('otherFlags', 'Other Flags', '-filter box -resize up-')
 
+    # add knobs
     node.addKnob(tab)
     node.addKnob(checkBox)
     node.addKnob(sMode)
     node.addKnob(tMode)
     node.addKnob(otherFlags)
 
+    # set the focus on the first tab of the node
     node.knob('file').setFlag(True)
 
 def texConvert():
+    """ converts an exr to tex """
     node = nuke.thisNode()
     convert = node.knob('texConvertCheckbox').value()
 
@@ -918,6 +970,10 @@ def autoCheckAlpha():
 def addFrameRangeOverride():
     """auto add the frame range override tab on write nodes"""
     nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
+
+def addfRenderTargetBackup():
+    """auto add a backup button for fRenderTarget nodes"""
+    nuke.callbacks.addOnUserCreate(fRenderTargetBackupTab, args=(), kwargs={}, nodeClass='fRenderTarget')
 
 def addTexConverter():
     """auto add the tex converter to write nodes"""

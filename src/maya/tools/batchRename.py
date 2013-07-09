@@ -229,6 +229,7 @@ def closeUI(none=None):
         pass
     try:
         cmds.deleteUI(WINDOWNAME, window=True)
+    except:
         pass
 
 def ui(dockable):

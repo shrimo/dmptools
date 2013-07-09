@@ -9,6 +9,7 @@ import dmptools.tools.mayaToNuke.exporter as exporter
 from dmptools.tools.mayaToNuke.utils import Utils
 
 WINDOW_NAME = 'mtn_Window'
+CONTROL_NAME = 'mtn_Control'
 SETTINGS = SettingsManager('mayaToNuke')
 UTILS = Utils()
 HELP_PAGE = '!HELP_PAGE!'
@@ -38,14 +39,15 @@ class MayaToNukeUI(object):
     def buildUI(self, dockable):
         """ build the interface UI """
         # destroy the mayaToNuke windows if exists
+        try:
+            cmds.deleteUI(CONTROL_NAME, control=True)
+        except:
+            pass
+        try:
+            cmds.deleteUI(WINDOW_NAME, window=True)
+        except:
+            pass
 
-        if dockable:
-            if cmds.dockControl('mtn_mainDock', ex=True):
-                cmds.deleteUI('mtn_mainDock', control=True)
-        else:
-            if cmds.window(WINDOW_NAME, exists=True):
-                cmds.deleteUI(WINDOW_NAME, window=True)
-            
         # create the main window
         mtnWindow = cmds.window(WINDOW_NAME,
                         title="Maya To Nuke Interface",
@@ -148,7 +150,7 @@ class MayaToNukeUI(object):
                     )
         # create a dockable control if True. Else create a traditional window
         if dockable:
-            cmds.dockControl('mtn_mainDock', label='Maya to Nuke', floating=True, area='right', content=mtnWindow)
+            cmds.dockControl(CONTROL_NAME, label='Maya to Nuke', floating=True, area='right', content=mtnWindow)
         else:
             cmds.showWindow(WINDOW_NAME)
         
@@ -424,10 +426,14 @@ class MayaToNukeUI(object):
         self.saveSettings()
         # close ui
         try:
-            cmds.deleteUI('mtn_mainDock', control=True)
+            cmds.deleteUI(CONTROL_NAME, control=True)
         except:
+            pass
+        try:
             cmds.deleteUI(WINDOW_NAME, window=True)
-
+        except:
+            pass
+            
     def export(self, selection):
         """start the export procedure"""
         # save settings

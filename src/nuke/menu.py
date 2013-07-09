@@ -49,6 +49,9 @@ def buildMenu():
     # auto check gl_light on viewers 
     nukeCommands.viewerSettings()
 
+    # adds a backup button for fRenderTarget nodes
+    nukeCommands.addfRenderTargetBackup()
+
     # add a latestAutosave menu item 
     nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',
         'import dmptools.utils.nukeCommands as nukeCommands;nuke.scriptOpen(nukeCommands.getLatestAutosave())')
@@ -215,12 +218,18 @@ def main():
     """
         initiate nuke dmptools menu
     """
-    print "initiate dmptools..."
+    try:
+        os.system('echo "[dmptools] :: \033[34mloading dmptools...\033[m"')
+        print "initiate dmptools..."
 
-    # main menu
-    buildMenu()
-    
-    print " > done."
+        # main menu
+        buildMenu()
+        
+        print " > done."
+        os.system('echo "[dmptools] :: \033[32;1mdone.\033[m"')
+    except:
+        os.system('echo "[dmptools] :: \033[31;1mERROR: failed to load dmptools...\033[m"')
 
 if __name__ == '__main__':
     main()
+

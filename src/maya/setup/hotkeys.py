@@ -2,7 +2,9 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
-from dmptools.setup.items import hotkeysItems as HOTKEYS_ITEMS
+import dmptools.setup.items as items
+reload(items)
+from items import hotkeysItems as HOTKEYS_ITEMS
 
 def setHotkey(hotkey):
     """

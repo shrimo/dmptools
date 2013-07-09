@@ -16,7 +16,9 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
-from dmptools.setup.items import markingMenuItems as MARKINGMENU_ITEMS
+import dmptools.setup.items as items
+reload(items)
+from items import markingMenuItems as MARKINGMENU_ITEMS
 
 MARKINGMENU_FILE = cmds.internalVar(userMarkingMenuDir=True)+'menu_dmptools.mel'
 

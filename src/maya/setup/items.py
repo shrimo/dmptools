@@ -528,17 +528,12 @@ shelfItems = [
         'icon':'refresh.png',
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
-        'menuItems':[('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
+        'menuItems':[('initiate dmptools', 'import dmptools.setup.init'),
+                     
+                     ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
     {
         'name':'separator'
-    },
-    {
-        'name':'DmptoolsSetup',
-        'command':'import dmptools.setup.init as init;reload(init)',
-        'icon':'create.png',
-        'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.',
-        'menu':False,
     },
     {
         'name':'HotkeysList',

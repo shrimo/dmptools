@@ -73,12 +73,17 @@ def main():
     """
         initiate nuke user menu
     """
-    print "initiate user tools..."
-    
-    # main menu
-    buildMenu()
-    
-    print " > done."
+    try:
+        os.system('echo "[dmptools] :: \033[34mloading user menu...\033[m"')
+        print "initiate dmptools..."
 
+        # main menu
+        buildMenu()
+        
+        print " > done."
+        os.system('echo "[dmptools] :: \033[32;1mdone.\033[m"')
+    except:
+        os.system('echo "[dmptools] :: \033[31;1mERROR: failed to load user menu...\033[m"')
+    
 if __name__ == '__main__':
     main()

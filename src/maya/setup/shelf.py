@@ -2,7 +2,9 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
-from dmptools.setup.items import shelfItems as SHELF_ITEMS
+import dmptools.setup.items as items
+reload(items)
+from items import shelfItems as SHELF_ITEMS
 
 # globals
 ICONSPATH = '!MAYA_SHELF!'
