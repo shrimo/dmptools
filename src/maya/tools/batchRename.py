@@ -4,6 +4,8 @@ import fnmatch
 from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('batchRename')
+WINDOWNAME = 'batch_rename'
+CONTROLNAME = 'batch_rename_control'
 
 def saveSettings(none=None):
     """ stuff to save """
@@ -222,9 +224,12 @@ def closeUI(none=None):
 
     saveSettings()
     try:
-        cmds.deleteUI('batch_renameDock', control=True)
+        cmds.deleteUI(CONTROLNAME, control=True)
     except:
-        cmds.deleteUI('batch_rename', window=True)
+        pass
+    try:
+        cmds.deleteUI(WINDOWNAME, window=True)
+        pass
 
 def ui(dockable):
     """ batch rename main UI """
@@ -262,13 +267,14 @@ def ui(dockable):
         category = 'set'
 
     # create ui
-    windowName = 'batch_rename'
-    if dockable:
-        if cmds.dockControl('batch_renameDock', ex=True):
-            cmds.deleteUI('batch_renameDock', control=True)
-    else:
-        if cmds.window(windowName, exists=True):
-            cmds.deleteUI(windowName, window=True)
+    try:
+        cmds.deleteUI(windowName, window=True)
+    except:
+        pass
+    try:
+        cmds.deleteUI(controlName, control=True)
+    except:
+        pass
 
     myWindow = cmds.window(windowName, t='Batch rename selection')
     form = cmds.formLayout(parent=myWindow)
@@ -368,7 +374,7 @@ def ui(dockable):
     parseFilterSelection()
     
     if dockable:
-        cmds.dockControl('batch_renameDock', label='Batch rename', floating=True, area='right', content=windowName)
+        cmds.dockControl(controlName, label='Batch rename', floating=True, area='right', content=windowName)
     else:
         cmds.showWindow(windowName)
 

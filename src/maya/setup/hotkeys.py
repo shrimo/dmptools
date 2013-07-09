@@ -32,13 +32,16 @@ def setHotkey(hotkey):
 def showHotkeysList(dockable):
     """shows the current user hotkeys mapping and its name
     """       
-    windowName = 'hotkeysWindow'
-    if dockable:
-        if cmds.dockControl('hotkey_ctrl', ex=True):
-            cmds.deleteUI('hotkey_ctrl', control=True)
-    else:
-        if cmds.window(windowName, exists=True):
-            cmds.deleteUI(windowName, window=True)
+    windowName = 'hotkeys_window'
+    controlName = 'hotkeys_ctrl'
+    try:    
+        cmds.deleteUI(controlName, control=True)
+    except:
+        pass
+    try:
+        cmds.deleteUI(windowName, window=True)
+    except:
+        pass
 
     cmds.window(windowName, title='dmptools hotkeys list')
     form = cmds.formLayout()
@@ -58,7 +61,7 @@ def showHotkeysList(dockable):
 
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
     if dockable:
-        cmds.dockControl('hotkey_ctrl', label='dmptools hotkeys', floating=True, area='right', content=windowName)
+        cmds.dockControl(controlName, label='dmptools hotkeys', floating=True, area='right', content=windowName)
     else:
         cmds.showWindow(windowName)
 

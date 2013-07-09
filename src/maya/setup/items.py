@@ -523,18 +523,19 @@ hotkeysItems = [
 # shelf buttons list
 shelfItems = [
     {
-        'name':'Rebuild shelf',
+        'name':'dmptools shelf',
         'command':'import dmptools.setup.shelf as shelf;shelf.main()',
         'icon':'refresh.png',
-        'annotation':'Rebuild the dmptools shelf.',
-        'menu':False,
+        'annotation':'Rebuild the dmptools shelf - right click for options.',
+        'menu':True,
+        'menuItems':[('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
     {
         'name':'separator'
     },
     {
         'name':'DmptoolsSetup',
-        'command':'import dmptools.setup.init as init',
+        'command':'import dmptools.setup.init as init;reload(init)',
         'icon':'create.png',
         'annotation':'Initialize the dmptools shelf marking menu, and hotkeys. Press "n" to access the marking menu.',
         'menu':False,
@@ -545,7 +546,7 @@ shelfItems = [
         'icon':'out_list.png',
         'annotation':'Show the hotkeys list window',
         'menu':True,
-        'menuItems':[('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),\
+        'menuItems':[('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),
                      ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')]
     },
     {
@@ -593,7 +594,7 @@ shelfItems = [
         'icon':ICONSPATH+'/MayaToNuke.xpm',
         'annotation':'Maya to Nuke Exporter.',
         'menu':True,
-        'menuItems':[('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),\
+        'menuItems':[('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
                      ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')]
     },
     {
@@ -606,13 +607,5 @@ shelfItems = [
     },
     {
         'name':'separator'
-    },
-    {
-        'name':'dmptools shelf',
-        'command':'import webbrowser;webbrowser.open("'+HELP_PAGE+'"")',
-        'icon':ICONSPATH+'/shelfname.png',
-        'annotation':'dmptools shelf - right click for options.',
-        'menu':True,
-        'menuItems':[('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
   ]
