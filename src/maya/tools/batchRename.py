@@ -269,16 +269,16 @@ def ui(dockable):
 
     # create ui
     try:
-        cmds.deleteUI(windowName, window=True)
+        cmds.deleteUI(WINDOWNAME, window=True)
     except:
         pass
     try:
-        cmds.deleteUI(controlName, control=True)
+        cmds.deleteUI(CONTROLNAME, control=True)
     except:
         pass
 
-    myWindow = cmds.window(windowName, t='Batch rename selection')
-    form = cmds.formLayout(parent=myWindow)
+    cmds.window(WINDOWNAME, t='Batch rename selection')
+    form = cmds.formLayout(parent=WINDOWNAME)
 
     # rename with counter frame layout
     frameRename = cmds.frameLayout('rename_frameLayoutRename',
@@ -375,12 +375,12 @@ def ui(dockable):
     parseFilterSelection()
     
     if dockable:
-        cmds.dockControl(controlName, label='Batch rename', floating=True, area='right', content=windowName)
+        cmds.dockControl(CONTROLNAME, label='Batch rename', floating=True, area='right', content=WINDOWNAME)
     else:
-        cmds.showWindow(windowName)
+        cmds.showWindow(WINDOWNAME)
 
-def main():
+def main(dockable):
     ui(dockable=True)
 
 if __name__ == '__main__':
-    main()
+    main(False)

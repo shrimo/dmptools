@@ -38,13 +38,13 @@ def addSeparator(shelf):
 def addButton(item, parent):
     """ add button to the shelf """
     # create the button itself
-    button = cmds.iconTextButton(parent=parent, enable=True, w=35, h=35,
+    button = cmds.iconTextButton('dmptools_shelf_'+item['name'], parent=parent, enable=True, w=35, h=35,
                 annotation=item['annotation'],
                 image1=item['icon'],
                 command=item['command'])
     # add right click popup items if exists
     if item['menu']:
-        popMenu = cmds.popupMenu(parent=button, b=3)
+        popMenu = cmds.popupMenu('popup_'+item['name'], parent=button, b=3)
         for menuI in item['menuItems']:
             cmds.menuItem(p=popMenu, l=menuI[0], command=menuI[1])
 

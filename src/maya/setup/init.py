@@ -10,7 +10,7 @@ import sys
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
 try:
-    os.system('echo "[dmptools] :: \033[34mloading dmptools...\033[m"')
+    os.system('echo "\033[32m[dmptools] :: loading dmptools...\033[m"')
     # add google drive path to sys if exists
     # this is for using dmptools_misc modules
     if os.path.exists(DRIVE):
@@ -23,6 +23,6 @@ try:
     import dmptools.setup.hotkeys as hotkeys
     hotkeys.main()
     
-    os.system('echo "[dmptools] :: \033[32;1mdone.\033[m"')
+    os.system('echo "\033[32;1m[dmptools] :: done.\033[m"')
 except:
-    os.system('echo "[dmptools] :: \033[31;1mERROR: failed to load dmptools...\033[m"')
+    os.system('echo "\033[31;1m[dmptools] :: ERROR: failed to load dmptools...\033[m"')

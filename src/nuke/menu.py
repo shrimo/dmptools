@@ -219,17 +219,16 @@ def main():
         initiate nuke dmptools menu
     """
     try:
-        os.system('echo "[dmptools] :: \033[34mloading dmptools...\033[m"')
+        os.system('echo "\033[34m[dmptools] :: loading dmptools...\033[m"')
         print "initiate dmptools..."
 
         # main menu
         buildMenu()
         
         print " > done."
-        os.system('echo "[dmptools] :: \033[32;1mdone.\033[m"')
+        os.system('echo "\033[32;1m[dmptools] :: done.\033[m"')
     except:
-        os.system('echo "[dmptools] :: \033[31;1mERROR: failed to load dmptools...\033[m"')
+        os.system('echo "\033[31;1m[dmptools] :: ERROR: failed to load dmptools...\033[m"')
 
 if __name__ == '__main__':
     main()
-

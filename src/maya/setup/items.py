@@ -94,7 +94,7 @@ markingMenuItems = [
         'subMenu':False,
         'position':False,
         'command':'import dmptools.tools.runCommand as runCommand;\
-            reload(runCommand);runCommand.main();\
+            reload(runCommand);runCommand.main(False);\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
@@ -152,7 +152,7 @@ hotkeysItems = [
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.tools.runCommand as runCommand;\
-            reload(runCommand);runCommand.main()");',
+            reload(runCommand);runCommand.main(False)");',
     },
     {
         'name':'openNodeEditor',
@@ -525,11 +525,10 @@ shelfItems = [
     {
         'name':'dmptools shelf',
         'command':'import dmptools.setup.shelf as shelf;shelf.main()',
-        'icon':'refresh.png',
+        'icon':ICONSPATH+'/refresh.png',
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
         'menuItems':[('initiate dmptools', 'import dmptools.setup.init'),
-                     
                      ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
     {
@@ -538,7 +537,7 @@ shelfItems = [
     {
         'name':'HotkeysList',
         'command':'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)',
-        'icon':'out_list.png',
+        'icon':ICONSPATH+'/hotkeys.png',
         'annotation':'Show the hotkeys list window',
         'menu':True,
         'menuItems':[('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),
@@ -584,8 +583,7 @@ shelfItems = [
     },
     {
         'name':'mayaToNuke',
-        'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;\
-            mayaToNukeLauncher.main()',
+        'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)',
         'icon':ICONSPATH+'/MayaToNuke.xpm',
         'annotation':'Maya to Nuke Exporter.',
         'menu':True,
@@ -603,4 +601,35 @@ shelfItems = [
     {
         'name':'separator'
     },
+    {
+        'name':'utils',
+        'command':'print "utils - right click for full list"',
+        'icon':ICONSPATH+'/utils.png',
+        'annotation':'utils - right click for full list',
+        'menu':True,
+        'menuItems':[
+            ('maya to nuke', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)'),
+            ('create rooftops', 'import dmptools.tools.createRooftops as createRooftops;createRooftops.main()'),
+            ('arc system', 'import dmptools.tools.arcSystem as arcSystem;arcSystem.main()'),
+            ('run command', 'import dmptools.tools.runCommand as runCommand;runCommand.main(False)'),
+            ('batch rename', 'import dmptools.tools.batchRename as batchRename;batchRename.main(False)'),
+            ('ratio calculator', 'import dmptools.tools.ratioCalculator as ratioCalculator;ratioCalculator.main()'),
+            ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;symmetry.main()'),
+            ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),
+        ]
+    },
+    {
+        'name':'separator'
+    },
+    {
+        'name':'custom',
+        'command':'import dmptools.utils.createCustomItems as createCustomItems;reload(createCustomItems);createCustomItems.main()',
+        'icon':ICONSPATH+'/create.png',
+        'annotation':'create custom item with associated command.',
+        'menu':True,
+        'menuItems':[('add item', 'import dmptools.utils.createCustomItems as createCustomItems;reload(createCustomItems);createCustomItems.main()')]
+    },
+    {
+        'name':'separator'
+    }
   ]

@@ -17,13 +17,20 @@ def run(value=None):
     # clear the input field
     cmds.textField('runCmd_input', e=True, text='')
 
-def ui():
+def ui(dockable):
     """
         run command main UI
     """
-    windowName = 'runCommand'
-    if cmds.window(windowName, exists=True):
+    windowName = 'runCommandWin'
+    controlName = 'runCommandCtrl'
+    try:
         cmds.deleteUI(windowName, window=True)
+    except:
+        pass
+    try:
+        cmds.deleteUI(controlName, control=True)
+    except:
+        pass
     
     cmds.window(windowName, t='run a command')
     form = cmds.formLayout()
@@ -51,11 +58,13 @@ def ui():
     cmds.formLayout(form, e=True,
         attachForm=[(checkBox, 'bottom', 5),
                     (checkBox, 'right', 5)])
+    if dockable:
+        cmds.dockControl(controlName, label='Run Command', floating=True, area='right', content=windowName)
+    else:
+        cmds.showWindow(windowName)
     
-    cmds.showWindow(windowName)
-    
-def main():
-    ui()
+def main(dockable):
+    ui(dockable)
 
 if __name__ == '__main__':
-    main()
+    main(True)
