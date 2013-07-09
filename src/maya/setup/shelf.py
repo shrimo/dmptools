@@ -46,7 +46,12 @@ def addButton(item, parent):
     if item['menu']:
         popMenu = cmds.popupMenu('popup_'+item['name'], parent=button, b=3)
         for menuI in item['menuItems']:
-            cmds.menuItem(p=popMenu, l=menuI[0], command=menuI[1])
+            print menuI[0]
+            if menuI[0] == 'divider':
+                cmds.menuItem(parent=popMenu, divider=True)
+            else:
+                cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
+
 
 def main():
     print '- creating dmptools shelf...'

@@ -623,11 +623,15 @@ shelfItems = [
     },
     {
         'name':'custom',
-        'command':'import dmptools.utils.createCustomItems as createCustomItems;reload(createCustomItems);createCustomItems.main()',
+        'command':'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()',
         'icon':ICONSPATH+'/create.png',
         'annotation':'create custom item with associated command.',
         'menu':True,
-        'menuItems':[('add item', 'import dmptools.utils.createCustomItems as createCustomItems;reload(createCustomItems);createCustomItems.main()')]
+        'menuItems':[
+                ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
+                ('remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.removeItemsUI()'),
+                ('divider', ''),
+                ]
     },
     {
         'name':'separator'
