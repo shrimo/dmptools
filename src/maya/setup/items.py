@@ -110,7 +110,7 @@ markingMenuItems = [
         'subMenu':False,
         'position':False,
         'command':'import dmptools.tools.batchRename as batchRename;\
-            reload(batchRename);batchRename.main();\
+            reload(batchRename);batchRename.main(False);\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
@@ -609,10 +609,10 @@ shelfItems = [
         'menu':True,
         'menuItems':[
             ('maya to nuke', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)'),
-            ('create rooftops', 'import dmptools.tools.createRooftops as createRooftops;createRooftops.main()'),
-            ('arc system', 'import dmptools.tools.arcSystem as arcSystem;arcSystem.main()'),
-            ('run command', 'import dmptools.tools.runCommand as runCommand;runCommand.main(False)'),
             ('batch rename', 'import dmptools.tools.batchRename as batchRename;batchRename.main(False)'),
+            ('arc system', 'import dmptools.tools.arcSystem as arcSystem;arcSystem.main()'),
+            ('create rooftops', 'import dmptools.tools.createRooftops as createRooftops;createRooftops.main()'),
+            ('run command', 'import dmptools.tools.runCommand as runCommand;runCommand.main(False)'),
             ('ratio calculator', 'import dmptools.tools.ratioCalculator as ratioCalculator;ratioCalculator.main()'),
             ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;symmetry.main()'),
             ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),

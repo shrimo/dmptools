@@ -2,6 +2,7 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
+import dmptools.setup.customItems as customItems
 import dmptools.setup.items as items
 reload(items)
 from items import shelfItems as SHELF_ITEMS
@@ -12,6 +13,7 @@ SHELF_NAME = 'dmptools'
 SHELF_FILE = cmds.internalVar(userShelfDir=True)+'shelf_dmptools'
 
 def createShelf():
+    """ create the dmptools shelf """
     # delete the shelf is already exists
     if cmds.shelfLayout(SHELF_NAME, ex=True):
         fullname = cmds.shelfLayout('dmptools', fpn=True, q=True)
@@ -46,12 +48,10 @@ def addButton(item, parent):
     if item['menu']:
         popMenu = cmds.popupMenu('popup_'+item['name'], parent=button, b=3)
         for menuI in item['menuItems']:
-            print menuI[0]
             if menuI[0] == 'divider':
                 cmds.menuItem(parent=popMenu, divider=True)
             else:
                 cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
-
 
 def main():
     print '- creating dmptools shelf...'
@@ -59,6 +59,8 @@ def main():
         print ' -removing old shelf...', SHELF_FILE+'.mel'
         os.remove(SHELF_FILE+'.mel')
     createShelf()
+    # adds custom items if exists
+    customItems.checkSavedItems()
     print '> done.'
 
 if __name__ == '__main__':

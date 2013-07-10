@@ -16,12 +16,12 @@ def removeItemsUI():
     for item in SETTINGS.getAll():
         name = cmds.menuItem(item.keys(), q=True, label=True)
         command = cmds.menuItem(item.keys(), q=True, command=True)
-        textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command)
+        sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
+        textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType)
         pop = cmds.popupMenu(p=textScroll, b=3)
         cmds.menuItem(p=pop, l='remove selected items', c=removeItems)
-    # form setup
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
-    
+    # displays the window    
     cmds.showWindow(win)
 
 def removeItems(none=None):
@@ -38,26 +38,51 @@ def removeItems(none=None):
 
 def checkSavedItems():
     """ check if there's custom items in the settings file and add them to the shelf """
-    pass
+    allItems = SETTINGS.getAll()
+    if allItems:
+        for item in allItems:
+            # get name and command and create the menu item
+            itemName = item.values()[0][0]
+            itemCommand = item.values()[0][1]
+            sourceType = item.values()[0][2]
+            menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
+            # remove old otem
+            SETTINGS.remove(item.keys()[0])
+            # add fresh one
+            SETTINGS.add(menuItem, [itemName, itemCommand, sourceType])
 
 def createItem(none=None):
     """ create/add the custom item to the shelf and save the item to the settings file """
     itemName = cmds.textFieldGrp('customname', q=True, text=True)
     itemCommand = cmds.textFieldGrp('customCommand', q=True, text=True)
+    value = cmds.radioButtonGrp('customSourceRadioButton', q=True, select=True)
+    if not itemName or not itemCommand or not value:
+        raise UserWarning('You need to fill all the fields!')
+    if value == 1:
+        sourceType = 'python'
+    else:
+        sourceType = 'mel'
     cmds.deleteUI(WINDOWNAME, window=True)
-    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand)
-    SETTINGS.add(item, [itemName, itemCommand])
+    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
+    SETTINGS.add(item, [itemName, itemCommand, sourceType])
 
-def ui():
-    """ create the ui that asks for the name and command of the custom item """
-    cmds.window(WINDOWNAME)
+def addItemUI():
+    """ create the ui that asks for the name, command and source type of the custom item """
+    cmds.window(WINDOWNAME, t='add custom item', s=False)
     cmds.formLayout()
     cmds.columnLayout(adj=True)
     cmds.textFieldGrp('customname', label='name', text='')
     cmds.textFieldGrp('customCommand', label='command', text='')
-    cmds.button(l='ok', command=createItem)
+    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=1)
+    cmds.separator('customSeparator', style='in')
+    cmds.button(l='add', command=createItem)
+    # displays the window
     cmds.showWindow(WINDOWNAME)
 
 def addItem():
-    ui()
+    """
+     main function that displays the ui asking for the
+     name, command and source type of the new custom item.
+    """
+    addItemUI()
 
