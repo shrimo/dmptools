@@ -2,6 +2,8 @@ import maya.cmds as cmds
 import maya.mel as mel
 import os
 
+from dmptools.output import defaultPrint, successPrint
+
 import dmptools.setup.customItems as customItems
 import dmptools.setup.items as items
 reload(items)
@@ -24,8 +26,10 @@ def createShelf():
     # add shelf buttons
     for item in SHELF_ITEMS:
         if item['name'] == 'separator':
+            # defaultPrint(__name__+' : creating button '+item['name']+'...')
             addSeparator(shelf)
         else:
+            # defaultPrint(__name__+' : creating button '+item['name']+'...')
             addButton(item, shelf)
     # select the last created shelf
     i = cmds.shelfTabLayout(shelfParent, numberOfChildren=True, q=True)
@@ -54,14 +58,13 @@ def addButton(item, parent):
                 cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
 
 def main():
-    print '- creating dmptools shelf...'
+    defaultPrint('creating dmptools shelf...')
     if os.path.exists(SHELF_FILE+'.mel'):
-        print ' -removing old shelf...', SHELF_FILE+'.mel'
         os.remove(SHELF_FILE+'.mel')
     createShelf()
     # adds custom items if exists
     customItems.checkSavedItems()
-    print '> done.'
+    successPrint('done.')
 
 if __name__ == '__main__':
     main()

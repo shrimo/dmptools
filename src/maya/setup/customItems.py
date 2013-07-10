@@ -6,6 +6,29 @@ SETTINGS = SettingsManager('dmptoolsShelf')
 PARENT = 'popup_custom'
 WINDOWNAME = 'createCustomItem'
 
+def editItemUI(none=None):
+    """ display the UI to edit selected custom item """
+    cmds.window('customEditItem', t='add custom item', s=False)
+    cmds.formLayout()
+    cmds.columnLayout(adj=True)
+    name = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[0]
+    command = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[1]
+    sourceType = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[2]
+    if sourceType == 'python':
+        value = 1
+    else:
+        value = 2
+    cmds.textFieldGrp('customname', label='name', text=name)
+    cmds.textFieldGrp('customCommand', label='command', text=command)
+    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)
+    cmds.separator('customSeparator', style='in')
+    cmds.button(l='edit', command=editItem)
+    # displays the window
+    cmds.showWindow('customEditItem')
+
+def editItem(none=None):
+    print 'edit item'
+
 def removeItemsUI():
     """ ui that popup when the user right click on 'remove item' from the custom shelf
         it shows a list of the custom items created and saved in the settings file.
@@ -24,26 +47,6 @@ def removeItemsUI():
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
     # displays the window    
     cmds.showWindow(win)
-
-def editItem(none=None):
-    """ edit selected custom item """
-    cmds.window('customEditItem', t='add custom item', s=False)
-    cmds.formLayout()
-    cmds.columnLayout(adj=True)
-    name = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[0]
-    command = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[1]
-    sourceType = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[2]
-    if sourceType == 'python':
-        value = 1
-    else:
-        value = 2
-    cmds.textFieldGrp('customname', label='name', text=name)
-    cmds.textFieldGrp('customCommand', label='command', text=command)
-    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)
-    cmds.separator('customSeparator', style='in')
-    cmds.button(l='edit', command="print 'edit item!'")
-    # displays the window
-    cmds.showWindow('customEditItem')
 
 def removeItems(none=None):
     """ remove item from popup menu and from the settings file """

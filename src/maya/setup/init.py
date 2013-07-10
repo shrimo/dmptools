@@ -7,10 +7,12 @@ init the dmptools for Maya
 import os
 import sys
 
+from dmptools.output import defaultPrint, successPrint, errorPrint
+
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
 try:
-    os.system('echo "\033[32m[dmptools] :: loading dmptools...\033[m"')
+    defaultPrint('loading dmptools...')
     # add google drive path to sys if exists
     # this is for using dmptools_misc modules
     if os.path.exists(DRIVE):
@@ -22,7 +24,6 @@ try:
     # create hotkeys
     import dmptools.setup.hotkeys as hotkeys
     hotkeys.main()
-    
-    os.system('echo "\033[32;1m[dmptools] :: done.\033[m"')
+    successPrint('loading done.')
 except:
-    os.system('echo "\033[31;1m[dmptools] :: ERROR: failed to load dmptools...\033[m"')
+    errorPrint('failed to load dmptools!')
