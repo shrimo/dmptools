@@ -625,7 +625,7 @@ shelfItems = [
         'name':'custom',
         'command':'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()',
         'icon':ICONSPATH+'/create.png',
-        'annotation':'create custom item with associated command.',
+        'annotation':'create custom item with associated command - right click for full list',
         'menu':True,
         'menuItems':[
                 ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
