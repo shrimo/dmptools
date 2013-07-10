@@ -571,9 +571,6 @@ shelfItems = [
         'menu':False,
     },
     {
-        'name':'separator'
-    },
-    {
         'name':'newScriptEditor',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.newScriptEditor()',
@@ -629,7 +626,7 @@ shelfItems = [
         'menu':True,
         'menuItems':[
                 ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
-                ('remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.removeItemsUI()'),
+                ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.removeItemsUI()'),
                 ('divider', ''),
                 ]
     },

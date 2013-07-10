@@ -10,7 +10,7 @@ def removeItemsUI():
     """ ui that popup when the user right click on 'remove item' from the custom shelf
         it shows a list of the custom items created and saved in the settings file.
     """
-    win = cmds.window(title='remove custom items')
+    win = cmds.window(title='edit/remove custom items')
     form = cmds.formLayout()
     txt = cmds.textScrollList('item_list', allowMultiSelection=True, deleteKeyCommand=removeItems)
     for item in SETTINGS.getAll():
@@ -19,10 +19,31 @@ def removeItemsUI():
         sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
         textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType)
         pop = cmds.popupMenu(p=textScroll, b=3)
+        cmds.menuItem(p=pop, l='edit selected item', c=editItem)
         cmds.menuItem(p=pop, l='remove selected items', c=removeItems)
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
     # displays the window    
     cmds.showWindow(win)
+
+def editItem(none=None):
+    """ edit selected custom item """
+    cmds.window('customEditItem', t='add custom item', s=False)
+    cmds.formLayout()
+    cmds.columnLayout(adj=True)
+    name = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[0]
+    command = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[1]
+    sourceType = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[2]
+    if sourceType == 'python':
+        value = 1
+    else:
+        value = 2
+    cmds.textFieldGrp('customname', label='name', text=name)
+    cmds.textFieldGrp('customCommand', label='command', text=command)
+    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)
+    cmds.separator('customSeparator', style='in')
+    cmds.button(l='edit', command="print 'edit item!'")
+    # displays the window
+    cmds.showWindow('customEditItem')
 
 def removeItems(none=None):
     """ remove item from popup menu and from the settings file """
@@ -63,7 +84,8 @@ def createItem(none=None):
     else:
         sourceType = 'mel'
     cmds.deleteUI(WINDOWNAME, window=True)
-    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
+    # create the custom item
+    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType, ob=True)
     SETTINGS.add(item, [itemName, itemCommand, sourceType])
 
 def addItemUI():
