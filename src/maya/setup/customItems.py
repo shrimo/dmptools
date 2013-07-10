@@ -85,7 +85,7 @@ def createItem(none=None):
         sourceType = 'mel'
     cmds.deleteUI(WINDOWNAME, window=True)
     # create the custom item
-    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType, ob=True)
+    item = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
     SETTINGS.add(item, [itemName, itemCommand, sourceType])
 
 def addItemUI():
