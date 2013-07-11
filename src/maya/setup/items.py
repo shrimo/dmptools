@@ -571,12 +571,15 @@ shelfItems = [
         'menu':False,
     },
     {
-        'name':'newScriptEditor',
+        'name':'ScriptEditor',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.newScriptEditor()',
+            reload(mayaCommands);mayaCommands.openScriptEditor()',
         'icon':'text.png',
-        'annotation':'New Script Editor.',
-        'menu':False,
+        'annotation':'Script Editor.',
+        'menu':True,
+        'menuItems':[('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
+                     ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
+                    ]
     },
     {
         'name':'mayaToNuke',

@@ -222,12 +222,10 @@ def main():
     """
     try:
         defaultPrint('loading dmptools...')
-
         # main menu
-        buildMenu()
-        
+        buildMenu()        
         print " > done."
-        successPrint('done.')
+
     except:
         errorPrint('failed to load dmptools!')
 
