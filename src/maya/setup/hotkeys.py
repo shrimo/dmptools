@@ -5,6 +5,7 @@ import os
 import dmptools.setup.items as items
 reload(items)
 from items import hotkeysItems as HOTKEYS_ITEMS
+from dmptools.output import defaultPrint, successPrint, errorPrint
 
 def setHotkey(hotkey):
     """
@@ -71,20 +72,18 @@ def executeHotkey():
     items = HOTKEYS_ITEMS
     itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1]
     command = [item['command'] for item in items if item['name'] == itemName][0]
-    print command
     mel.eval(command)
 
 def main():
     """
         create the dmptools hotkeys
     """
-    print '- creating dmptools hotkeys...'
+    defaultPrint('creating dmptools hotkeys...')
 
     for hotKey in HOTKEYS_ITEMS:
             setHotkey(hotKey)
     # save hotkeys pref files
     cmds.savePrefs(hotkeys=True)
-    print '> done.'
 
 if __name__ == '__main__':
     main()

@@ -64,7 +64,6 @@ def main():
     createShelf()
     # adds custom items if exists
     customItems.checkSavedItems()
-    successPrint('done.')
 
 if __name__ == '__main__':
     main()

@@ -8,7 +8,7 @@ WINDOWNAME = 'createCustomItem'
 
 def editItemUI(none=None):
     """ display the UI to edit selected custom item """
-    cmds.window('customEditItem', t='add custom item', s=False)
+    cmds.window('customEditItem', t='edit custom item', s=False)
     cmds.formLayout()
     cmds.columnLayout(adj=True)
     name = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[0]
@@ -42,7 +42,7 @@ def removeItemsUI():
         sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
         textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType)
         pop = cmds.popupMenu(p=textScroll, b=3)
-        cmds.menuItem(p=pop, l='edit selected item', c=editItem)
+        cmds.menuItem(p=pop, l='edit selected item', c=editItemUI)
         cmds.menuItem(p=pop, l='remove selected items', c=removeItems)
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
     # displays the window    
