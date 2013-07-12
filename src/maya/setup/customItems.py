@@ -40,7 +40,7 @@ def removeItemsUI():
         name = cmds.menuItem(item.keys(), q=True, label=True)
         command = cmds.menuItem(item.keys(), q=True, command=True)
         sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
-        textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType)
+        textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType, doubleClickCommand=editItemUI)
         pop = cmds.popupMenu(p=textScroll, b=3)
         cmds.menuItem(p=pop, l='edit selected item', c=editItemUI)
         cmds.menuItem(p=pop, l='remove selected items', c=removeItems)
