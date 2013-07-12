@@ -18,8 +18,7 @@ from dmptools.tools.runCommand import RunCommand
 from dmptools.tools.webBrowser import WebBrowser
 import dmptools.scripts as dmptoolsScripts
 
-from dmptools.output import defaultPrint, successPrint, errorPrint
-
+# globals
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
 GIZMO_PATH = dmptoolsScripts.__path__[0]
@@ -220,14 +219,9 @@ def main():
     """
         initiate nuke dmptools menu
     """
-    try:
-        defaultPrint('loading dmptools...')
-        # main menu
-        buildMenu()        
-        print " > done."
-
-    except:
-        errorPrint('failed to load dmptools!')
+    # main menu
+    buildMenu()
+    print " > done."
 
 if __name__ == '__main__':
     main()

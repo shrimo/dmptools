@@ -3,7 +3,7 @@ import maya.cmds as cmds
 from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('dmptoolsShelf')
-PARENT = 'popup_custom'
+PARENT = 'dmptools_popup_custom'
 WINDOWNAME = 'createCustomItem'
 
 def editItemUI(none=None):
@@ -11,13 +11,16 @@ def editItemUI(none=None):
     cmds.window('customEditItem', t='edit custom item', s=False)
     cmds.formLayout()
     cmds.columnLayout(adj=True)
+    # get the name, command, type
     name = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[0]
     command = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[1]
     sourceType = cmds.textScrollList('item_list', q=True, si=True)[0].split(' - ')[2]
+    # set the value 1: python 2: mel
     if sourceType == 'python':
         value = 1
     else:
         value = 2
+    # set the fields
     cmds.textFieldGrp('customname', label='name', text=name)
     cmds.textFieldGrp('customCommand', label='command', text=command)
     cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)

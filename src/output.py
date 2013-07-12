@@ -10,10 +10,10 @@ warningColors = '\033[33m'
 errorColors = '\033[31;1m'
 contexts = ['default', 'system', 'both']
 
-def defaultPrint(stuff, context='both', timeStamp=False):
+def defaultPrint(stuff, context='both', timestamp=False):
     """ prints out a default message """
     prefix = '['+inspect.currentframe().f_back.f_globals['__name__']+'] ::'
-    if timeStamp:
+    if timestamp:
         currentTime = str(time.strftime('%d/%m/%y at %H:%M:%S'))
     else:
         currentTime = ''
@@ -27,10 +27,10 @@ def defaultPrint(stuff, context='both', timeStamp=False):
         print prefix, stuff
         os.system('echo "'+defaultColors+prefix+' '+str(stuff)+' '+currentTime+suffix+'"')
 
-def successPrint(stuff, context='both', timeStamp=False):
+def successPrint(stuff, context='both', timestamp=False):
     """ prints out a success message """
     prefix = '['+inspect.currentframe().f_back.f_globals['__name__']+'] ::'
-    if timeStamp:
+    if timestamp:
         currentTime = str(time.strftime('%d/%m/%y at %H:%M:%S'))
     else:
         currentTime = ''
@@ -44,10 +44,10 @@ def successPrint(stuff, context='both', timeStamp=False):
         print prefix+' Success ::', stuff
         os.system('echo "'+successColors+prefix+' Success :: '+str(stuff)+' '+currentTime+suffix+'"')
 
-def warningPrint(stuff, context='both', timeStamp=False):
+def warningPrint(stuff, context='both', timestamp=False):
     """ prints out a warning message """
     prefix = '['+inspect.currentframe().f_back.f_globals['__name__']+'] ::'
-    if timeStamp:
+    if timestamp:
         currentTime = str(time.strftime('%d/%m/%y at %H:%M:%S'))
     else:
         currentTime = ''
@@ -61,10 +61,10 @@ def warningPrint(stuff, context='both', timeStamp=False):
         print prefix+' Warning ::', stuff
         os.system('echo "'+warningColors+prefix+' Warning :: '+str(stuff)+' '+currentTime+suffix+'"')
 
-def errorPrint(stuff, context='both', timeStamp=False):
+def errorPrint(stuff, context='both', timestamp=False):
     """ prints out an error message """
     prefix = '['+inspect.currentframe().f_back.f_globals['__name__']+'] ::'
-    if timeStamp:
+    if timestamp:
         currentTime = str(time.strftime('%d/%m/%y at %H:%M:%S'))
     else:
         currentTime = ''

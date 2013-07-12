@@ -532,7 +532,7 @@ shelfItems = [
                      ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
     },
     {
-        'name':'separator'
+        'name':'separator1'
     },
     {
         'name':'HotkeysList',
@@ -544,7 +544,7 @@ shelfItems = [
                      ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')]
     },
     {
-        'name':'separator'
+        'name':'separator2'
     },
     {
         'name':'Terminator',
@@ -599,7 +599,7 @@ shelfItems = [
         'menu':False,
     },
     {
-        'name':'separator'
+        'name':'separator3'
     },
     {
         'name':'utils',
@@ -619,7 +619,7 @@ shelfItems = [
         ]
     },
     {
-        'name':'separator'
+        'name':'separator4'
     },
     {
         'name':'custom',
@@ -630,10 +630,10 @@ shelfItems = [
         'menuItems':[
                 ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
                 ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.removeItemsUI()'),
-                ('divider', ''),
+                ('divider1', ''),
                 ]
     },
     {
-        'name':'separator'
+        'name':'separator5'
     }
   ]

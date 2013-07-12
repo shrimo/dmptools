@@ -25,9 +25,9 @@ def createShelf():
     shelf = cmds.shelfLayout(SHELF_NAME, p=shelfParent)
     # add shelf buttons
     for item in SHELF_ITEMS:
-        if item['name'] == 'separator':
+        if 'separator' in item['name']:
             # defaultPrint(__name__+' : creating button '+item['name']+'...')
-            addSeparator(shelf)
+            addSeparator(item, shelf)
         else:
             # defaultPrint(__name__+' : creating button '+item['name']+'...')
             addButton(item, shelf)
@@ -37,23 +37,25 @@ def createShelf():
     # save the shelf
     cmds.saveShelf(SHELF_NAME, SHELF_FILE)
 
-def addSeparator(shelf):
+def addSeparator(item, parent):
     """ add a vertical separator to the shelf """
-    cmds.separator(horizontal=False, style="out", parent=shelf)
+    cmds.separator('dmptools_shelf_separator_'+item['name'], horizontal=False, style="out", parent=parent)
 
 def addButton(item, parent):
     """ add button to the shelf """
     # create the button itself
-    button = cmds.iconTextButton('dmptools_shelf_'+item['name'], parent=parent, enable=True, w=35, h=35,
+    button = cmds.iconTextButton('dmptools_shelf_button_'+item['name'], parent=parent, enable=True, w=35, h=35,
                 annotation=item['annotation'],
                 image1=item['icon'],
                 command=item['command'])
     # add right click popup items if exists
     if item['menu']:
-        popMenu = cmds.popupMenu('popup_'+item['name'], parent=button, b=3)
+        # create the popup menu with the name "popup_<name>"
+        popMenu = cmds.popupMenu('dmptools_popup_'+item['name'], parent=button, b=3)
         for menuI in item['menuItems']:
-            if menuI[0] == 'divider':
-                cmds.menuItem(parent=popMenu, divider=True)
+            # add popup menu items
+            if 'divider' in menuI[0]:
+                cmds.menuItem('dmptools_popup_item_'+menuI[0], parent=popMenu, divider=True)
             else:
                 cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
 

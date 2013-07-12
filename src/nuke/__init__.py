@@ -15,6 +15,8 @@ __status__ = "Production"
 import os
 import sys
 
+from dmptools.output import defaultPrint, successPrint, errorPrint
+
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
 # add google drive path to sys if exists
@@ -22,11 +24,18 @@ DRIVE = '!GOOGLEDRIVE_PATH!'
 if os.path.exists(DRIVE):
     sys.path.append(DRIVE)
 
-# build menus
-import dmptools.menu as menu
+try:
+    defaultPrint('loading dmptools...')    
+    # build menus
+    import dmptools.menu as menu
+    menu.main()
 
-# build user menu
-import dmptools.userMenu as userMenu
+    defaultPrint('loading user menu...')
+    # build user menu
+    import dmptools.userMenu as userMenu
+    userMenu.main()
 
-menu.main()
-userMenu.main()
+    successPrint('done.', timestamp=True)
+    
+except:
+    errorPrint('failed to load dmptools!')

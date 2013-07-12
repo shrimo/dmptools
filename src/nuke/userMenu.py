@@ -6,8 +6,10 @@
 import nuke
 import os
 import random
+
 import dmptools.tf2classes as tf2
 
+# globals
 NUKE_SHARE = '!NUKE_SHARE!'
 TF2CLASSES = tf2.CLASSES
 
@@ -22,10 +24,6 @@ def buildMenu():
     print iconTooltip
 
     m = nuke.toolbar("Nodes").addMenu('dmptools/Misc', tooltip=iconTooltip, icon=iconPath)
-
-    # 3D
-    m.addCommand('3d/Shadow Generator', 'nuke.createNode("shadow_generator")')
-    m.addCommand('3d/Connect Master Scene', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.connectMasterScene()', 'Ctrl+1')
 
     # 2D
     m.addCommand('2d/Nuke Image Converter...', 'import dmptools.tools.imageConverter as imageConverter");imageConverter.makeProxyUI()')
@@ -43,6 +41,10 @@ def buildMenu():
     m.addCommand('2d/Bezier', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.switchNode()', "Ctrl+Alt+Shift+S")
     m.addCommand('2d/Write default', 'import nuke;nuke.createNode("Write")', "Shift+W")
     m.addCommand('2d/Switch node', 'nuke.tcl("Bezier")', "Shift+B")
+
+    # 3D
+    m.addCommand('3d/Shadow Generator', 'nuke.createNode("shadow_generator")')
+    m.addCommand('3d/Connect Master Scene', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.connectMasterScene()', 'Ctrl+1')
 
     # other
     m.addCommand('Other/Centralize script...', 'execfile("/usr/people/michael-ha/python/centralizeNukeScript.py");makeLocalUI()')
@@ -73,13 +75,8 @@ def main():
     """
         initiate nuke user menu
     """
-    try:
-        defaultPrint('loading user menu...')
-        # main menu
-        buildMenu()
-                
-    except:
-        errorPrint('failed to load user menu!')
+    # main menu
+    buildMenu()
     
 if __name__ == '__main__':
     main()
