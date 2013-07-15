@@ -1,14 +1,21 @@
+import random
 import maya.cmds as cmds
 
 from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('dmptoolsShelf')
 PARENT = 'dmptools_popup_custom'
-WINDOWNAME = 'createCustomItem'
+WINDOWNAME = 'create_createCustomItem'
+
+def deleteWindow(name):
+    """ delete the window if exists """
+    if cmds.window(name, q=True, ex=True):
+        cmds.deleteUI(name, window=True)
 
 def editItemUI(none=None):
     """ display the UI to edit selected custom item """
-    cmds.window('customEditItem', t='edit custom item', s=False)
+    deleteWindow('edit_customEditItem')
+    cmds.window('edit_customEditItem', t='edit custom item', s=False)
     cmds.formLayout()
     cmds.columnLayout(adj=True)
     # get the name, command, type
@@ -21,35 +28,69 @@ def editItemUI(none=None):
     else:
         value = 2
     # set the fields
-    cmds.textFieldGrp('customname', label='name', text=name)
-    cmds.textFieldGrp('customCommand', label='command', text=command)
-    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)
-    cmds.separator('customSeparator', style='in')
+    cmds.textFieldGrp('edit_customname', label='name', text=name)
+    cmds.textFieldGrp('edit_customCommand', label='command', text=command)
+    cmds.radioButtonGrp('edit_customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=value)
+    cmds.separator('edit_customSeparator', style='in')
     cmds.button(l='edit', command=editItem)
     # displays the window
-    cmds.showWindow('customEditItem')
+    cmds.showWindow('edit_customEditItem')
 
 def editItem(none=None):
-    print 'edit item'
+    """ first edit the item in the edit/remove UI
+        then edit the item in the shelf and last edit the item in the settings file
+    """
+    # get edited item values
+    itemName = cmds.textFieldGrp('edit_customname', q=True, text=True)
+    itemCommand = cmds.textFieldGrp('edit_customCommand', q=True, text=True)
+    value = cmds.radioButtonGrp('edit_customSourceRadioButton', q=True, select=True)
+    if not itemName or not itemCommand or not value:
+        raise UserWarning('You need to fill all the fields!')
+    if value == 1:
+        sourceType = 'python'
+    else:
+        sourceType = 'mel'
+    itemFull = itemName+' - '+itemCommand+' - '+sourceType
+    
+    # delete the edit item window
+    cmds.deleteUI('edit_customEditItem', window=True)
+    
+    # delete the old scrollList entry and insert the new one at the same place
+    scrollItemSelected = cmds.textScrollList('item_list', q=True, si=True)[0]
+    scrollItemIndex = cmds.textScrollList('item_list', q=True, sii=True)[0]
+    cmds.textScrollList('item_list', e=True, ri=scrollItemSelected)
+    cmds.textScrollList('item_list', e=True, appendPosition=[scrollItemIndex, itemFull], doubleClickCommand='editItemUI')
 
-def removeItemsUI():
-    """ ui that popup when the user right click on 'remove item' from the custom shelf
+    # get the path of the shelf item to edit
+    for item in SETTINGS.getAll():
+        if item.values()[0][0] == scrollItemSelected.split(' - ')[0]:
+            menuItemPath = item.keys()[0]
+            cmds.menuItem(menuItemPath, e=True, label=itemName, command=itemCommand, sourceType=sourceType)
+            SETTINGS.add(menuItemPath, [itemName, itemCommand, sourceType])
+
+def editRemoveItemsUI():
+    """ ui that pops up when the user right click on 'remove item' from the custom shelf
         it shows a list of the custom items created and saved in the settings file.
     """
-    win = cmds.window(title='edit/remove custom items')
+    deleteWindow('editRemoveItems')
+    cmds.window('editRemoveItems', title='edit/remove custom items')
     form = cmds.formLayout()
     txt = cmds.textScrollList('item_list', allowMultiSelection=True, deleteKeyCommand=removeItems)
     for item in SETTINGS.getAll():
         name = cmds.menuItem(item.keys(), q=True, label=True)
         command = cmds.menuItem(item.keys(), q=True, command=True)
         sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
+        if not command:
+            command = 'none'
+        if not sourceType:
+            sourceType = 'none'
         textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType, doubleClickCommand=editItemUI)
         pop = cmds.popupMenu(p=textScroll, b=3)
         cmds.menuItem(p=pop, l='edit selected item', c=editItemUI)
         cmds.menuItem(p=pop, l='remove selected items', c=removeItems)
     cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
     # displays the window    
-    cmds.showWindow(win)
+    cmds.showWindow('editRemoveItems')
 
 def removeItems(none=None):
     """ remove item from popup menu and from the settings file """
@@ -72,7 +113,11 @@ def checkSavedItems():
             itemName = item.values()[0][0]
             itemCommand = item.values()[0][1]
             sourceType = item.values()[0][2]
-            menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
+            # add menu item
+            if itemName == 'divider':
+                addDivider()
+            else:
+                menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
             # remove old otem
             SETTINGS.remove(item.keys()[0])
             # add fresh one
@@ -80,9 +125,9 @@ def checkSavedItems():
 
 def createItem(none=None):
     """ create/add the custom item to the shelf and save the item to the settings file """
-    itemName = cmds.textFieldGrp('customname', q=True, text=True)
-    itemCommand = cmds.textFieldGrp('customCommand', q=True, text=True)
-    value = cmds.radioButtonGrp('customSourceRadioButton', q=True, select=True)
+    itemName = cmds.textFieldGrp('create_customname', q=True, text=True)
+    itemCommand = cmds.textFieldGrp('create_customCommand', q=True, text=True)
+    value = cmds.radioButtonGrp('create_customSourceRadioButton', q=True, select=True)
     if not itemName or not itemCommand or not value:
         raise UserWarning('You need to fill all the fields!')
     if value == 1:
@@ -96,16 +141,21 @@ def createItem(none=None):
 
 def addItemUI():
     """ create the ui that asks for the name, command and source type of the custom item """
+    deleteWindow(WINDOWNAME)
     cmds.window(WINDOWNAME, t='add custom item', s=False)
     cmds.formLayout()
     cmds.columnLayout(adj=True)
-    cmds.textFieldGrp('customname', label='name', text='')
-    cmds.textFieldGrp('customCommand', label='command', text='')
-    cmds.radioButtonGrp('customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=1)
-    cmds.separator('customSeparator', style='in')
+    cmds.textFieldGrp('create_customname', label='name', text='')
+    cmds.textFieldGrp('create_customCommand', label='command', text='')
+    cmds.radioButtonGrp('create_customSourceRadioButton',label='source:', nrb=2, l1='python', l2='mel', select=1)
+    cmds.separator('create_customSeparator', style='in')
     cmds.button(l='add', command=createItem)
     # displays the window
     cmds.showWindow(WINDOWNAME)
+
+def addDivider(none=None):
+    item = cmds.menuItem('dmptools_popup_item_'+str(random.randint(0,999)), parent=PARENT, divider=True)
+    SETTINGS.add(item, ['divider', 'none', 'none'])
 
 def addItem():
     """

@@ -629,7 +629,8 @@ shelfItems = [
         'menu':True,
         'menuItems':[
                 ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
-                ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.removeItemsUI()'),
+                ('add separator', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addDivider()'),
+                ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.editRemoveItemsUI()'),
                 ('divider1', ''),
                 ]
     },
