@@ -60,7 +60,7 @@ def addButton(item, parent):
                 cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
 
 def main():
-    defaultPrint('creating dmptools shelf...')
+    defaultPrint('creating shelf...')
     if os.path.exists(SHELF_FILE+'.mel'):
         os.remove(SHELF_FILE+'.mel')
     createShelf()

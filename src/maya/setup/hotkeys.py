@@ -78,7 +78,7 @@ def main():
     """
         create the dmptools hotkeys
     """
-    defaultPrint('creating dmptools hotkeys...')
+    defaultPrint('creating hotkeys...')
 
     for hotKey in HOTKEYS_ITEMS:
             setHotkey(hotKey)
