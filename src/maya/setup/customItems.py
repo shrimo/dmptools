@@ -1,4 +1,3 @@
-import random
 import maya.cmds as cmds
 
 from dmptools.settings import SettingsManager
@@ -80,10 +79,6 @@ def editRemoveItemsUI():
         name = cmds.menuItem(item.keys(), q=True, label=True)
         command = cmds.menuItem(item.keys(), q=True, command=True)
         sourceType = cmds.menuItem(item.keys(), q=True, sourceType=True)
-        if not command:
-            command = 'none'
-        if not sourceType:
-            sourceType = 'none'
         textScroll = cmds.textScrollList('item_list', e=True, append=name+' - '+command+' - '+sourceType, doubleClickCommand=editItemUI)
         pop = cmds.popupMenu(p=textScroll, b=3)
         cmds.menuItem(p=pop, l='edit selected item', c=editItemUI)
@@ -114,10 +109,7 @@ def checkSavedItems():
             itemCommand = item.values()[0][1]
             sourceType = item.values()[0][2]
             # add menu item
-            if itemName == 'divider':
-                addDivider()
-            else:
-                menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
+            menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
             # remove old otem
             SETTINGS.remove(item.keys()[0])
             # add fresh one
@@ -152,10 +144,6 @@ def addItemUI():
     cmds.button(l='add', command=createItem)
     # displays the window
     cmds.showWindow(WINDOWNAME)
-
-def addDivider(none=None):
-    item = cmds.menuItem('dmptools_popup_item_'+str(random.randint(0,999)), parent=PARENT, divider=True)
-    SETTINGS.add(item, ['divider', 'none', 'none'])
 
 def addItem():
     """
