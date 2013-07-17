@@ -58,7 +58,7 @@ def editItem(none=None):
     scrollItemSelected = cmds.textScrollList('item_list', q=True, si=True)[0]
     scrollItemIndex = cmds.textScrollList('item_list', q=True, sii=True)[0]
     cmds.textScrollList('item_list', e=True, ri=scrollItemSelected)
-    cmds.textScrollList('item_list', e=True, appendPosition=[scrollItemIndex, itemFull], doubleClickCommand='editItemUI')
+    cmds.textScrollList('item_list', e=True, appendPosition=[scrollItemIndex, itemFull], doubleClickCommand=editItemUI)
 
     # get the path of the shelf item to edit
     for item in SETTINGS.getAll():

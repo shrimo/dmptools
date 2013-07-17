@@ -24,6 +24,8 @@ try:
     # create hotkeys
     import dmptools.setup.hotkeys as hotkeys
     hotkeys.main()
-    successPrint('loading done', timestamp=True)    
-except:
-    errorPrint('failed to load dmptools!')
+
+    successPrint('loading done', timestamp=True)  
+
+except BaseException as e:
+    errorPrint('failed to load dmptools:\n'+str(e))
