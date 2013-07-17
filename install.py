@@ -154,7 +154,7 @@ def replacements(path):
     for root, dirs, files in os.walk(path):
         for f in files:
             # go through python & mel files only
-            if f.split('.')[-1] in ['py', 'mel']:
+            if f.split('.')[-1] in ['py', 'mel', 'nk', 'gizmo']:
                 for line in fileinput.input(root+'/'+f, inplace=1):
                     # if the key in REPLACEMENTS is in the file then replace the line
                     for rep in REPLACEMENTS.keys():

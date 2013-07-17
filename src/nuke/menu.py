@@ -31,27 +31,12 @@ def buildMenu():
     #============================
     #   DEFAULT STARTUP TOOLS 
     #============================
-    
-    # default Nuke settings
-    nukeCommands.defaultSettings()
+
+    # add custom callbacks
+    nukeCommands.addCustomCallBacks()
 
     # create default favorite dirs
     nukeCommands.createFavoriteDirs()
-
-    # add a frame range override on write node creation for the alfredRender tool
-    # nukeCommands.addFrameRangeOverride()
-
-    # auto check alpha on write node creation 
-    nukeCommands.autoCheckAlpha()
-    
-    # create a tex converter on write nodes
-    nukeCommands.addTexConverter()
-
-    # auto check gl_light on viewers 
-    nukeCommands.viewerSettings()
-
-    # adds a backup button for fRenderTarget nodes
-    nukeCommands.addfRenderTargetBackup()
 
     # add a latestAutosave menu item 
     nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',
@@ -138,7 +123,7 @@ def buildMenu():
 
     #2D
     # coverage map
-    toolbar.addCommand('Nodes/2d/Coverage Map', 'nuke.createNode("coverageMap")')
+    toolbar.addCommand('Nodes/2d/Coverage Map', 'nuke.nodePaste("'+GIZMO_PATH+'/coverageMap.nk")')
     # apply lut
     toolbar.addCommand('Nodes/2d/Apply Lut', 'nuke.createNode("ApplyLUT")')
 
@@ -148,7 +133,7 @@ def buildMenu():
         'import dmptools.nodes.bakeCamera as bakeCamera;bakeCamera.BakeCamera()')
     # 3d image plane
     toolbar.addCommand('Nodes/3d/Image plane',
-        'nuke.createNode("imagePlane")')
+        'nuke.nodePaste("'+GIZMO_PATH+'/imagePlane.nk")')
     # populate geo on 3d selection
     toolbar.addCommand('Nodes/3d/Populate 3d Geo ...',
         'import dmptools.tools.populate as populate;populate.main()')
@@ -221,7 +206,6 @@ def main():
     """
     # main menu
     buildMenu()
-    print " > done."
 
 if __name__ == '__main__':
     main()

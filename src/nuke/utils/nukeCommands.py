@@ -23,6 +23,11 @@ SETTINGS = SettingsManager('nuke')
 PLATFORM = '!PLATFORM!'
 HELP_PAGE = '!HELP_PAGE!'
 
+def fRenderTargetAutodetect():
+    if os.getenv('PL_SHOW') and os.getenv('PL_SHOW') == 'aynik':
+        node = nuke.thisNode()
+        node['Autodetect'].setValue(False)
+
 def fRenderTargetBackupTab():
     """ create a backup tab on fRenderTarget nodes """
     node = nuke.thisNode()
@@ -752,7 +757,6 @@ def gl_lighting():
 def viewerSettings():
     """set some default values on the viewer"""
     node = nuke.thisNode()
-    print "set default value on", node.name()
     node.knob('near').setValue(100)
     node.knob('far').setValue(500000)
     node.knob('grid_display').setValue(False)
@@ -820,7 +824,6 @@ def setDefaultSettings():
     else:
         font = 'Monospace'
 
-    print 'dmptools default settings...'
     preferenceNode = nuke.toNode('preferences')
     # viewer settings
     preferenceNode['maxPanels'].setValue(5)
@@ -840,7 +843,6 @@ def setDefaultSettings():
     preferenceNode['stringLiteralsFgColourDQ'].setValue(10354943)
     preferenceNode['stringLiteralsFgColourSQ'].setValue(10354943)
     preferenceNode['commentsFgColour'].setValue(2442236415L)
-    print ' > done.'
 
 def helpButton():
     """
@@ -951,30 +953,30 @@ def texConvert():
         out = popObj.communicate()
         print 'done.'
 
+"""
 # ======================
 # CALLBACKS
 # ======================
 
-def defaultSettings():
+"""
+def addCustomCallBacks():
     """set default values at the creation of a viewer node"""
     nuke.callbacks.addOnCreate(setDefaultSettings, args=(), kwargs={}, nodeClass='Preferences')
 
-def viewerSettings():
     """set default values at the creation of a viewer node"""
     nuke.callbacks.addOnCreate(viewerSettings, args=(), kwargs={}, nodeClass='Viewer')
-    
-def autoCheckAlpha():
+
     """auto check the alpha channel at the creation of write nodes"""
     nuke.callbacks.addOnUserCreate(checkAlpha, args=(), kwargs={}, nodeClass='Write')
 
-def addFrameRangeOverride():
     """auto add the frame range override tab on write nodes"""
-    nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
+    #nuke.callbacks.addOnUserCreate(frameRangeOverrideTab, args=(), kwargs={}, nodeClass='Write')
 
-def addfRenderTargetBackup():
     """auto add a backup button for fRenderTarget nodes"""
     nuke.callbacks.addOnUserCreate(fRenderTargetBackupTab, args=(), kwargs={}, nodeClass='fRenderTarget')
 
-def addTexConverter():
+    """auto add a backup button for fRenderTarget nodes"""
+    nuke.callbacks.addOnUserCreate(fRenderTargetAutodetect, args=(), kwargs={}, nodeClass='fRenderTarget')
+
     """auto add the tex converter to write nodes"""
     nuke.callbacks.addOnUserCreate(texTab, args=(), kwargs={}, nodeClass='Write')

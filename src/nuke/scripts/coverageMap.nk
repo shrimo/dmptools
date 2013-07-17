@@ -13,13 +13,13 @@ Group {
  addUserKnob {3 frameEnd l "" -STARTLINE}
  frameEnd 1001
  addUserKnob {41 format T ConstantResolution.format}
- addUserKnob {22 Launch T "import mpc.nuke.dmpTools.nodes.coverageMap as coverageMap;coverageMap.coverageMap()" +STARTLINE}
+ addUserKnob {22 Launch T "import dmptools.nodes.coverageMap as coverageMap;coverageMap.coverageMap()" +STARTLINE}
  addUserKnob {26 "" +STARTLINE}
  addUserKnob {26 version T v1.0}
 }
  Read {
   inputs 0
-  file !SHARE_PATH!/textures/constantBlack_256x256.exr
+  file !NUKE_SHARE!/constantBlack_256x256.exr
   format "1024 1024 0 0 1024 1024 1 square_1K"
   origset true
   version 15
@@ -61,7 +61,7 @@ set N1547aeb0 [stack 0]
  }
  Read {
   inputs 0
-  file !SHARE_PATH!/textures/constantBlack_256x256.exr
+  file !NUKE_SHARE!/constantBlack_256x256.exr
   format "256 256 0 0 256 256 1 square_256"
   frame frame-1
   origset true

@@ -19,6 +19,17 @@ SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
+def openFile(filename, software='gedit', shell=True):
+    if not os.path.exists(filename):
+        raise UserWarning("This file doesn't exists...")
+    if not software:
+        raise UserWarning("Software not specified...")
+    command = software+' '+filename+' &'
+    popObj = subprocess.Popen(command, shell=shell, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    out = popObj.communicate()
+    
+    return out[0]
+
 def replaceDefaultPersp():
     """ delete the default persp and recreate a new fresh one """
     # find the default startup persp and delete it

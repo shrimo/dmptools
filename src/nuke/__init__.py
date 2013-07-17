@@ -37,5 +37,5 @@ try:
 
     successPrint('done.', timestamp=True)
     
-except:
-    errorPrint('failed to load dmptools!')
+except BaseException as e:
+    errorPrint('failed to load dmptools:\n'+str(e))
