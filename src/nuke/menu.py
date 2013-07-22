@@ -17,6 +17,8 @@ from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 from dmptools.tools.runCommand import RunCommand
 from dmptools.tools.webBrowser import WebBrowser
 import dmptools.scripts as dmptoolsScripts
+import dmptools.utils.favorites as favorites
+import dmptools.nodes.texTab as texTab
 
 # globals
 VERSION = '!VERSION!'
@@ -36,7 +38,10 @@ def buildMenu():
     nukeCommands.addCustomCallBacks()
 
     # create default favorite dirs
-    nukeCommands.createFavoriteDirs()
+    favorites.createFavoriteDirs()
+
+    # add tex tab on write nodes
+    texTab.addCallback()
 
     # add a latestAutosave menu item 
     nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',

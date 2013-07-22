@@ -83,6 +83,7 @@ if PLATFORM == 'Linux':
 # string replacements
 REPLACEMENTS = \
     {
+        # common
         '!PLATFORM!'            : PLATFORM,
         '!HOST!'                : HOST,
         '!MACHINE!'             : MACHINE,
@@ -91,12 +92,14 @@ REPLACEMENTS = \
         '!GOOGLEDRIVE_PATH!'    : GOOGLEDRIVE_PATH,
         '!HELP_PAGE!'           : __github__,
 
-        '!NUKE_SHARE!'          : NUKE_PATH+MODULE_NAME+'/pictures',
-
+        # maya
         '!MAYA_GLOBAL!'         : MAYA_GLOBAL,
         '!MAYA_PATH!'           : MAYA_PATH+MODULE_NAME,
         '!MAYA_PICTURES!'       : MAYA_PATH+MODULE_NAME+'/pictures',
         '!MAYA_SHELF!'          : MAYA_PATH+MODULE_NAME+'/pictures/shelf',
+
+        # nuke
+        '!NUKE_SHARE!'          : NUKE_PATH+MODULE_NAME+'/pictures',
     }
 
 def installNuke():
