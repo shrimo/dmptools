@@ -107,7 +107,7 @@ def installNuke():
     print '=============================='
     print '           N U K E            '
     print '=============================='
-    print 'installing nuke '+MODULE_NAME+' in '+NUKE_PATH+MODULE_NAME+' ...'    
+    print 'installing nuke '+MODULE_NAME+' in '+NUKE_PATH+MODULE_NAME+' ...'
 
     # delete old dmpTools
     if os.path.exists(NUKE_PATH+MODULE_NAME):

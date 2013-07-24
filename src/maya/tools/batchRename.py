@@ -298,7 +298,6 @@ def ui(dockable):
     renameButton = cmds.button('rename_button', l='Rename', command=renameItems)
     cmds.setParent('..')
 
-
     # Search and replace frame layout
     frameReplace = cmds.frameLayout('rename_frameLayoutReplace',
                             label='Search & Replace',
@@ -379,8 +378,8 @@ def ui(dockable):
     else:
         cmds.showWindow(WINDOWNAME)
 
-def main(dockable):
-    ui(dockable=True)
+def main(dockable=True):
+    ui(dockable)
 
 if __name__ == '__main__':
-    main(False)
+    main()

@@ -8,6 +8,9 @@ import os
 import random
 
 import dmptools.tf2classes as tf2
+import dmptools_misc.framestore.nuke as framestoreNuke
+
+FRAMESTORE_NUKE_PATH = framestoreNuke.__path__[0]
 
 # globals
 NUKE_SHARE = '!NUKE_SHARE!'
@@ -69,7 +72,11 @@ def buildMenu():
     m.addCommand('Set Shot FrameRange', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.setShotFrameRange()')
     m.addCommand('Show modules...', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.showModules()')
     m.addCommand('Merge...', 'import dmptools.utils.nukeCommands as nukeCommands;nukeCommands.merge()', 'M')
-    m.addCommand('Refresh OCIO nodes...', 'import dmptools_misc.framestore.refreshOCIONodes as refreshOCIONodes;refreshOCIONodes.refreshOCIONodes()')
+
+    # framestore
+    m.addCommand('Framestore/Refresh OCIO nodes...', 'import dmptools_misc.framestore.refreshOCIONodes as refreshOCIONodes;refreshOCIONodes.refreshOCIONodes()')
+    m.addCommand('Framestore/aynik/crop compensator', 'nuke.nuke.nodePaste("'+FRAMESTORE_NUKE_PATH+'/crop_compensator.nk")')
+    m.addCommand('Framestore/aynik/srgb to linear', 'nuke.nuke.nodePaste("'+FRAMESTORE_NUKE_PATH+'/sRGB_to_Linear.nk")')
 
 def main():
     """

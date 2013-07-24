@@ -12,18 +12,19 @@ import nuke
 import nukescripts
 
 # dmptools nuke commands modules
-import dmptools.utils.nukeCommands as nukeCommands
 from dmptools.tools.scanlineRenderManager import ScanlineRenderManager
 from dmptools.tools.runCommand import RunCommand
 from dmptools.tools.webBrowser import WebBrowser
-import dmptools.scripts as dmptoolsScripts
+
+import dmptools.utils.nukeCommands as nukeCommands
+import dmptools.scripts as scripts
 import dmptools.utils.favorites as favorites
 import dmptools.nodes.texTab as texTab
 
 # globals
 VERSION = '!VERSION!'
 NUKE_SHARE = '!NUKE_SHARE!'
-GIZMO_PATH = dmptoolsScripts.__path__[0]
+GIZMO_PATH = scripts.__path__[0]
 
 def buildMenu():
     """
@@ -38,7 +39,7 @@ def buildMenu():
     nukeCommands.addCustomCallBacks()
 
     # create default favorite dirs
-    favorites.createFavoriteDirs()
+    favorites.createFavorites()
 
     # add tex tab on write nodes
     texTab.addCallback()

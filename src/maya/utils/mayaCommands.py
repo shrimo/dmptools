@@ -19,6 +19,30 @@ SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
+def openHypergraph():
+    mel.eval('HypergraphDGWindow;')
+    
+def openOutliner():
+    mel.eval('OutlinerWindow;')
+
+def openNamespaceEditor():
+    mel.eval('NamespaceEditor;')
+
+def openScriptEditor():
+    mel.eval("ScriptEditor;")
+
+def openNodeEditor():
+    mel.eval('NodeEditorWindow;')
+
+def createNodeWindow():
+    mel.eval('CreateNodeWindow;')
+
+def openUvTextureEditor():
+    mel.eval('TextureViewWindow;')
+
+def openHypershade():
+    mel.eval('HypershadeWindow;')
+
 def openFile(filename, software='gedit', shell=True):
     if not os.path.exists(filename):
         raise UserWarning("This file doesn't exists...")
@@ -51,9 +75,6 @@ def texmaker(inputfile, outputfile):
     popObj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     out = popObj.communicate()
     return out[0]
-
-def openScriptEditor():
-    mel.eval("ScriptEditor;")
 
 def combine():
     """
@@ -131,12 +152,6 @@ def faceSeparate():
     cmds.xform(cp=True)
 
     return newMesh
-
-def openNodeEditor():
-    mel.eval('NodeEditorWindow;')
-
-def createNodeWindow():
-    mel.eval('CreateNodeWindow;')
 
 def createCameraUVProj():
     sel = cmds.ls(sl=True)
@@ -432,14 +447,6 @@ def freezeCenterPivot():
 def centerPivot():
     """centerPivot"""
     mel.eval('xform -cp;')
-
-def openUvTextureEditor():
-    """openUvTextureEditor"""
-    mel.eval('TextureViewWindow;')
-
-def openHypershade():
-    """openUvTextureEditor"""
-    mel.eval('HypershadeWindow;')
 
 def mergeVertex():
     """merge vertex"""

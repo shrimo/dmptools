@@ -14,9 +14,9 @@ __status__ = "Production"
 
 import os
 import sys
-
 from dmptools.output import defaultPrint, successPrint, errorPrint
 
+starttime = os.times()[-1]
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
 # add google drive path to sys if exists
@@ -35,7 +35,10 @@ try:
     import dmptools.userMenu as userMenu
     userMenu.main()
 
-    successPrint('done.', timestamp=True)
+    endtime = os.times()[-1]
+    elapsedtime = endtime-starttime
+
+    successPrint('loading time: '+str(elapsedtime)[:6]+'sec', timestamp=True)
     
 except BaseException as e:
     errorPrint('failed to load dmptools:\n'+str(e))
