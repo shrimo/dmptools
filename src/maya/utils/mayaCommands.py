@@ -52,6 +52,7 @@ def getNodeType(node=cmds.ls(sl=True, long=True)):
         return None
 
 def openFile(filename, software='gedit', shell=True):
+    """ open a given file with a given software """
     if not os.path.exists(filename):
         raise UserWarning("This file doesn't exists...")
     if not software:
