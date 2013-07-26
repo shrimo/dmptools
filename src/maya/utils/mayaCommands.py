@@ -43,6 +43,14 @@ def openUvTextureEditor():
 def openHypershade():
     mel.eval('HypershadeWindow;')
 
+def getNodeType(node=cmds.ls(sl=True, long=True)):
+    if node:
+        nodeShape = cmds.listRelatives(node[0], shapes=True, f=True)[0]
+        return cmds.nodeType(nodeShape)
+    else:
+        cmds.warning('Please select a node')
+        return None
+
 def openFile(filename, software='gedit', shell=True):
     if not os.path.exists(filename):
         raise UserWarning("This file doesn't exists...")

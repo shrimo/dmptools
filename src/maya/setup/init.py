@@ -18,7 +18,7 @@ try:
     # add google drive path to sys if exists
     # this is for using dmptools_misc modules
     if os.path.exists(DRIVE):
-        defaultPrint('loading dmptools_misc')
+        defaultPrint('loading dmptools_misc...')
         sys.path.append(DRIVE)
     # create shelf
     import dmptools.setup.shelf as shelf
