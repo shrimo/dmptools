@@ -1,12 +1,13 @@
 import nuke
 import os
+import subprocess
 
 def texTab():
     """ add a tex convert tab on write nodes """
     # get node
     node = nuke.thisNode()
     # add command in the after frame render field
-    node.knob('afterFrameRender').setValue('import dmptools.utils.nukeCommands as nc;reload(nc);nc.texConvert()')
+    node.knob('afterFrameRender').setValue('import dmptools.nodes.texTab as tb;reload(tb);tb.texConvert()')
 
     # create knobs
     tab = nuke.Tab_Knob("texConvertTab","Tex Convert")
@@ -21,9 +22,9 @@ def texTab():
     otherFlags = nuke.EvalString_Knob('otherFlags', 'Other Flags', '')
     separator = nuke.Text_Knob('none', '')
     showTex = nuke.PyScript_Knob('showTex', 'show tex')
-    showTex.setCommand('import dmptools.utils.nukeCommands as nc;reload(nc);nc.showTex()')
+    showTex.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.showTex()')
     texInfo = nuke.PyScript_Knob('texInfo', 'tex info')
-    texInfo.setCommand('import dmptools.utils.nukeCommands as nc;reload(nc);nc.texInfo()')
+    texInfo.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.texInfo()')
 
     # add knobs
     node.addKnob(tab)
