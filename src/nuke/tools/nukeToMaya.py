@@ -32,7 +32,7 @@ class ExportToMaya():
             print 'no script to save...'
 
         self.tmpPath = os.getenv('TEMP')
-        if not self.tempPath:
+        if not self.tmpPath:
             self.tempPath = '/tmp'
         self.mayapy = mayapy
         self.objects = objects

@@ -36,7 +36,7 @@ class Utils(object):
                     'fluids', 'follicles',
                     'hairSystems', 'handles',
                     'hulls', 'ikHandles',
-                    'joints', 'lights',
+                    'joints', 'lights'
                     'locators', 'manipulators',
                     'nCloths', 'nParticles',
                     'nRigids', 'nurbsCurves',
