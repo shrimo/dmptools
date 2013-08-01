@@ -22,7 +22,7 @@ II - without Sublime Text editor:
     - execute install.py from an explorer in the dmptools root OR in command shell run 'python install.py' from the root of the dmptools
 
 UNINSTALL:
-    - execute uninstall.py from an explorer in the dmptools root OR run in a command shell 'python uninstall.py' or 'python install.py uninstall'
+    - execute uninstall.py from an explorer in the dmptools root OR run in a command shell run 'python uninstall.py' or 'python install.py uninstall'
 
 RESULT:
     - Maya: You should see a new shelf 'dmptools' and the marking menu of the tools is mapped to the 'n' key.

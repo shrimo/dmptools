@@ -1,17 +1,21 @@
+#!/usr/bin/env python
+
 """
-    Maya & Nuke dmptools standalone install file
-    This will install the Maya and Nuke tools
-    in the user respective folders.
+Maya & Nuke dmptools standalone install file
+This will install the Maya and Nuke tools
+in the user respective folders.
 
-    platforms: Windows, Linux
+platforms: Windows, Linux
 
-    installation:
-    > python install.py
+install:
+> python install.py
+or 
+> ./dmptools install
 
-    uninstall:
-    > python install.py uninstall
-    or
-    > python uninstall.py
+uninstall:
+> python uninstall.py
+or
+> ./dmptools uninstall
 
 """
 
@@ -376,14 +380,10 @@ def main():
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
-    if 'uninstall' in sys.argv:
-        # uninstall dmptoools
-        uninstall()
-    else:
-        # run the install
-        main()
-        # ask to press enter if the install.py file is executed by hand
-        try:
-            raw_input("\npress enter to continue...")
-        except:
-            pass
+    # run the install
+    main()
+    # ask to press enter if the install.py file is executed by hand
+    try:
+        raw_input("\npress enter to continue...")
+    except:
+        pass

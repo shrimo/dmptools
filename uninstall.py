@@ -1,3 +1,7 @@
-from install import *
+import install
 
-uninstall()
+def main():
+    install.uninstall()
+
+if __name__ == '__main__':
+    main()

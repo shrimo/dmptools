@@ -75,6 +75,8 @@ def buildMenu():
 
     # framestore
     m.addCommand('Framestore/Refresh OCIO nodes...', 'import dmptools_misc.framestore.refreshOCIONodes as refreshOCIONodes;refreshOCIONodes.refreshOCIONodes()')
+    m.addCommand('Framestore/Formater', 'nuke.nuke.nodePaste("'+FRAMESTORE_NUKE_PATH+'/formater.nk")')
+    # aynik
     m.addCommand('Framestore/aynik/crop compensator', 'nuke.nuke.nodePaste("'+FRAMESTORE_NUKE_PATH+'/crop_compensator.nk")')
     m.addCommand('Framestore/aynik/srgb to linear', 'nuke.nuke.nodePaste("'+FRAMESTORE_NUKE_PATH+'/sRGB_to_Linear.nk")')
 
