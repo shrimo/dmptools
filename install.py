@@ -1,9 +1,17 @@
 """
- dmpTools standalone install file
- This will install the Maya and Nuke tools
- in the user respective folders.
+    Maya & Nuke dmptools standalone install file
+    This will install the Maya and Nuke tools
+    in the user respective folders.
 
- platforms: Windows, Linux
+    platforms: Windows, Linux
+
+    installation:
+    > python install.py
+
+    uninstall:
+    > python install.py uninstall
+    or
+    > python uninstall.py
 
 """
 
@@ -38,7 +46,7 @@ PLATFORMS = ['Windows', 'Linux']
 if PLATFORM not in PLATFORMS:
     raise UserWarning('This install only works on Windows and Linux!')
 
-# globals
+# globals vars
 MODULE_NAME = 'dmptools'
 VERSION = '1.0.0'
 MODULE_PATH = './'
@@ -178,7 +186,7 @@ def createMelUserSetup():
         newlines = []
         with open(mel_file, "r+") as FILE:
             lines = FILE.readlines()
-            add = False
+            add = True
             for line in lines:
                 if 'python("import dmptools' in line:
                     lines.remove(line)
@@ -211,7 +219,7 @@ def createNukeMenu():
         newlines = []
         with open(menu_file, "r+") as FILE:
             lines = FILE.readlines()
-            add = False
+            add = True
             for line in lines:
                 if 'import dmptools' in line:
                     lines.remove(line)
@@ -301,6 +309,51 @@ def lineCounter():
 
     return lines.keys(), i
 
+def uninstall():
+    # uninstall maya dmptools
+    print '>> uninstalling maya dmptools...'
+    if os.path.exists(MAYA_PATH+MODULE_NAME):
+        shutil.rmtree(MAYA_PATH+MODULE_NAME)
+    else:
+        print 'maya dmptools not found...'
+    mel_file = MAYA_PATH+'/userSetup.mel'
+    is_menu_file = os.path.exists(mel_file)
+    # scan the mel file if exists
+    if is_menu_file:
+        newlines = []
+        with open(mel_file, "r+") as FILE:
+            lines = FILE.readlines()
+            add = False
+            for line in lines:
+                if 'python("import dmptools' in line:
+                    lines.remove(line)
+            newlines = lines
+        with open(mel_file, "w") as FILE:
+            FILE.write(str(''.join(newlines)))
+    print '>> done.'
+
+    # uninstall nuke dmptools
+    print '>> uninstalling nuke dmptools...'
+    if os.path.exists(NUKE_PATH+MODULE_NAME):
+        shutil.rmtree(NUKE_PATH+MODULE_NAME)
+    else:
+        print 'nuke dmptools not found...'
+    menu_file = NUKE_PATH+'/menu.py'
+    is_menu_file = os.path.exists(menu_file)
+    # scan the menu file if exists
+    if is_menu_file:
+        newlines = []
+        with open(menu_file, "r+") as FILE:
+            lines = FILE.readlines()
+            add = False
+            for line in lines:
+                if 'import dmptools' in line:
+                    lines.remove(line)
+            newlines = lines
+        with open(menu_file, "w") as FILE:
+            FILE.write(str(''.join(newlines)))
+    print '>> done.'
+
 def main():
     """
     run the install
@@ -323,10 +376,14 @@ def main():
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
-    # run the install
-    main()
-    # ask to press enter if the install.py file is executed by hand
-    try:
-        raw_input("\npress enter to continue...")
-    except:
-        pass
+    if 'uninstall' in sys.argv:
+        # uninstall dmptoools
+        uninstall()
+    else:
+        # run the install
+        main()
+        # ask to press enter if the install.py file is executed by hand
+        try:
+            raw_input("\npress enter to continue...")
+        except:
+            pass
