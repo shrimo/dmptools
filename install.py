@@ -63,7 +63,6 @@ __status__ = "Production"
 PLATFORM = platform.uname()[0]
 HOST = platform.uname()[1]
 MACHINE = platform.machine()
-
 PLATFORMS = ['Windows', 'Linux']
 if PLATFORM not in PLATFORMS:
     raise UserWarning('This install only works on Windows and Linux!')
