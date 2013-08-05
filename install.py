@@ -15,6 +15,8 @@ DESCRIPTION
 
 SYNOPSIS
 
+    Warning: All commands has to be executed from the root of the dmptools root directory.
+
     install:
     > python install.py
     or 
