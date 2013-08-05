@@ -1,9 +1,41 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
+
+"""
+NAME 
+
+    dmptools
+
+DESCRIPTION
+
+    Utility that install/uninstall/check the dmptools module
+    
+    platforms: Windows, Linux
+
+SYNOPSIS
+
+    install:
+    > python install.py
+    or 
+    > ./dmptools install
+
+    uninstall:
+    > python uninstall.py
+    or
+    > ./dmptools uninstall
+
+    check install status:
+    > python install.py check
+    or
+    > ./dmptools check
+
+    help:
+    > ./dmptools help
+"""
 
 import sys
 import install
 
-correctArgs = ['install', 'uninstall', 'h', 'help',]
+correctArgs = ['install', 'uninstall', 'h', 'help', 'check']
 args = sys.argv
 
 if not len(sys.argv) == 2 or sys.argv[-1] not in correctArgs:
@@ -11,6 +43,9 @@ if not len(sys.argv) == 2 or sys.argv[-1] not in correctArgs:
 
 if args[-1] == 'install':
     install.main()
+
+if args[-1] == 'check':
+    install.checkInstall()
 
 if args[-1] == 'uninstall':
     install.uninstall()

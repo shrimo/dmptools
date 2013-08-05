@@ -1,21 +1,37 @@
 #!/usr/bin/env python
 
 """
-Maya & Nuke dmptools standalone install file
-This will install the Maya and Nuke tools
-in the user respective folders.
+NAME 
 
-platforms: Windows, Linux
+    dmptools
 
-install:
-> python install.py
-or 
-> ./dmptools install
+DESCRIPTION
 
-uninstall:
-> python uninstall.py
-or
-> ./dmptools uninstall
+    Maya & Nuke dmptools standalone install file
+    This will install the Maya and Nuke tools
+    in the user respective folders.
+
+    platforms: Windows, Linux
+
+SYNOPSIS
+
+    install:
+    > python install.py
+    or 
+    > ./dmptools install
+
+    uninstall:
+    > python uninstall.py
+    or
+    > ./dmptools uninstall
+
+    check install status:
+    > python install.py check
+    or
+    > ./dmptools check
+
+    help:
+    > ./dmptools help
 
 """
 
@@ -53,8 +69,8 @@ if PLATFORM not in PLATFORMS:
 # globals vars
 MODULE_NAME = 'dmptools'
 VERSION = '1.0.0'
-MODULE_PATH = './'
-PYTHON_SOURCE_PATH = MODULE_PATH+'/src/'
+MODULE_PATH = '.'
+PYTHON_SOURCE_PATH = MODULE_PATH+'/src'
 EXCLUDE_DIRS = \
     [
         '.git',
@@ -78,7 +94,7 @@ if PLATFORM == 'Windows':
     # maya windows globals
     MAYA_GLOBAL = HOMEPATH+'/documents/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
-    MAYA_PATH = MAYA_GLOBAL+'/scripts/'
+    MAYA_PATH = MAYA_GLOBAL+'scripts/'
 
 if PLATFORM == 'Linux':
     HOMEPATH = os.getenv('HOME')
@@ -90,7 +106,7 @@ if PLATFORM == 'Linux':
     # maya Linux globals
     MAYA_GLOBAL = os.getenv('HOME')+'/maya/'
     IS_MAYA_EXISTS = os.path.exists(MAYA_GLOBAL)
-    MAYA_PATH = MAYA_GLOBAL+'/scripts/'
+    MAYA_PATH = MAYA_GLOBAL+'scripts/'
 
 # string replacements
 REPLACEMENTS = \
@@ -130,8 +146,8 @@ def installNuke():
     # copy stuff from dmptools/python root to respective modules
     for f in os.listdir(PYTHON_SOURCE_PATH):
         if '.py' in f:
-            print ' > installing file', PYTHON_SOURCE_PATH+f, 'to', NUKE_PATH+MODULE_NAME+'/'+f
-            shutil.copy2(PYTHON_SOURCE_PATH+f, NUKE_PATH+MODULE_NAME+'/'+f)
+            print ' > installing file', PYTHON_SOURCE_PATH+'/'+f, 'to', NUKE_PATH+MODULE_NAME+'/'+f
+            shutil.copy2(PYTHON_SOURCE_PATH+'/'+f, NUKE_PATH+MODULE_NAME+'/'+f)
     # replacements
     print ' > doing replacements...'
     replacements(NUKE_PATH+MODULE_NAME)
@@ -155,8 +171,8 @@ def installMaya():
     # copy stuff from dmptools/python root to respective modules
     for f in os.listdir(PYTHON_SOURCE_PATH):
         if '.py' in f:
-            print ' > installing file', PYTHON_SOURCE_PATH+f, 'to', MAYA_PATH+MODULE_NAME+'/'+f
-            shutil.copy2(PYTHON_SOURCE_PATH+f, MAYA_PATH+MODULE_NAME+'/'+f)
+            print ' > installing file', PYTHON_SOURCE_PATH+'/'+f, 'to', MAYA_PATH+MODULE_NAME+'/'+f
+            shutil.copy2(PYTHON_SOURCE_PATH+'/'+f, MAYA_PATH+MODULE_NAME+'/'+f)
     # replacements
     print ' > doing replacements...'
     replacements(MAYA_PATH+MODULE_NAME)
@@ -314,16 +330,22 @@ def lineCounter():
     return lines.keys(), i
 
 def uninstall():
+    """
+    uninstall the dmptools for nuke and maya
+    remove the module calls from the nuke menu file and the maya userSetup file
+    """
+
     # uninstall maya dmptools
+    print "\nUninstalling:"
     print '>> uninstalling maya dmptools...'
     if os.path.exists(MAYA_PATH+MODULE_NAME):
         shutil.rmtree(MAYA_PATH+MODULE_NAME)
     else:
         print 'maya dmptools not found...'
-    mel_file = MAYA_PATH+'/userSetup.mel'
-    is_menu_file = os.path.exists(mel_file)
+    mel_file = MAYA_PATH+'userSetup.mel'
+    is_mel_file = os.path.exists(mel_file)
     # scan the mel file if exists
-    if is_menu_file:
+    if is_mel_file:
         newlines = []
         with open(mel_file, "r+") as FILE:
             lines = FILE.readlines()
@@ -342,7 +364,7 @@ def uninstall():
         shutil.rmtree(NUKE_PATH+MODULE_NAME)
     else:
         print 'nuke dmptools not found...'
-    menu_file = NUKE_PATH+'/menu.py'
+    menu_file = NUKE_PATH+'menu.py'
     is_menu_file = os.path.exists(menu_file)
     # scan the menu file if exists
     if is_menu_file:
@@ -358,12 +380,50 @@ def uninstall():
             FILE.write(str(''.join(newlines)))
     print '>> done.'
 
+def checkInstall():
+    """
+    checks if the dmptools for nuke and maya are installed
+    """
+
+    print '\nChecking:'
+    if os.path.exists(NUKE_PATH+MODULE_NAME):
+        print '+nuke dmptools is installed here:', NUKE_PATH+MODULE_NAME
+    else:
+        print '-nuke dmptools is NOT installed'
+    menu_file = NUKE_PATH+'menu.py'
+    is_menu_file = os.path.exists(menu_file)
+    if is_menu_file:
+        with open(menu_file, "r") as FILE:
+            lines = FILE.readlines()
+            for line in lines:
+                if 'import dmptools' in line:
+                    print '+nuke dmptools module found in menu file:', menu_file
+
+    if os.path.exists(MAYA_PATH+MODULE_NAME):
+        print '+maya dmptools is installed here:', MAYA_PATH+MODULE_NAME
+    else:
+        print '-maya dmptools is NOT installed'
+
+    mel_file = MAYA_PATH+'userSetup.mel'
+    is_mel_file = os.path.exists(mel_file)
+    if is_mel_file:
+        with open(mel_file, "r") as FILE:
+            lines = FILE.readlines()
+            for line in lines:
+                if 'import dmptools' in line:
+                    print '+maya dmptools module found in userSetup file:', mel_file
+
 def main():
     """
     run the install
     """
+    print '\nDMPTOOLS INSTALL\n'
     print 'executing',' '.join(sys.argv)
     print 'We are on', PLATFORM, '!'
+    
+    # check if dmptools are installed
+    checkInstall()
+
     # install Nuke dmptools
     if IS_NUKE_EXISTS:
         installNuke()
@@ -380,10 +440,20 @@ def main():
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
+    """
+    runs the check install function if 'check' is the arguments.
+    otherwise runs the main function.
+    """
+
+    # check install if arg is 'check'
+    if len(sys.argv) == 2 and sys.argv[-1] == 'check':
+        checkInstall()
+
     # run the install
-    main()
-    # ask to press enter if the install.py file is executed by hand
-    try:
-        raw_input("\npress enter to continue...")
-    except:
-        pass
+    else:
+        main()
+        # ask to press enter if the install.py file is executed by hand
+        try:
+            raw_input("\npress enter to continue...")
+        except:
+            pass
