@@ -46,6 +46,7 @@ import os
 import sys
 import time
 import fileinput
+import subprocess
 import shutil
 from shutil import *
 
@@ -71,6 +72,7 @@ if PLATFORM not in PLATFORMS:
 MODULE_NAME = 'dmptools'
 VERSION = '1.0.0'
 MODULE_PATH = '.'
+ABSOLUTE_PATH = os.getcwd()
 PYTHON_SOURCE_PATH = MODULE_PATH+'/src'
 EXCLUDE_DIRS = \
     [
@@ -83,6 +85,13 @@ EXCLUDE_DIRS = \
 EXCLUDE_FILES = ['pyc', '~']
 MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup.init");// automatically added by the dmptools installation'
 NUKE_MENU_FILE = 'import dmptools # automatically added by the dmptools installation'
+
+# check if we run the install from the correct location
+listdir = os.listdir(ABSOLUTE_PATH)
+if 'src' in listdir and 'install.py' in listdir and 'dmptools' in listdir:
+    pass
+else:
+    raise UserWarning('You run the install from the wrong location!')
 
 # platform globals
 if PLATFORM == 'Windows':
@@ -412,6 +421,18 @@ def checkInstall():
             for line in lines:
                 if 'import dmptools' in line:
                     print '+maya dmptools module found in userSetup file:', mel_file
+
+def createArchive():
+    """
+    create a tar archive of the dmptools repo
+    """
+    archivename = MODULE_NAME+'.tar'
+    cmd = 'cd .. && tar --exclude=".git .gitignore" -cf '+archivename+' '+MODULE_NAME+' && mv '+archivename+' '+ABSOLUTE_PATH
+    popObj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    out = popObj.communicate()
+    
+    print '> dmptools archive created here:', ABSOLUTE_PATH+'/'+archivename
+    return out[0]
 
 def main():
     """

@@ -35,11 +35,14 @@ SYNOPSIS
 import sys
 import install
 
-correctArgs = ['install', 'uninstall', 'h', 'help', 'check']
+correctArgs = ['install', 'uninstall', 'h', 'help', 'check', 'archive']
 args = sys.argv
 
 if not len(sys.argv) == 2 or sys.argv[-1] not in correctArgs:
     print install.__doc__
+
+if args[-1] == 'archive':
+    install.createArchive()
 
 if args[-1] == 'install':
     install.main()

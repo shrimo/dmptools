@@ -20,6 +20,11 @@ try:
     if os.path.exists(DRIVE):
         defaultPrint('loading dmptools_misc...')
         sys.path.append(DRIVE)
+
+    # custom maya settings
+    import dmptools.setup.settings as mayaSettings
+    mayaSettings.setCustomSettings()
+
     # create shelf
     import dmptools.setup.shelf as shelf
     shelf.main()
