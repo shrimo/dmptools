@@ -338,7 +338,7 @@ def uninstall():
 
     # uninstall maya dmptools
     print "\nUninstalling:"
-    print '>> uninstalling maya dmptools...'
+    print '> uninstalling maya dmptools...'
     if os.path.exists(MAYA_PATH+MODULE_NAME):
         shutil.rmtree(MAYA_PATH+MODULE_NAME)
     else:
@@ -357,10 +357,9 @@ def uninstall():
             newlines = lines
         with open(mel_file, "w") as FILE:
             FILE.write(str(''.join(newlines)))
-    print '>> done.'
 
     # uninstall nuke dmptools
-    print '>> uninstalling nuke dmptools...'
+    print '> uninstalling nuke dmptools...'
     if os.path.exists(NUKE_PATH+MODULE_NAME):
         shutil.rmtree(NUKE_PATH+MODULE_NAME)
     else:
@@ -379,7 +378,7 @@ def uninstall():
             newlines = lines
         with open(menu_file, "w") as FILE:
             FILE.write(str(''.join(newlines)))
-    print '>> done.'
+    print '> done.'
 
 def checkInstall():
     """
