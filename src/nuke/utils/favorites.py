@@ -16,6 +16,7 @@ def createFramestoreFavorites():
                     shotPath = os.getenv('PL_SHOT_PATH')
                     mayaPath = shotPath+'/work/'+os.getenv('USER')+'/maya/'
                     nukeScriptsPath = shotPath+'/work/'+os.getenv('USER')+'/nuke/scripts/'
+                    nukeCompPath = shotPath+'/work/'+os.getenv('USER')+'/nuke/comp/'
                     renderWorkP = shotPath+'/work/'+os.getenv('USER')+'/render/'
                     texturePath = shotPath+'/asset/texture/'
                     renderPath = shotPath+'/render/'
@@ -24,6 +25,7 @@ def createFramestoreFavorites():
                     # add favorite dirs
                     nuke.addFavoriteDir(name='|-work maya ', directory=mayaPath)
                     nuke.addFavoriteDir(name='|-work nuke', directory=nukeScriptsPath)
+                    nuke.addFavoriteDir(name='|-work nuke', directory=nukeCompPath)
                     nuke.addFavoriteDir(name='|-work render', directory=renderWorkP)
                     nuke.addFavoriteDir(name='|-textures', directory=texturePath)
                     nuke.addFavoriteDir(name='|-render', directory=renderPath)
@@ -32,28 +34,32 @@ def createFramestoreFavorites():
 def createMpcFavorites():
     """ create MPC based favorites directory if env vars are found """
 
-    if os.getenv('JOB') and os.getenv('SHOT'):
-        dmpPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/images/env/')
-        dmpmasterPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/textures/masters/env/')
+    user = os.getenv('USER')
+    job = os.getenv('JOB')
+    if job:
+        shot = os.getenv('SHOT'):
+        if shot:
+            dmpPath = str('/jobs/' + job + '/' + shot + '/maya/textures/images/env/')
+            dmpmasterPath = str('/jobs/' + job + '/' + shot + '/maya/textures/masters/env/')
 
-        nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/'+os.environ['USER']+'/')
-        if not os.path.exists(nukePath):
-            nukePath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/nuke/scene/')
+            nukePath = str('/jobs/' + job + '/' + shot + '/nuke/scene/'+user+'/')
+            if not os.path.exists(nukePath):
+                nukePath = str('/jobs/' + job + '/' + shot + '/nuke/scene/')
 
-        mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/'+os.environ['USER']+'/')
-        if not os.path.exists(mayaEnv):
-            mayaEnv = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/scenes/env/')
+            mayaEnv = str('/jobs/' + job + '/' + shot + '/maya/scenes/env/'+user+'/')
+            if not os.path.exists(mayaEnv):
+                mayaEnv = str('/jobs/' + job + '/' + shot + '/maya/scenes/env/')
 
-        mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/'+os.environ['USER']+'/')
-        if not os.path.exists(mayaPath):
-            mayaPath = str('/jobs/' + os.environ['JOB'] + '/' + os.environ['SHOT'] + '/maya/renders/')
+            mayaPath = str('/jobs/' + job + '/' + shot + '/maya/renders/'+user+'/')
+            if not os.path.exists(mayaPath):
+                mayaPath = str('/jobs/' + job + '/' + shot + '/maya/renders/')
 
-        nuke.addFavoriteDir(name='|-Maya env dir', directory=mayaEnv)
-        nuke.addFavoriteDir(name='|-Maya renders dir', directory=mayaPath)
-        nuke.addFavoriteDir(name='|-Nuke user dir', directory=nukePath)
-        nuke.addFavoriteDir(name='|-DMP images', directory=dmpPath)
-        nuke.addFavoriteDir(name='|-DMP master', directory=dmpmasterPath)
-
+            nuke.addFavoriteDir(name='|-Maya env dir', directory=mayaEnv)
+            nuke.addFavoriteDir(name='|-Maya renders dir', directory=mayaPath)
+            nuke.addFavoriteDir(name='|-Nuke user dir', directory=nukePath)
+            nuke.addFavoriteDir(name='|-DMP images', directory=dmpPath)
+            nuke.addFavoriteDir(name='|-DMP master', directory=dmpmasterPath)
+            
 def createFavorites():
     # get framestore host name
     host = os.getenv('HOST')

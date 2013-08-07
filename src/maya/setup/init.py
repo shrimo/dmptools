@@ -7,12 +7,15 @@ init the dmptools for Maya
 import os
 import sys
 
+# get start time
 starttime = os.times()[-1]
 
+# load shell/interpreter dmptools print modules
 from dmptools.output import defaultPrint, successPrint, errorPrint
 
 DRIVE = '!GOOGLEDRIVE_PATH!'
 
+# load dmptools setup modules
 try:
     defaultPrint('loading dmptools...')
     # add google drive path to sys if exists
@@ -22,7 +25,7 @@ try:
         sys.path.append(DRIVE)
 
     # custom maya settings
-    import dmptools.setup.settings as mayaSettings
+    import dmptools.setup.mayaSettings as mayaSettings
     mayaSettings.setCustomSettings()
 
     # create shelf
@@ -37,5 +40,6 @@ try:
     elapsedtime = endtime-starttime
     successPrint('loading time: '+str(elapsedtime)[:6]+'sec', timestamp=True)  
 
-except BaseException as e:
-    errorPrint('failed to load dmptools:\n'+str(e))
+# report the error if any
+except BaseException as exception:
+    errorPrint('failed to load dmptools:\n'+str(exception))

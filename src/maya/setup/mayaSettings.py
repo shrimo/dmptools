@@ -1,11 +1,12 @@
-    """
-    some custom maya settings
-    TO DO:
-            -hide cube
-            -select handle
-            -uncheck interactive creation
-    """
+"""
+some custom maya settings
+TO DO:
+        -hide cube
+        -select handle
+        -uncheck interactive creation
+"""
 
+import os
 import maya.cmds as cmds
 
 def customSettings():
@@ -21,6 +22,38 @@ def defaultSettings():
 
 def customBookmarks():
     cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", '/net/homes/mhavart/code/python/dmptools'])
+
+def createFramestoreBookmarks():
+    """ create framestore based favorites directory if env vars are found """
+
+    show = os.getenv('PL_SHOW')
+    if show:
+        division = os.getenv('PL_DIVISION')
+        if division:
+            sequence = os.getenv('PL_SEQ')
+            if sequence:
+                shot = os.getenv('PL_SHOT')
+                if shot:
+                    # create paths
+                    shotPath = os.getenv('PL_SHOT_PATH')
+                    mayaPath = shotPath+'/work/'+os.getenv('USER')+'/maya/'
+                    nukeScriptsPath = shotPath+'/work/'+os.getenv('USER')+'/nuke/scripts/'
+                    nukeCompPath = shotPath+'/work/'+os.getenv('USER')+'/nuke/comp/'
+                    renderWorkP = shotPath+'/work/'+os.getenv('USER')+'/render/'
+                    texturePath = shotPath+'/asset/texture/'
+                    renderPath = shotPath+'/render/'
+                    renderWsPath = shotPath+'/renderws/'
+
+                    # add favorite dirs
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", mayaPath])
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", nukeScriptsPath])
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", nukeCompPath])
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", texturePath])
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", texturePath])
+                    cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", renderWsPath])
+
+def createMpcBookmarks():
+    pass
 
 def customScriptEditorColors():
     """
@@ -84,29 +117,40 @@ def setCustomColors():
     cmds.displayColor('polymesh', 3, active=True)
     cmds.displayColor('polymesh', 2, dormant=True)
     """
+    # default background
+    cmds.displayRGBColor('background', 0.63099998235702515, 0.63099998235702515, 0.63099998235702515)
+    cmds.displayRGBColor('backgroundBottom', 0.052000001072883606, 0.052000001072883606, 0.052000001072883606)
+    cmds.displayRGBColor('backgroundTop', 0.5350000262260437, 0.61699998378753662, 0.70200002193450928)
 
-def switchColors():
-    """
-    switch between color schemes
-    """
-    
-    global switchColor
-    try:
-        switchColor
-    except:
-        switchColor = 1
+    # default meshes
+    cmds.displayRGBColor('lead', 0.4, 0.4, 0.4, create=True)
+    cmds.displayColor('hilite', 18, active=True)
+    cmds.displayColor('hiliteComponent', 9, active=True)
+    cmds.displayColor('lead', 19, active=True)
+    cmds.displayColor('polymesh', 16, active=True)
+    cmds.displayColor('polymesh', 5, dormant=True)
 
-    if switchColor == 1:
-        headsUpDisplayMessage("custom color scheme")
-        setCustomColors()
-        switchColor = 0
-    elif switchColor == 0:
-        headsUpDisplayMessage("default color scheme")
-        setDefaultColors()
-        switchColor = 1
+def createBookmarks():
+    # get framestore host name
+    host = os.getenv('HOST')
+    # get mpc hostname
+    hostname = os.getenv('HOSTNAME')
+
+    # create framestore based favorites
+    if host and host.split('.')[-2] == 'framestore':
+        createFramestoreBookmarks()
+
+    # create mpc based favorites
+    if hostname and hostname.split('.')[-2] == 'mpc':
+        createMpcBookmarks()
 
 def setCustomSettings():
     customSettings()
-    customBookmarks()
+    createBookmarks()
     customScriptEditorColors()
     setCustomColors()
+
+def setDefaultSettings():
+    defaultSettings()
+    defaultScriptEditorColors()
+    setDefaultColors()

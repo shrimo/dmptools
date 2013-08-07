@@ -1,20 +1,12 @@
 #!/usr/bin/env python
 
 """
-NAME 
+Maya & Nuke dmptools standalone install file
+This will install the Maya and Nuke tools
+in the user respective folders.
 
-    dmptools
-
-DESCRIPTION
-
-    Maya & Nuke dmptools standalone install file
-    This will install the Maya and Nuke tools
-    in the user respective folders.
-
-    platforms: Windows, Linux
-
-SYNOPSIS
-
+USE:
+    Platforms: Windows, Linux
     Warning: All commands has to be executed from the root of the dmptools root directory.
 
     install:
@@ -87,8 +79,8 @@ MAYA_USERSETUP_MEL_FILE = 'python("import dmptools.setup.init");// automatically
 NUKE_MENU_FILE = 'import dmptools # automatically added by the dmptools installation'
 
 # check if we run the install from the correct location
-listdir = os.listdir(ABSOLUTE_PATH)
-if 'src' in listdir and 'install.py' in listdir and 'dmptools' in listdir:
+LISTDIR = os.listdir(ABSOLUTE_PATH)
+if 'src' in LISTDIR and 'install.py' in LISTDIR and 'dmptools' in LISTDIR:
     pass
 else:
     raise UserWarning('You run the install from the wrong location!')
@@ -141,7 +133,7 @@ REPLACEMENTS = \
     }
 
 def installNuke():
-    # install nuke process
+    """ nuke install main function """
     print '=============================='
     print '           N U K E            '
     print '=============================='
@@ -166,7 +158,7 @@ def installNuke():
     print ' > done.'
 
 def installMaya():
-    # install maya process
+    """ maya install main function """
     print '=============================='
     print '           M A Y A            '
     print '=============================='
@@ -191,6 +183,7 @@ def installMaya():
     print ' > done.'
 
 def replacements(path):
+    """ replace '!STRING!' dmptools vars with global vars  """
     # check the files in the install path
     for root, dirs, files in os.walk(path):
         for f in files:
@@ -205,9 +198,7 @@ def replacements(path):
                     sys.stdout.write(line)
 
 def createMelUserSetup():
-    '''
-    create the userSetup file for Maya startup
-    '''
+    """ create the userSetup file for Maya startup """
     mel_file = MAYA_PATH+'/userSetup.mel'
     is_menu_file = os.path.exists(mel_file)
     # scan the mel file if exists
@@ -238,9 +229,7 @@ def createMelUserSetup():
             FILE.write(MAYA_USERSETUP_MEL_FILE)
 
 def createNukeMenu():
-    '''
-    create the menu.py file for Nuke startup
-    '''
+    """ create the menu.py file for Nuke startup """
     menu_file = NUKE_PATH+'/menu.py'
     is_menu_file = os.path.exists(menu_file)
     # scan the menu file if exists
@@ -271,9 +260,7 @@ def createNukeMenu():
             FILE.write(NUKE_MENU_FILE)
      
 def install(src, dst, symlinks=False, ignore=None):
-    '''
-    slightly different shutil.copytree
-    '''
+    """ slightly different shutil.copytree """
     names = os.listdir(src)
     if ignore is not None:
         ignored_names = ignore(src, names)
@@ -317,9 +304,7 @@ def install(src, dst, symlinks=False, ignore=None):
         raise Error(errors)
 
 def lineCounter():
-    """
-    quick file and line counter
-    """
+    """ quick file and line counter """
     lines = {}
     for root, dirs, files in os.walk(MAYA_PATH+MODULE_NAME):
         for f in files:
@@ -344,7 +329,6 @@ def uninstall():
     uninstall the dmptools for nuke and maya
     remove the module calls from the nuke menu file and the maya userSetup file
     """
-
     # uninstall maya dmptools
     print "\nUninstalling:"
     print '> uninstalling maya dmptools...'
@@ -390,10 +374,7 @@ def uninstall():
     print '> done.'
 
 def checkInstall():
-    """
-    checks if the dmptools for nuke and maya are installed
-    """
-
+    """ checks if the dmptools for nuke and maya are installed """
     print '\nChecking:'
     if os.path.exists(NUKE_PATH+MODULE_NAME):
         print '+nuke dmptools is installed here:', NUKE_PATH+MODULE_NAME
@@ -423,21 +404,18 @@ def checkInstall():
                     print '+maya dmptools module found in userSetup file:', mel_file
 
 def createArchive():
-    """
-    create a tar archive of the dmptools repo
-    """
+    """ create a tar archive of the dmptools repo """
     archivename = MODULE_NAME+'.tar'
-    cmd = 'cd .. && tar --exclude=".git .gitignore" -cf '+archivename+' '+MODULE_NAME+' && mv '+archivename+' '+ABSOLUTE_PATH
+    os.chdir('..')
+    path = os.getcwd()
+    cmd = 'tar --exclude ".git" -cf '+archivename+' '+MODULE_NAME
     popObj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     out = popObj.communicate()
     
-    print '> dmptools archive created here:', ABSOLUTE_PATH+'/'+archivename
-    return out[0]
+    print '> dmptools archive created here:', path+'/'+archivename
 
 def main():
-    """
-    run the install
-    """
+    """ run the install """
     print '\nDMPTOOLS INSTALL\n'
     print 'executing',' '.join(sys.argv)
     print 'We are on', PLATFORM, '!'
@@ -465,7 +443,6 @@ if __name__ == '__main__':
     runs the check install function if 'check' is the arguments.
     otherwise runs the main function.
     """
-
     # check install if arg is 'check'
     if len(sys.argv) == 2 and sys.argv[-1] == 'check':
         checkInstall()
