@@ -9,8 +9,8 @@ HOMEPATH = '!HOMEPATH!'
 
 class SettingsManager(object):
     """
-    manage the dmptools settings.
-    create a settings file when declaring the class.
+    manages the dmptools settings.
+    creates a settings file when declaring the class.
     you can only set one setting at a time.
 
     usage:
@@ -62,7 +62,8 @@ class SettingsManager(object):
         checks if the setting file exists.
         raise an error if not.
         """
-        if not os.path.exists(self.settingsfile): raise UserWarning("You need to recreate the SettingsManager with a new file")
+        if not os.path.exists(self.settingsfile):
+            raise UserWarning("You need to recreate the SettingsManager with a new file")
 
     def clearFile(self, recreate=False):
         """

@@ -558,10 +558,13 @@ shelfItems = [
     {
         'name':'Terminator',
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchConsole()',
+            reload(mayaCommands);mayaCommands.launchTerminal()',
         'icon':ICONSPATH+'/Console.xpm',
         'annotation':'Launch the Console2 terminal.',
-        'menu':False,
+        'menu':True,
+        'menuItems':[('Terminal','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchTerminal()'),
+                     ('Windows console','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchConsole()'),
+                    ]
     },
     {
         'name':'SublimeText',

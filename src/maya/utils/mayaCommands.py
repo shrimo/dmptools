@@ -448,6 +448,11 @@ def newScriptEditor():
     
     cmds.showWindow()
 
+def launchTerminal():
+    cmd = 'gnome-terminal'
+    popObj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    out = popObj.communicate()
+
 def launchConsole():
     """launch console2 from maya"""
     

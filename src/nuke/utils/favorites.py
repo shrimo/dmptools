@@ -37,7 +37,7 @@ def createMpcFavorites():
     user = os.getenv('USER')
     job = os.getenv('JOB')
     if job:
-        shot = os.getenv('SHOT'):
+        shot = os.getenv('SHOT')
         if shot:
             dmpPath = str('/jobs/' + job + '/' + shot + '/maya/textures/images/env/')
             dmpmasterPath = str('/jobs/' + job + '/' + shot + '/maya/textures/masters/env/')

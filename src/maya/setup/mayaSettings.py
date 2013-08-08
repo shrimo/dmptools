@@ -1,7 +1,6 @@
 """
 some custom maya settings
 TO DO:
-        -hide cube
         -select handle
         -uncheck interactive creation
 """
@@ -13,12 +12,15 @@ def customSettings():
     # view cube off
     cmds.viewManip(visible=False)
     cmds.optionVar(iv = ["viewCubeShowCube", 0])
+    # click box size
+    cmds.selectPref(clickBoxSize=6)
 
 def defaultSettings():
-    cmds.displayRGBColor('outlinerInvisibleColor', 0.4, 0.4, 0.4)
     # view cube on
     cmds.viewManip(visible=True)
     cmds.optionVar(iv = ["viewCubeShowCube", 1])
+    # click box size
+    cmds.selectPref(clickBoxSize=4)
 
 def customBookmarks():
     cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", '/net/homes/mhavart/code/python/dmptools'])
