@@ -8,6 +8,10 @@ TO DO:
 import os
 import maya.cmds as cmds
 
+from dmptools.settings import SettingsManager
+
+SETTINGS = SettingsManager('maya')
+
 def customSettings():
     # view cube off
     cmds.viewManip(visible=False)
@@ -22,7 +26,7 @@ def defaultSettings():
     # click box size
     cmds.selectPref(clickBoxSize=4)
 
-def customBookmarks():
+def createCustomBookmarks():
     cmds.optionVar(sva = ["CustomFileDialogSidebarUrls", '/net/homes/mhavart/code/python/dmptools'])
 
 def createFramestoreBookmarks():
@@ -132,7 +136,7 @@ def setCustomColors():
     cmds.displayColor('polymesh', 16, active=True)
     cmds.displayColor('polymesh', 5, dormant=True)
 
-def createBookmarks():
+def createCorporateBookmarks():
     # get framestore host name
     host = os.getenv('HOST')
     # get mpc hostname
@@ -148,11 +152,23 @@ def createBookmarks():
 
 def setCustomSettings():
     customSettings()
-    createBookmarks()
+    createCustomBookmarks()
+    createCorporateBookmarks()
     customScriptEditorColors()
     setCustomColors()
+    SETTINGS.add('mayaSettings', 'customSettings')
 
 def setDefaultSettings():
     defaultSettings()
     defaultScriptEditorColors()
     setDefaultColors()
+    SETTINGS.add('mayaSettings', 'defaultSettings')
+
+def main():
+    for setting in SETTINGS.getAll():
+        if 'mayaSettings' in setting.keys():
+            settingsState = SETTINGS.get('mayaSettings')
+            if settingsState == 'customSettings':
+                setCustomSettings()
+            if settingsState == 'defaultSettings':
+                setDefaultSettings()

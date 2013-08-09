@@ -538,7 +538,11 @@ shelfItems = [
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
         'menuItems':[('initiate dmptools', 'import dmptools.setup.init'),
-                     ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")')]
+                     ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
+                     ('divider2', ''),
+                     ('set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
+                     ('set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
+                 ]
     },
     {
         'name':'separator1'

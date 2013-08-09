@@ -84,6 +84,7 @@ if 'src' in LISTDIR and 'install.py' in LISTDIR and 'dmptools' in LISTDIR:
     pass
 else:
     raise UserWarning('You run the install from the wrong location!')
+del(LISTDIR)
 
 # platform globals
 if PLATFORM == 'Windows':

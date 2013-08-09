@@ -110,7 +110,7 @@ def checkSavedItems():
             sourceType = item.values()[0][2]
             # add menu item
             menuItem = cmds.menuItem(parent=PARENT, label=itemName, command=itemCommand, sourceType=sourceType)
-            # remove old otem
+            # remove old otem (because of the maya menuitem name)
             SETTINGS.remove(item.keys()[0])
             # add fresh one
             SETTINGS.add(menuItem, [itemName, itemCommand, sourceType])

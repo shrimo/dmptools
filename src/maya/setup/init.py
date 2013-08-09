@@ -26,7 +26,7 @@ try:
 
     # custom maya settings
     import dmptools.setup.mayaSettings as mayaSettings
-    mayaSettings.setCustomSettings()
+    mayaSettings.main()
 
     # create shelf
     import dmptools.setup.shelf as shelf
