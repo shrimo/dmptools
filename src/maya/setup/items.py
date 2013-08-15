@@ -155,9 +155,18 @@ hotkeysItems = [
             reload(runCommand);runCommand.main(False)");',
     },
     {
-        'name':'namespaceEditor',
+        'name':'setNamespace',
         'key':'N',
         'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.setNamespace()");',
+    },
+    {
+        'name':'namespaceEditor',
+        'key':'n',
+        'alt':True,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\

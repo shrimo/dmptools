@@ -43,6 +43,26 @@ def openUvTextureEditor():
 def openHypershade():
     mel.eval('HypershadeWindow;')
 
+def getNamespace():
+    selection = cmds.ls(sl=True)
+    root = ':'
+    if selection:
+        node = selection[0]
+        if '|' in node:
+            node = node.split('|')[-1]
+    
+        nsSplit = node.split(':')[:-1]    
+        ns = root+root.join(nsSplit)+root
+        return ns
+    else:
+        return ':'    
+
+def setNamespace():
+    ns = getNamespace()
+    print 'set namespace to: "'+ns+'"',
+
+    return cmds.namespace(set=ns)
+
 def getNodeType(node=cmds.ls(sl=True, long=True)):
     if node:
         nodeShape = cmds.listRelatives(node[0], shapes=True, f=True)[0]
