@@ -55,7 +55,7 @@ def getNamespace():
         ns = root+root.join(nsSplit)+root
         return ns
     else:
-        return ':'    
+        return ':'
 
 def setNamespace():
     ns = getNamespace()
