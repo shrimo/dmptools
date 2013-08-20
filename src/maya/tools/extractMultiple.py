@@ -5,7 +5,7 @@ class Extract(object):
     def __init__(self):
         self.original = cmds.ls(sl=True)
 
-    def start(self, none=None):
+    def start(self, *args):
         """start the extraction process"""
         original_mesh = self.original[0]
         original = cmds.duplicate()[0]
@@ -112,13 +112,13 @@ class Extract(object):
             else:
                 cmds.delete(part)
 
-    def refresh(self, none=None):
+    def refresh(self, *args):
         sel = cmds.ls(sl=True)
         if sel:
             self.original = sel
             cmds.window('separateUI', t='Separate: '+self.original[0], e=True)
 
-    def closeUI(self, none=None):
+    def closeUI(self, *args):
         """close the UI"""
         cmds.deleteUI('separateUI')
 

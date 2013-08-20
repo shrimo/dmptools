@@ -339,7 +339,7 @@ class MayaToNukeUI(object):
         aboutC = 'import maya.cmds as cmds;cmds.confirmDialog(title="about", message="version v1.0", button="OK")'
         cmds.menuItem(label='About', c=aboutC)
 
-    def selectOutputFile(self, none=None):
+    def selectOutputFile(self, *args):
         """opens a file dialog to point to the output path"""
         textfieldValue = cmds.textField(self.textField, text=True, q=True)
         if textfieldValue:
@@ -373,7 +373,7 @@ class MayaToNukeUI(object):
         else:
             return None
 
-    def refreshUI(self, none=None):
+    def refreshUI(self, *args):
         """method to refresh the interface from a new selection"""
         # get the new selection
         self.originalSel = cmds.ls(sl=True)
@@ -420,7 +420,7 @@ class MayaToNukeUI(object):
         cmds.text(self.header, label=headerText, e=True)
         self.saveSettings()
 
-    def closeUI(self, none=None):
+    def closeUI(self, *args):
         """delete the main window"""
         # get settings before closing
         self.saveSettings()
@@ -462,13 +462,13 @@ class MayaToNukeUI(object):
         else:
             cmds.confirmDialog(t='Error', m='There is nothing to export!')
 
-    def saveSettings(self, none=None):
+    def saveSettings(self, *args):
         # get settings values
         textField = cmds.textField(self.textField, text=True, q=True)
         # set settings
         SETTINGS.add('mtn_textField', textField)
 
-    def settingsUI(self, none=None):
+    def settingsUI(self, *args):
         """UI of mayaToNuke settings """
         settings = SETTINGS.getAll()
         # create ui

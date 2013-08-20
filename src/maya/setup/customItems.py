@@ -11,7 +11,7 @@ def deleteWindow(name):
     if cmds.window(name, q=True, ex=True):
         cmds.deleteUI(name, window=True)
 
-def editItemUI(none=None):
+def editItemUI(*args):
     """ display the UI to edit selected custom item """
     deleteWindow('edit_customEditItem')
     cmds.window('edit_customEditItem', t='edit custom item', s=False)
@@ -35,7 +35,7 @@ def editItemUI(none=None):
     # displays the window
     cmds.showWindow('edit_customEditItem')
 
-def editItem(none=None):
+def editItem(*args):
     """ first edit the item in the edit/remove UI
         then edit the item in the shelf and last edit the item in the settings file
     """
@@ -87,7 +87,7 @@ def editRemoveItemsUI():
     # displays the window    
     cmds.showWindow('editRemoveItems')
 
-def removeItems(none=None):
+def removeItems(*args):
     """ remove item from popup menu and from the settings file """
     items = cmds.textScrollList('item_list', q=True, si=True)
     if items:
@@ -115,7 +115,7 @@ def checkSavedItems():
             # add fresh one
             SETTINGS.add(menuItem, [itemName, itemCommand, sourceType])
 
-def createItem(none=None):
+def createItem(*args):
     """ create/add the custom item to the shelf and save the item to the settings file """
     itemName = cmds.textFieldGrp('create_customname', q=True, text=True)
     itemCommand = cmds.textFieldGrp('create_customCommand', q=True, text=True)

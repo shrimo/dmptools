@@ -2,6 +2,26 @@ import nuke
 import os
 import subprocess
 
+def refreshTab():
+    node = nuke.thisNode()
+    knob = nuke.thisKnob()
+    if knob:
+        # to do when the file knob is changed
+        if knob.name() == 'file' or knob.name() == 'texConvertCheckbox':
+            texExists, texFile = checkTex()
+            if texExists and texFile:
+                text = 'Tex file found - will be replaced'
+                node.knob('checkTex').setValue("<FONT COLOR=\"green\">"+text+"<\FONT>")
+            if not texExists and texFile:
+                text = 'Tex file NOT found - will be created'
+                node.knob('checkTex').setValue("<FONT COLOR=\"red\">"+text+"<\FONT>")
+            if not texExists and not texFile:
+                text = 'Tex file NOT found - please fill the file knob'
+                node.knob('checkTex').setValue("<FONT COLOR=\"red\">"+text+"<\FONT>")
+    else:
+        text = '[file not set]'
+        node.knob('checkTex').setValue("<FONT COLOR=\"black\">"+text+"<\FONT>")
+
 def texTab():
     """ add a tex convert tab on write nodes """
     # get node
@@ -20,11 +40,17 @@ def texTab():
     filterMenu = nuke.Enumeration_Knob("filter","filter",['box',
         'point', 'triangle', 'sinc', 'gaussian', 'gaussian-soft', 'catmull-rom', 'mitchell', 'cubic', 'lanczos', 'bessel', 'blackman-harris'])
     otherFlags = nuke.EvalString_Knob('otherFlags', 'Other Flags', '')
-    separator = nuke.Text_Knob('none', '')
+    # separator
+    separator1 = nuke.Text_Knob('none', '')
+    # text check
+    checkText = nuke.Text_Knob('checkTex', ' ', '')
+    checkText.setFlag(nuke.ENDLINE)
+    # show tex button
     showTex = nuke.PyScript_Knob('showTex', 'show tex')
     showTex.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.showTex()')
+    # print tex info button
     texInfo = nuke.PyScript_Knob('texInfo', 'tex info')
-    texInfo.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.texInfo()')
+    texInfo.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.texInfo()') 
 
     # add knobs
     node.addKnob(tab)
@@ -34,29 +60,36 @@ def texTab():
     node.addKnob(resizeMenu)
     node.addKnob(filterMenu)
     node.addKnob(otherFlags)
-    node.addKnob(separator)
+    node.addKnob(separator1)
+    node.addKnob(checkText)
     node.addKnob(showTex)
     node.addKnob(texInfo)
 
     # set the focus on the first tab of the node
     node.knob('file').setFlag(True)
+    # refresh text knob
+    refreshTab()
+
+def checkTex():
+    node = nuke.thisNode()
+    filename = node['file'].getEvaluatedValue().replace('exr', 'tex')
+
+    return os.path.exists(filename), filename
 
 def showTex():
     """ show the associated tex file from a file knob """
-    node = nuke.thisNode()
-    filename = node['file'].getEvaluatedValue().replace('exr', 'tex')
-    if filename and os.path.exists(filename):
-        command = 'sho '+filename
+    texExists, texFile = checkTex()
+    if texExists:
+        command = 'sho '+texFile
         popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     else:
         print 'no file found...'
 
 def texInfo():
     """ show the associated tex info from a file knob """
-    node = nuke.thisNode()
-    filename = node['file'].getEvaluatedValue().replace('exr', 'tex')
-    if filename and os.path.exists(filename):
-        command = 'txinfo '+filename
+    texExists, texFile = checkTex()
+    if texExists:
+        command = 'txinfo '+texFile
         popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         out = popObj.communicate()
         print out[0]
@@ -95,3 +128,5 @@ def texConvert():
 def addCallback():
     """auto add the tex converter to write nodes"""
     nuke.callbacks.addOnUserCreate(texTab, args=(), kwargs={}, nodeClass='Write')
+    nuke.callbacks.addKnobChanged(refreshTab, args=(), kwargs={}, nodeClass = 'Write')
+    

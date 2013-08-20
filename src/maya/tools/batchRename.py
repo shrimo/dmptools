@@ -7,7 +7,7 @@ SETTINGS = SettingsManager('batchRename')
 WINDOWNAME = 'batch_rename'
 CONTROLNAME = 'batch_rename_control'
 
-def saveSettings(none=None):
+def saveSettings(*args):
     """ stuff to save """
     
     counter = cmds.textFieldGrp('rename_counter', q=True, text=True)
@@ -33,11 +33,11 @@ def saveSettings(none=None):
     SETTINGS.add('desc', desc)
     SETTINGS.add('category', category)
 
-def selectItem(none=None):
+def selectItem(*args):
     item = cmds.textScrollList('selecter_output', q=True, si=True)
     cmds.select(item, replace=True)
     
-def parseFilterSelection(none=None):
+def parseFilterSelection(*args):
     """ change the preview name as the user is typing """
 
     parseText = cmds.textFieldGrp('selecter_nameField', q=True, text=True)
@@ -103,7 +103,7 @@ def parseFilterSelection(none=None):
     cmds.textScrollList('selecter_output', e=True, removeAll=True)
     cmds.textScrollList('selecter_output', e=True, append=items)
 
-def removeArnoldAttr(none=None):
+def removeArnoldAttr(*args):
     selection = cmds.ls(sl=True)
 
     # remove attrs
@@ -122,7 +122,7 @@ def removeArnoldAttr(none=None):
         except:
             pass
 
-def setArnoldAttr(none=None):
+def setArnoldAttr(*args):
     selection = cmds.ls(sl=True)
     selectionShapes = cmds.listRelatives(selection, shapes=True)
 
@@ -171,7 +171,7 @@ def setArnoldAttr(none=None):
 
     saveSettings()
     
-def parseInputText(none=None):
+def parseInputText(*args):
     """ change the preview name as the user is typing """
 
     counter = int(cmds.textFieldGrp('rename_counter', q=True, text=True))
@@ -188,7 +188,7 @@ def parseInputText(none=None):
     
     return outText
 
-def renameItems(none=None):
+def renameItems(*args):
     """ rename the items in selection """
 
     counter = int(cmds.textFieldGrp('rename_counter', q=True, text=True))
@@ -206,7 +206,7 @@ def renameItems(none=None):
 
     saveSettings()
    
-def searchReplace(none=None):
+def searchReplace(*args):
     """ search and replace the items in selection """
 
     searchfor = cmds.textFieldGrp('rename_search', q=True, text=True)
@@ -219,7 +219,7 @@ def searchReplace(none=None):
             print 'failed to rename', node
     saveSettings()
 
-def closeUI(none=None):
+def closeUI(*args):
     """ save the fields and close the ui """
 
     saveSettings()

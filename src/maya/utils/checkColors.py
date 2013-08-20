@@ -35,7 +35,7 @@ class CheckColors(object):
 
         return badMeshes
 
-    def selectNode(self, none=None):
+    def selectNode(self, *args):
         node = cmds.textScrollList('textScroll', selectItem=True, q=True)
         try:
             cmds.select(node, r=True)

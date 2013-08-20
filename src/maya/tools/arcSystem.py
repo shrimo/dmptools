@@ -17,7 +17,7 @@ import time
 PLATFORM = '!PLATFORM!'
 
 class CreateArcs(object):
-    def __init__(self, none=None):
+    def __init__(self, *args):
         
         arcSystem = {}
         # arc generic values
