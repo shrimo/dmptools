@@ -114,6 +114,14 @@ markingMenuItems = [
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
+        'name':'UV tile Manager',
+        'subMenu':False,
+        'position':False,
+        'command':'import dmptools.tools.uvManager as uvManager;reload(uvManager);uvManager.main();\
+        import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+
+    },
+    {
         'name':'Replace default persp',
         'subMenu':False,
         'position':False,
@@ -640,6 +648,7 @@ shelfItems = [
             ('run command', 'import dmptools.tools.runCommand as runCommand;runCommand.main(False)'),
             ('ratio calculator', 'import dmptools.tools.ratioCalculator as ratioCalculator;ratioCalculator.main()'),
             ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;symmetry.main()'),
+            ('uv tiles manager', 'import dmptools.tools.uvManager as uvManager;uvManager.main()'),
             ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),
         ]
     },
