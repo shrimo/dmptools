@@ -7,12 +7,18 @@ def refreshTab():
     knob = nuke.thisKnob()
     if knob:
         # to do when the file knob is changed
-        if knob.name() == 'file' or knob.name() == 'texConvertCheckbox':
+        if knob.name():
             texExists, texFile = checkTex()
-            if texExists and texFile:
+            if texExists and texFile and node['texConvertCheckbox'].getValue():
                 text = 'Tex file found - will be replaced'
                 node.knob('checkTex').setValue("<FONT COLOR=\"green\">"+text+"<\FONT>")
+            if texExists and texFile and not node['texConvertCheckbox'].getValue():
+                text = 'Tex file found'
+                node.knob('checkTex').setValue("<FONT COLOR=\"green\">"+text+"<\FONT>")
             if not texExists and texFile:
+                text = 'Tex file NOT found'
+                node.knob('checkTex').setValue("<FONT COLOR=\"red\">"+text+"<\FONT>")
+            if not texExists and texFile and node['texConvertCheckbox'].getValue():
                 text = 'Tex file NOT found - will be created'
                 node.knob('checkTex').setValue("<FONT COLOR=\"red\">"+text+"<\FONT>")
             if not texExists and not texFile:
@@ -44,7 +50,8 @@ def texTab():
     separator1 = nuke.Text_Knob('none', '')
     # text check
     checkText = nuke.Text_Knob('checkTex', ' ', '')
-    checkText.setFlag(nuke.ENDLINE)
+    #checkText.setFlag(nuke.ENDLINE)
+    checkText.setFlag(nuke.STARTLINE)
     # show tex button
     showTex = nuke.PyScript_Knob('showTex', 'show tex')
     showTex.setCommand('import dmptools.nodes.texTab as tb;reload(tb);tb.showTex()')
@@ -123,7 +130,9 @@ def texConvert():
         print command
         popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         out = popObj.communicate()
+
         print out[0]
+
 
 def addCallback():
     """auto add the tex converter to write nodes"""

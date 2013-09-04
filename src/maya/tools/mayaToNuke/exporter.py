@@ -97,8 +97,10 @@ class Exporter(object):
         # if there is something to export, generate the nuke script file (.nk) from the python script
         if objects or cameras or locators or lights:
             # wait loop
+            waitingTime = 15
             print " > generating and saving the nuke script ..."
             print " > command:", generateNukeScript
+            print " > waiting time:", waitingTime, "seconds..."
             if os.path.exists(self.outputFile):
                 os.remove(self.outputFile)
             t=0
@@ -111,7 +113,7 @@ class Exporter(object):
                                     stderr=subprocess.STDOUT)
                 if os.path.exists(self.outputFile):
                         break
-                if t == 15:
+                if t == waitingTime:
                     break
                 else:
                     time.sleep(1)
