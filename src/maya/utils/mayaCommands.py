@@ -57,6 +57,20 @@ def getNamespace():
     else:
         return ':'
 
+def udimFromNode(node):
+    uPos, vPos = cmds.polyEditUV(node+'.map[1]', q=True)
+    uTile = int(math.floor(uPos))
+    vTile = int(math.floor(vPos))
+    udim = 1000+(uTile+1)+(vTile*10)
+    
+    return udim, uTile, vTile
+
+def uvFromUdim(udim):
+    v = (udim-1000-1)/10
+    u = (udim-1000-1-(v*10))
+    
+    return u, v
+
 def setNamespace():
     ns = getNamespace()
     print 'set namespace to: "'+ns+'"',

@@ -21,7 +21,7 @@ def makeProxy(node, filePath, filePathBool, fileType, colorspace, scaleFactor, c
     nukeCommands.selectReplace(node)
 
     file = node['file'].value().split('.')[-2]
-    if file in ['####', '%4d']:
+    if file in ['####', '%04d']:
         file = node['file'].value().split('.')[-3]
     filename = os.path.basename(file)
 

@@ -121,6 +121,14 @@ def removeArnoldAttr(*args):
             cmds.deleteAttr(shape, at='rmanSassetCategory')
         except:
             pass
+        try:
+            cmds.deleteAttr(shape, at='rmanSassetDefinition')
+        except:
+            pass
+        try:
+            cmds.deleteAttr(shape, at='rmanSassetVariant')
+        except:
+            pass
 
 def setArnoldAttr(*args):
     selection = cmds.ls(sl=True)

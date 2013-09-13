@@ -101,7 +101,7 @@ if PLATFORM == 'Windows':
 
 if PLATFORM == 'Linux':
     HOMEPATH = os.getenv('HOME')
-    GOOGLEDRIVE_PATH = HOMEPATH+'/code/python/'
+    GOOGLEDRIVE_PATH = HOMEPATH+'/drive/code/python/'
     # nuke Linux globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
