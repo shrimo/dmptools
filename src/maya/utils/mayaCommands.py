@@ -21,7 +21,7 @@ SETTINGS.add('default_perspFar', perspFar)
 
 def openHypergraph():
     mel.eval('HypergraphDGWindow;')
-    
+
 def openOutliner():
     mel.eval('OutlinerWindow;')
 
@@ -42,6 +42,22 @@ def openUvTextureEditor():
 
 def openHypershade():
     mel.eval('HypershadeWindow;')
+
+def alignUVsUP():
+    # to top
+    mel.eval("alignUV 0 0 1 0;")
+
+def alignUVsDown():
+    # to bottom
+    mel.eval("alignUV 0 0 1 1;")
+
+def alignUVsLeft():
+    # to left
+    mel.eval("alignUV 1 1 0 0;")
+
+def alignUVsRight():
+    # to right
+    mel.eval("alignUV 1 0 0 0;")
 
 def getNamespace():
     selection = cmds.ls(sl=True)
@@ -317,7 +333,7 @@ def mergeUVs():
     mel.eval('setComponentPickMask "Point" true;')
     mel.eval('selectType -ocm -alc false;')
     mel.eval('selectType -ocm -vertex true;')
-    mel.eval('selectType -sf false -se false -suv false -cv false;')   
+    mel.eval('selectType -sf false -se false -suv false -cv false;')
 
 def selectInsideFaces():
     """select all the edges inside an object except the border."""
@@ -419,7 +435,7 @@ def mergeVertex():
         try:
             for node in sel:
                 cmds.select(node, r=True)
-                cmds.polyMergeVertex(distance=0.1, am=True, ch=True)
+                cmds.polyMergeVertex(distance=0.01, am=True, ch=True)
         except:
             pass
         cmds.select(sel, r=True)

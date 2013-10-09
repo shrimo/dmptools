@@ -135,7 +135,7 @@ markingMenuItems = [
         'position':False,
         'annotation':'Show the hotkeys list window',
         'command':'import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.showHotkeysList();\
+            reload(hotkeys);hotkeys.showHotkeysList(dockable=False);\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
 ]
@@ -170,6 +170,42 @@ hotkeysItems = [
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.setNamespace()");',
+    },
+    {
+        'name':'alignUVsUP',
+        'key':'up',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.alignUVsUP()");',
+    },
+    {
+        'name':'alignUVsDown',
+        'key':'down',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.alignUVsDown()");',
+    },
+    {
+        'name':'alignUVsLeft',
+        'key':'left',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.alignUVsLeft()");',
+    },
+    {
+        'name':'alignUVsRight',
+        'key':'right',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.alignUVsRight()");',
     },
     {
         'name':'namespaceEditor',
