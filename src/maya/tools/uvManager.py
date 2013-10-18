@@ -2,19 +2,19 @@ from maya import cmds
 
 def offsetUVTop(*args):
     value = float(cmds.textField('uvTileManager', text=True, q=True))
-    cmds.polyEditUV(u=0, v=value) 
+    cmds.polyEditUV(u=0, v=value)
 
 def offsetUVBottom(*args):
     value = float(cmds.textField('uvTileManager', text=True, q=True))
-    cmds.polyEditUV(u=0, v=-value) 
+    cmds.polyEditUV(u=0, v=-value)
 
 def offsetUVLeft(*args):
     value = float(cmds.textField('uvTileManager', text=True, q=True))
-    cmds.polyEditUV(u=-value, v=0) 
+    cmds.polyEditUV(u=-value, v=0)
 
 def offsetUVRight(*args):
     value = float(cmds.textField('uvTileManager', text=True, q=True))
-    cmds.polyEditUV(u=value, v=0) 
+    cmds.polyEditUV(u=value, v=0)
 
 def ui():
     if cmds.window('uvTileManagerWindow', exists=True):

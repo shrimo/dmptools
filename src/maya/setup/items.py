@@ -154,6 +154,15 @@ hotkeysItems = [
             reload(markingMenu);markingMenu.deleteMarkingMenu()");',
     },
     {
+        'name':'switchFbkResolution',
+        'key':'G',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.shamblesUtils as shamblesUtils;\
+            reload(shamblesUtils);shamblesUtils.switchAnimRender()");',
+    },
+    {
         'name':'runCommand',
         'key':'e',
         'alt':True,
@@ -647,6 +656,7 @@ shelfItems = [
         'annotation':'Script Editor.',
         'menu':True,
         'menuItems':[('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
+                     ('charcoal editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openCharcoalEditor()'),
                      ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
                     ]
     },

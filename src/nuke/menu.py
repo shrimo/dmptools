@@ -146,6 +146,9 @@ def buildMenu():
     # sequence manager (dev)
     toolbar.addCommand('Nodes/3d/Sequence Manager',
         'nuke.nodePaste("'+GIZMO_PATH+'/sequenceManager.nk")')
+    # create script node
+    toolbar.addCommand('Nodes/misc/Script Node',
+        'import dmptools.nodes.scriptNode as scriptNode;scriptNode.main()')
 
     #===================
     #   MACROS MENU

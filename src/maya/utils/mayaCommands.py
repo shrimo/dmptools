@@ -4,6 +4,7 @@ import os
 import time
 import subprocess
 import fnmatch
+import math
 
 from dmptools.settings import SettingsManager
 
@@ -18,6 +19,9 @@ PLATFORM = '!PLATFORM!'
 SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
+
+def openCharcoalEditor():
+    mel.eval('charcoalEditor;')
 
 def openHypergraph():
     mel.eval('HypergraphDGWindow;')

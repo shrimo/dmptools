@@ -107,7 +107,7 @@ def removeArnoldAttr(*args):
     selection = cmds.ls(sl=True)
 
     # remove attrs
-    for node in selection:
+    for node in cmds.ls(sl=True):
         shape = cmds.listRelatives(node, shapes=True)
         try:
             cmds.deleteAttr(shape, at='rmanSassetName')
@@ -129,6 +129,10 @@ def removeArnoldAttr(*args):
             cmds.deleteAttr(shape, at='rmanSassetVariant')
         except:
             pass
+        try:
+            cmds.deleteAttr(shape, at='rmanP__Pref')
+        except:
+            pass
 
 def setArnoldAttr(*args):
     selection = cmds.ls(sl=True)
@@ -138,21 +142,7 @@ def setArnoldAttr(*args):
     desc = cmds.textFieldGrp('rename_desc', q=True, text=True)
     category = cmds.textFieldGrp('rename_category', q=True, text=True)
 
-    # remove attrs
-    for node in selection:
-        shape = cmds.listRelatives(node, shapes=True)
-        try:
-            cmds.deleteAttr(shape, at='rmanSassetName')
-        except:
-            pass
-        try:
-            cmds.deleteAttr(shape, at='rmanSassetDesc')
-        except:
-            pass
-        try:
-            cmds.deleteAttr(shape, at='rmanSassetCategory')
-        except:
-            pass
+    removeArnoldAttr()
 
     # add attr
     for sel in selectionShapes:
