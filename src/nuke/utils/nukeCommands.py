@@ -869,6 +869,14 @@ def runCommand(command):
 
     return process.communicate()
 
+def setDefaultReadValues():
+    node = nuke.thisNode()
+    if node.Class() in ['Read', 'Group']:
+        if node.knob('before'):
+            node.knob('before').setValue('loop')
+        if node.knob('after'):
+            node.knob('after').setValue('loop')
+
 """
 # ======================
 # CALLBACKS
@@ -876,6 +884,8 @@ def runCommand(command):
 
 """
 def addCustomCallBacks():
+    """set default read ranges values"""
+    nuke.callbacks.addOnCreate(setDefaultReadValues, args=(), kwargs={}, nodeClass='*')
     """set default values at the creation of a viewer node"""
     nuke.callbacks.addOnCreate(setDefaultSettings, args=(), kwargs={}, nodeClass='Preferences')
 

@@ -63,6 +63,18 @@ def alignUVsRight():
     # to right
     mel.eval("alignUV 1 0 0 0;")
 
+def getActiveCamera():
+    pane = cmds.getPanel(wf=True)
+    activeCamera = cmds.modelPanel(pane, camera=True, q=True)
+
+    return activeCamera
+
+def fixClipPlanes():
+    activeCamera = getActiveCamera()
+    activeCameraShape = cmds.listRelatives(activeCamera, shapes=True)[0]
+    cmds.setAttr(activeCameraShape+'.nearClipPlane', 10)
+    cmds.setAttr(activeCameraShape+'.farClipPlane', 1000000)
+
 def getNamespace():
     selection = cmds.ls(sl=True)
     root = ':'

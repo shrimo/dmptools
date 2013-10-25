@@ -154,13 +154,45 @@ hotkeysItems = [
             reload(markingMenu);markingMenu.deleteMarkingMenu()");',
     },
     {
+        'name':'setPreviousRenderVersion',
+        'key':'[',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', True)");',
+    },
+    {
+        'name':'setNextRenderVersion',
+        'key':']',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', True)");',
+    },
+    {
+        'name':'setPreviousRenderDisplayVersion',
+        'key':'{',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False)");',
+    },
+    {
+        'name':'setNextRenderDisplayVersion',
+        'key':'}',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', False)");',
+    },
+    {
         'name':'switchFbkResolution',
         'key':'G',
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.shamblesUtils as shamblesUtils;\
-            reload(shamblesUtils);shamblesUtils.switchAnimRender()");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;\
+            reload(fbkUtils);fbkUtils.switchAnimRender()");',
     },
     {
         'name':'runCommand',
@@ -696,6 +728,7 @@ shelfItems = [
             ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;symmetry.main()'),
             ('uv tiles manager', 'import dmptools.tools.uvManager as uvManager;uvManager.main()'),
             ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),
+            ('fix clip planes', 'import dmptools.utils.mayaCommands as mayaCommands;mayaCommands.fixClipPlanes()'),
         ]
     },
     {
