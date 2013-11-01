@@ -48,6 +48,10 @@ def buildMenu():
     nuke.menu("Nuke").addCommand('File/Recent Files/Latest autosave',
         'import dmptools.utils.nukeCommands as nukeCommands;nuke.scriptOpen(nukeCommands.getLatestAutosave())')
 
+    # tmp tool
+    import dmptools.tools.panoTool as panoTool
+    panoTool.addCallback()
+
     #========================
     #   BUILD THE TOOLBAR 
     #========================
