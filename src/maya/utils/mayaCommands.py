@@ -63,6 +63,20 @@ def alignUVsRight():
     # to right
     mel.eval("alignUV 1 0 0 0;")
 
+def checkOverlappingObjects(selection):
+    xforms = []
+    wrongXforms = []
+    for node in selection:
+        nodeM = cmds.xform(node, ws=True, m=True, q=True)
+        if nodeM in xforms:
+            wrongXforms.append(node)
+        else:
+            xforms.append(nodeM)
+    if wrongXforms:
+        return wrongXforms
+    else:
+        return None
+
 def getActiveCamera():
     pane = cmds.getPanel(wf=True)
     activeCamera = cmds.modelPanel(pane, camera=True, q=True)

@@ -771,6 +771,7 @@ def executeSelection(firstFrame=nuke.frame(), lastFrame=nuke.frame()):
                 nuke.execute(node, firstFrame, lastFrame)
         except:
             print 'cannot execute', node.name(), '...'
+        print 'all done.'
     else:
         nuke.message("Please select some write nodes!")
 

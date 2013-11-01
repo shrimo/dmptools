@@ -159,7 +159,7 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', True)");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', True, True)");',
     },
     {
         'name':'setNextRenderVersion',
@@ -167,7 +167,7 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', True)");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', True, True)");',
     },
     {
         'name':'setPreviousRenderDisplayVersion',
@@ -175,7 +175,7 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False)");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False, True");',
     },
     {
         'name':'setNextRenderDisplayVersion',
@@ -183,7 +183,15 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', False)");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', False, True)");',
+    },
+    {
+        'name':'setLatestVersion',
+        'key':']',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setLatestVersion(\'render\', False, False)");',
     },
     {
         'name':'switchFbkResolution',
