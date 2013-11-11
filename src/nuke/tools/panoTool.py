@@ -25,3 +25,4 @@ def _add_callback_on_knob():
 
 def addCallback():
     nuke.callbacks.addKnobChanged(_add_callback_on_knob, args=(), kwargs={}, nodeClass = 'Scene')
+    

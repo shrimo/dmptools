@@ -175,7 +175,7 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False, True");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False, True)");',
     },
     {
         'name':'setNextRenderDisplayVersion',
@@ -642,6 +642,7 @@ shelfItems = [
         'menuItems':[('initiate dmptools', 'import dmptools.setup.init'),
                      ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
                      ('divider2', ''),
+                     ('open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
                      ('set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
                      ('set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
                  ]

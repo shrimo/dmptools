@@ -768,6 +768,7 @@ def executeSelection(firstFrame=nuke.frame(), lastFrame=nuke.frame()):
         try:
             for node in nodes:
                 print "executing", node.name(), nuke.frame()
+                print 'writing', node['file'].getValue()
                 nuke.execute(node, firstFrame, lastFrame)
         except:
             print 'cannot execute', node.name(), '...'
@@ -878,12 +879,10 @@ def setDefaultReadValues():
         if node.knob('after'):
             node.knob('after').setValue('loop')
 
-"""
 # ======================
 # CALLBACKS
 # ======================
 
-"""
 def addCustomCallBacks():
     """set default read ranges values"""
     nuke.callbacks.addOnCreate(setDefaultReadValues, args=(), kwargs={}, nodeClass='*')

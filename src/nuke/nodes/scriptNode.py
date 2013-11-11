@@ -7,7 +7,7 @@ def executeScript():
     scriptpath = "/tmp/nuke_scripnode_tmp.py"
     with open(scriptpath, 'w') as FILE:
         FILE.write(script)
-    #execfile(scriptpath)
+    execfile(scriptpath)
 
 def scriptNode():
 

@@ -12,6 +12,22 @@ from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('maya')
 
+def openCommandPort():
+    port = 7001
+    while openPort(port) == False:
+        openPort(port)
+        port +=1
+
+def openPort(port):
+    try:
+        cmds.commandPort(n=':'+str(port), sourceType='python')
+        SETTINGS.add('mayaDmptoolsCommandPort', port)
+        print 'opening port', port, 'for incoming dmptools commands...',
+        
+        return True
+    except:
+        return False
+
 def customSettings():
     # view cube off
     cmds.viewManip(visible=False)
@@ -156,6 +172,7 @@ def setCustomSettings():
     createCorporateBookmarks()
     customScriptEditorColors()
     setCustomColors()
+    openCommandPort()
     SETTINGS.add('mayaSettings', 'customSettings')
 
 def setDefaultSettings():
