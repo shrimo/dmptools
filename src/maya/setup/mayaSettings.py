@@ -22,7 +22,7 @@ def openPort(port):
     try:
         cmds.commandPort(n=':'+str(port), sourceType='python')
         SETTINGS.add('mayaDmptoolsCommandPort', port)
-        print 'opening port', port, 'for incoming dmptools commands...',
+        print 'opening port', port, 'for incoming dmptools commands...'
         
         return True
     except:
