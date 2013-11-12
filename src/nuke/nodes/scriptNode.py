@@ -10,14 +10,17 @@ def executeScript():
     execfile(scriptpath)
 
 def scriptNode():
-
+    # create empty node
     scriptNode = nuke.createNode('NoOp')
     scriptNode.setName('scriptNode')
+    scriptNode['hide_input'].setValue(True)
+    # create custom text field knob
     textKnob = nuke.Multiline_Eval_String_Knob('input_script', 'Script')
+    # create execute button
     executeButton = nuke.PyScript_Knob('execute_script', 'Execute')
     cmd = "import dmptools.nodes.scriptNode as scriptNode;reload(scriptNode);scriptNode.executeScript()"
     executeButton.setCommand(cmd)
-    
+    # add the knobs to the node
     scriptNode.addKnob(textKnob)
     scriptNode.addKnob(executeButton)
 
