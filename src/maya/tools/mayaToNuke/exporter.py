@@ -29,6 +29,7 @@ class Exporter(object):
         self.timeStr = timeInfo['str']
         # get the nuke bin path
         self.nukePath = UTILS.nukePath
+        self.nukeApertureConvertion = 0.0393700787
         
     def startExport(self):
         """
@@ -103,7 +104,7 @@ class Exporter(object):
             print " > waiting time:", waitingTime, "seconds..."
             if os.path.exists(self.outputFile):
                 os.remove(self.outputFile)
-            t=0
+            t = 0
             while not os.path.exists(self.outputFile):
                 print ' > time spent: '+str(t)+' second(s)...'
                 # generating the nuke script in the first iteration of the wait loop
@@ -298,8 +299,8 @@ class Exporter(object):
                 xformS = cmds.xform(camera, s = True, r = True, q = True)
                 # get lens infos
                 focal = float(cmds.getAttr(cameraShape+".focalLength"))
-                hap = float(cmds.getAttr(cameraShape+".horizontalFilmAperture"))/ 0.0393700787
-                vap = float(cmds.getAttr(cameraShape+".verticalFilmAperture"))/ 0.0393700787
+                hap = float(cmds.getAttr(cameraShape+".horizontalFilmAperture"))/self.nukeApertureConvertion
+                vap = float(cmds.getAttr(cameraShape+".verticalFilmAperture"))/self.nukeApertureConvertion
                 # write to file
                 filePy.write('cameraToAnimate = nuke.toNode("'+cameraClean+'")\n')
                 # set translate
