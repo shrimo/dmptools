@@ -141,7 +141,7 @@ def makeProxyUI(nodes):
     """
     main UI
     """
-    # checkfor the saved settings
+    # check for the saved settings and assign default if none
     path = SETTINGS.get('imageConvert_path')
     if not 'path' in locals():
         path = ''

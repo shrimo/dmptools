@@ -8,6 +8,8 @@ import math
 
 from dmptools.settings import SettingsManager
 
+from dmptools_misc.linux import fdUtils
+
 # globals
 SETTINGS = SettingsManager('maya')
 normalAngle = 35
@@ -19,6 +21,38 @@ PLATFORM = '!PLATFORM!'
 SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
+
+def getNodesInHierarchy(shapes=False, select=False):
+    longList = []
+    cmds.select(hi=True)
+    for node in cmds.ls(sl=True, l=True, r=True):
+        if shapes:
+            if cmds.listRelatives(node, shapes=True):
+                longList.extend(cmds.listRelatives(node, shapes=True, path=True))
+        else:
+            longList.extend(cmds.ls(node, path=True))
+    if select:
+        cmds.select(longList, r=True)
+    
+    return longList
+
+def getFdState():
+    fdState = fdUtils.getOpenedFiles()
+    SETTINGS.add('fdState', fdState)
+    print '\nget the current list of opened files...',
+
+def flushFd():
+    if SETTINGS.get('fdState'):
+        fdUtils.closeOpenedFiles(filterList=SETTINGS.get('fdState'))
+        print '\nflushing the opened files since last get...',
+    else:
+        print '\nno current fd list found...',
+
+def getLenFd(printR=True):
+    if printR:
+        print '\n'+str(len(fdUtils.getOpenedFiles()))+' opened files.',
+    else:
+        return len(fdUtils.getOpenedFiles())
 
 def openCharcoalEditor():
     mel.eval('charcoalEditor;')

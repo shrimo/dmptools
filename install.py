@@ -40,7 +40,7 @@ import time
 import fileinput
 import subprocess
 import shutil
-from shutil import *
+from shutil import copy2, copystat
 
 # module vars
 __author__ = "Michael Havart"

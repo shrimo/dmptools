@@ -639,67 +639,65 @@ shelfItems = [
         'icon':ICONSPATH+'/refresh.png',
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
-        'menuItems':[('initiate dmptools', 'import dmptools.setup.init'),
-                     ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
-                     ('divider2', ''),
-                     ('open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
-                     ('set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
-                     ('set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
-                 ]
+        'menuItems':[
+            ('initiate dmptools', 'import dmptools.setup.init'),
+            ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
+            ('divider2', ''),
+            ('open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
+            ('set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
+            ('set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
+        ]
     },
     {
         'name':'separator1'
     },
     {
         'name':'HotkeysList',
-        'command':'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)',
+        'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/hotkeys.png',
         'annotation':'Show the hotkeys list window',
         'menu':True,
-        'menuItems':[('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),
-                     ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')]
+        'menuItems':[
+            ('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),
+            ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')
+        ]
     },
     {
         'name':'separator2'
     },
     {
         'name':'Terminator',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchTerminal()',
+        'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/Console.xpm',
-        'annotation':'Launch the Console2 terminal.',
+        'annotation':'Launch a Terminal.',
         'menu':True,
-        'menuItems':[('Terminal','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchTerminal()'),
-                     ('Windows console','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchConsole()'),
-                    ]
-    },
-    {
-        'name':'SublimeText',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchSublimeText()',
-        'icon':ICONSPATH+'/SublimeText.xpm',
-        'annotation':'Launch the Sublime Text editor.',
-        'menu':False,
+        'menuItems':[
+            ('Terminal','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchTerminal()'),
+            ('Windows console','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchConsole()'),
+        ]
     },
     {
         'name':'Nuke',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchNuke()',
+        'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/Nuke.xpm',
         'annotation':'Launch Nuke.',
-        'menu':False,
+        'menu':True,
+        'menuItems':[
+            ('Launch Nuke','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchNuke()'),
+        ]
     },
     {
-        'name':'ScriptEditor',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openScriptEditor()',
+        'name':'Script/Code Editor',
+        'command':'print "right click for full list.", ',
         'icon':'text.png',
-        'annotation':'Script Editor.',
+        'annotation':'Script/Code Editor.',
         'menu':True,
-        'menuItems':[('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
-                     ('charcoal editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openCharcoalEditor()'),
-                     ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
-                    ]
+        'menuItems':[
+            ('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
+            ('charcoal editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openCharcoalEditor()'),
+            ('Sublime Text','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchSublimeText()'),
+            ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
+        ]
     },
     {
         'name':'mayaToNuke',
@@ -707,23 +705,17 @@ shelfItems = [
         'icon':ICONSPATH+'/MayaToNuke.xpm',
         'annotation':'Maya to Nuke Exporter.',
         'menu':True,
-        'menuItems':[('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
-                     ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')]
-    },
-    {
-        'name':'ratioCalculator',
-        'command':'import dmptools.tools.ratioCalculator as ratioCalculator;\
-            ratioCalculator.main()',
-        'icon':ICONSPATH+'/RatioCalculator.xpm',
-        'annotation':'Camera-Image ratio calculator.',
-        'menu':False,
+        'menuItems':[
+            ('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
+            ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')
+        ]
     },
     {
         'name':'separator3'
     },
     {
         'name':'utils',
-        'command':'print "utils - right click for full list"',
+        'command':'print "utils - right click for full list", ',
         'icon':ICONSPATH+'/utils.png',
         'annotation':'utils - right click for full list',
         'menu':True,
@@ -738,6 +730,21 @@ shelfItems = [
             ('uv tiles manager', 'import dmptools.tools.uvManager as uvManager;uvManager.main()'),
             ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),
             ('fix clip planes', 'import dmptools.utils.mayaCommands as mayaCommands;mayaCommands.fixClipPlanes()'),
+            ('bake camera', 'import dmptools.tools.bakeCamera as bakeCamera;bakeCamera.main()'),
+        ]
+    },
+    {
+        'name':'Framestore utils',
+        'command':'print "utils - right click for full list", ',
+        'icon':ICONSPATH+'/framestore_logo.jpg',
+        'annotation':'utils - right click for full list',
+        'menu':True,
+        'menuItems':[
+            ('write fShambles...', 'import dmptools_misc.framestore.maya.jsonWrite as jsonWrite;jsonWrite.main()'),
+            ('divider3', ''),
+            ('get fd state', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.getFdState()'),
+            ('get fd list', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.getLenFd(True)'),
+            ('flush fd', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.flushFd()'),
         ]
     },
     {
@@ -750,10 +757,10 @@ shelfItems = [
         'annotation':'create custom item with associated command - right click for full list',
         'menu':True,
         'menuItems':[
-                ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
-                ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.editRemoveItemsUI()'),
-                ('divider1', ''),
-                ]
+            ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
+            ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.editRemoveItemsUI()'),
+            ('divider1', ''),
+        ]
     },
     {
         'name':'separator5'
