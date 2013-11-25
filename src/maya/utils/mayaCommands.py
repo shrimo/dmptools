@@ -8,7 +8,8 @@ import math
 
 from dmptools.settings import SettingsManager
 
-from dmptools_misc.linux import fdUtils
+if '!PLATFORM!' == 'Linux':
+    from dmptools_misc.linux import fdUtils
 
 # globals
 SETTINGS = SettingsManager('maya')

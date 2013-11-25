@@ -1,3 +1,6 @@
+from maya import cmds
+import dmptools.utils.mayaCommands as mayaCommands
+
 def get_camera_info(node):
     camera_info = {}
     camera_info['transform'] = node
@@ -23,10 +26,18 @@ def get_camera_info(node):
     return camera_info
 
 def main():
-    node = cmds.ls(sl=True)
+    selection = cmds.ls(sl=True)
+    if selection:
+        node = selection[0]
+    else:
+        try:
+            node = mayaCommands.getActiveCamera()
+        except:
+            pass
+
     if node:
-        print '\nbaking camera '+str(node[0])+'...', 
-        camera_info = get_camera_info(node[0])
+        print '\nbaking camera '+str(node)+'...', 
+        camera_info = get_camera_info(node)
 
         newCamera = cmds.camera()
         
@@ -51,5 +62,6 @@ def main():
             cmds.setKeyframe(newCamera[1]+'.verticalFilmAperture')
             cmds.setKeyframe(newCamera[1]+'.horizontalFilmOffset')
             cmds.setKeyframe(newCamera[1]+'.verticalFilmOffset')
-    else:
         print '\ncreated '+str(newCamera)+',',
+    else:
+        print '\nplease select a camera or go to an active 3d viewport.',
