@@ -25,17 +25,7 @@ def get_camera_info(node):
     camera_info['frames'] = sorted([key.split('.')[1] for key in camera_info.keys() if 'matrix' in key])
     return camera_info
 
-def main():
-    selection = cmds.ls(sl=True)
-    if selection:
-        node = selection[0]
-    else:
-        try:
-            node = mayaCommands.getActiveCamera()
-        except:
-            pass
-
-    if node:
+def bake_camera(node):
         print '\nbaking camera '+str(node)+'...', 
         camera_info = get_camera_info(node)
 
@@ -63,5 +53,18 @@ def main():
             cmds.setKeyframe(newCamera[1]+'.horizontalFilmOffset')
             cmds.setKeyframe(newCamera[1]+'.verticalFilmOffset')
         print '\ncreated '+str(newCamera)+',',
+
+def main():
+    selection = cmds.ls(sl=True)
+    if selection:
+        node = selection[0]
+    else:
+        try:
+            node = mayaCommands.getActiveCamera()
+        except:
+            pass
+
+    if node:
+        bake_camera(node)
     else:
         print '\nplease select a camera or go to an active 3d viewport.',

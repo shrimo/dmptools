@@ -740,6 +740,7 @@ shelfItems = [
         'annotation':'utils - right click for full list',
         'menu':True,
         'menuItems':[
+            ('load fShambles...', 'import dmptools_misc.framestore.maya.jsonWrite as jsonWrite;jsonWrite.loadShambles()'),
             ('write fShambles...', 'import dmptools_misc.framestore.maya.jsonWrite as jsonWrite;jsonWrite.main()'),
             ('divider3', ''),
             ('get fd state', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.getFdState()'),
