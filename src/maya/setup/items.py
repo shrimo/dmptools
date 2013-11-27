@@ -653,7 +653,7 @@ shelfItems = [
     },
     {
         'name':'HotkeysList',
-        'command':'print "right click for full list.", ',
+        'command':'print "\nright click for full list.", ',
         'icon':ICONSPATH+'/hotkeys.png',
         'annotation':'Show the hotkeys list window',
         'menu':True,
@@ -667,13 +667,26 @@ shelfItems = [
     },
     {
         'name':'Terminator',
-        'command':'print "right click for full list.", ',
+        'command':'print "\nright click for full list.", ',
         'icon':ICONSPATH+'/Console.xpm',
         'annotation':'Launch a Terminal.',
         'menu':True,
         'menuItems':[
             ('Terminal','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchTerminal()'),
             ('Windows console','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchConsole()'),
+        ]
+    },
+    {
+        'name':'Script/Code Editor',
+        'command':'print "\nright click for full list.", ',
+        'icon':'text.png',
+        'annotation':'Script/Code Editor.',
+        'menu':True,
+        'menuItems':[
+            ('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
+            ('charcoal editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openCharcoalEditor()'),
+            ('Sublime Text','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchSublimeText()'),
+            ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
         ]
     },
     {
@@ -686,36 +699,24 @@ shelfItems = [
             ('Launch Nuke','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchNuke()'),
         ]
     },
-    {
-        'name':'Script/Code Editor',
-        'command':'print "right click for full list.", ',
-        'icon':'text.png',
-        'annotation':'Script/Code Editor.',
-        'menu':True,
-        'menuItems':[
-            ('script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openScriptEditor()'),
-            ('charcoal editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.openCharcoalEditor()'),
-            ('Sublime Text','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchSublimeText()'),
-            ('custom script editor','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.newScriptEditor()'),
-        ]
-    },
-    {
-        'name':'mayaToNuke',
-        'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)',
-        'icon':ICONSPATH+'/MayaToNuke.xpm',
-        'annotation':'Maya to Nuke Exporter.',
-        'menu':True,
-        'menuItems':[
-            ('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
-            ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')
-        ]
-    },
+# deprecated maya to nuke button. moved to the Utils menu item list
+#    {
+#        'name':'mayaToNuke',
+#        'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)',
+#        'icon':ICONSPATH+'/MayaToNuke.xpm',
+#        'annotation':'Maya to Nuke Exporter.',
+#        'menu':True,
+#        'menuItems':[
+#            ('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
+#            ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')
+#        ]
+#    },
     {
         'name':'separator3'
     },
     {
-        'name':'utils',
-        'command':'print "utils - right click for full list", ',
+        'name':'Utils',
+        'command':'print "\nutils - right click for full list", ',
         'icon':ICONSPATH+'/utils.png',
         'annotation':'utils - right click for full list',
         'menu':True,
@@ -735,7 +736,7 @@ shelfItems = [
     },
     {
         'name':'Framestore utils',
-        'command':'print "utils - right click for full list", ',
+        'command':'print "\nutils - right click for full list", ',
         'icon':ICONSPATH+'/framestore_logo.jpg',
         'annotation':'utils - right click for full list',
         'menu':True,
@@ -761,6 +762,7 @@ shelfItems = [
             ('add item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.addItem()'),
             ('edit/remove item', 'import dmptools.setup.customItems as customItems;reload(customItems);customItems.editRemoveItemsUI()'),
             ('divider1', ''),
+            # that's where the custom items created by the user are going to be placed.
         ]
     },
     {

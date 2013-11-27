@@ -53,13 +53,18 @@ def addButton(item, parent):
         # create the popup menu with the name "popup_<name>"
         popMenu = cmds.popupMenu('dmptools_popup_'+item['name'], parent=button, b=3)
         for menuI in item['menuItems']:
+            menuI_name = menuI[0]
             # add popup menu items
-            if 'divider' in menuI[0]:
-                cmds.menuItem('dmptools_popup_item_'+menuI[0], parent=popMenu, divider=True)
+            if 'divider' in menuI_name:
+                # in case it's a divider
+                cmds.menuItem('dmptools_popup_item_'+menuI_name, parent=popMenu, divider=True)
             else:
-                cmds.menuItem(parent=popMenu, label=menuI[0], command=menuI[1])
-
+                # in case it's a menu item
+                menuI_command = menuI[1]
+                cmds.menuItem(parent=popMenu, label=menuI_name, command=menuI_command)
+                
 def main():
+    """ remove the shelf and create a brand new one """
     defaultPrint('creating shelf...')
     if os.path.exists(SHELF_FILE+'.mel'):
         os.remove(SHELF_FILE+'.mel')
