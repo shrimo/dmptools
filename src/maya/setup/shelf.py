@@ -14,7 +14,7 @@ ICONSPATH = '!MAYA_SHELF!'
 SHELF_NAME = 'dmptools'
 SHELF_FILE = cmds.internalVar(userShelfDir=True)+'shelf_dmptools'
 
-def createShelf():
+def create_shelf():
     """ create the dmptools shelf """
     # delete the shelf is already exists
     if cmds.shelfLayout(SHELF_NAME, ex=True):
@@ -27,21 +27,21 @@ def createShelf():
     for item in SHELF_ITEMS:
         if 'separator' in item['name']:
             # defaultPrint(__name__+' : creating button '+item['name']+'...')
-            addSeparator(item, shelf)
+            add_separator(item, shelf)
         else:
             # defaultPrint(__name__+' : creating button '+item['name']+'...')
-            addButton(item, shelf)
+            add_button(item, shelf)
     # select the last created shelf
     i = cmds.shelfTabLayout(shelfParent, numberOfChildren=True, q=True)
     cmds.shelfTabLayout(shelfParent, selectTabIndex=i, e=True)
     # save the shelf
     cmds.saveShelf(SHELF_NAME, SHELF_FILE)
 
-def addSeparator(item, parent):
+def add_separator(item, parent):
     """ add a vertical separator to the shelf """
     cmds.separator('dmptools_shelf_separator_'+item['name'], horizontal=False, style="out", parent=parent)
 
-def addButton(item, parent):
+def add_button(item, parent):
     """ add button to the shelf """
     # create the button itself
     button = cmds.iconTextButton('dmptools_shelf_button_'+item['name'], parent=parent, enable=True, w=35, h=35,
@@ -62,13 +62,16 @@ def addButton(item, parent):
                 # in case it's a menu item
                 menuI_command = menuI[1]
                 cmds.menuItem(parent=popMenu, label=menuI_name, command=menuI_command)
-                
+
+def remove_shelf():
+    if os.path.exists(SHELF_FILE+'.mel'):
+        os.remove(SHELF_FILE+'.mel')                
+
 def main():
     """ remove the shelf and create a brand new one """
     defaultPrint('creating shelf...')
-    if os.path.exists(SHELF_FILE+'.mel'):
-        os.remove(SHELF_FILE+'.mel')
-    createShelf()
+    remove_shelf()
+    create_shelf()
     # adds custom items if exists
     customItems.checkSavedItems()
 
