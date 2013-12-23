@@ -339,7 +339,7 @@ class Exporter(object):
                 filePy.write('cameraToAnimate.knob("vaperture").setKeyAt('+str(frame)+')\n')      
         
     def writeLocatorsToPyFile(self, locators, filePy):
-        """ bake cameras and write the node """            
+        """ bake cameras and write the node """
         print locators
         print '--locators: '+str(locators)
         # creating all locators nuke nodes
@@ -349,7 +349,7 @@ class Exporter(object):
             # get maya attributes           
             rotList = ["XYZ","YZX","ZXY","XZY","YXZ","ZYX"]
             locRot = cmds.getAttr(locator+".rotateOrder")
-            locatorRotationOrder = rotList[locRot]            
+            locatorRotationOrder = rotList[locRot]
             # write to pyFile
             filePy.write('locator = nuke.createNode("Axis")\n')
             filePy.write('locator.setName("'+locator+'")\n')

@@ -903,3 +903,7 @@ def addCustomCallBacks():
 
     """auto add a backup button for fRenderTarget nodes"""
     nuke.callbacks.addOnUserCreate(fRenderTargetAutodetect, args=(), kwargs={}, nodeClass='fRenderTarget')
+    
+    # test
+    #import dmptools_misc.nuke.resetValue as resetValue
+    #nuke.callbacks.addUpdateUI(resetValue.resetValue, args=(), kwargs={}, nodeClass='Grade')
