@@ -418,8 +418,8 @@ def createArchive():
 def main():
     """ run the install """
     print '\nDMPTOOLS INSTALL\n'
-    print 'executing',' '.join(sys.argv)
-    print 'We are on', PLATFORM, '!'
+    print 'We are on', PLATFORM
+    print 'executing', ' '.join(sys.argv)
     
     # check if dmptools are installed
     checkInstall()
