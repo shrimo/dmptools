@@ -13,13 +13,11 @@ if '!PLATFORM!' == 'Linux':
 
 # globals
 SETTINGS = SettingsManager('maya')
-normalAngle = 35
 perspNear = 1
 perspFar = 200000
 
 PLATFORM = '!PLATFORM!'
 
-SETTINGS.add('default_normalAngle', normalAngle)
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
@@ -81,22 +79,6 @@ def openUvTextureEditor():
 
 def openHypershade():
     mel.eval('HypershadeWindow;')
-
-def alignUVsUP():
-    # to top
-    mel.eval("alignUV 0 0 1 0;")
-
-def alignUVsDown():
-    # to bottom
-    mel.eval("alignUV 0 0 1 1;")
-
-def alignUVsLeft():
-    # to left
-    mel.eval("alignUV 1 1 0 0;")
-
-def alignUVsRight():
-    # to right
-    mel.eval("alignUV 1 0 0 0;")
 
 def checkOverlappingObjects(selection):
     xforms = []
@@ -200,107 +182,6 @@ def texmaker(inputfile, outputfile):
     out = popObj.communicate()
     return out[0]
 
-def combine():
-    """
-    clean combine
-
-    """
-    selection = cmds.ls(sl=True, type='mesh', dag=True)
-    if not selection or selection < 2:
-        cmds.warning('Please select at least 2 meshes!')
-
-    # get full path
-    meshFull = cmds.listRelatives(selection[0], p=True, f=True)
-    # get parent
-    meshParent = cmds.listRelatives(meshFull, p=True, f=True)
-    meshInWorld = []
-    if meshParent:
-        meshParent0 = meshParent[0]
-        meshInWorld.append(cmds.parent(meshFull, world=True)[0])
-    else:
-        meshInWorld = meshFull
-    # replace 1st mesh in sel by mesh in world
-    selection[0] = meshInWorld[0]
-    # get pivots
-    pivots = cmds.xform(meshInWorld[0], q=True, ws=True, a=True, rotatePivot=True)
-    # combine & rename
-    newMesh = cmds.polyUnite(selection, o=True)
-    newMeshName = cmds.rename(newMesh[0], meshInWorld[0])
-    # set pivot
-    cmds.xform(newMeshName, rotatePivot=pivots)
-    # reparent
-    if meshParent:
-        newMeshName = cmds.parent(newMeshName, meshParent, a=True)
-
-    # delete history
-    cmds.delete(newMeshName, ch=True, hi='none')
-
-def faceSeparate():
-    """
-    clean separate
-
-    """
-    faces = cmds.ls(sl=True, fl=True)
-    temp = faces[0].split('.')
-
-    if not faces or len(temp) == 1 or len(faces) == cmds.polyEvaluate(f=True):
-        cmds.error('Select at lease one face and not the entire mesh!')
-    
-    temp = faces[0].split('.')
-    mesh = temp[0]
-    temp = cmds.duplicate(mesh, n=mesh, rr=True)
-    newMesh = temp[0]
-    new = cmds.ls(newMesh+'.f[*]', fl=True)
-
-    ii = 0
-    newFaceDelete = []
-
-    for face in new:
-        hit = False
-        temp = new[ii].split('.')
-        newFace = temp[1]
-        o = 0
-        for f in faces:
-            temp = faces[o].split('.')
-            oldFace = temp[1]
-            o = o+1
-            if newFace == oldFace:
-                hit = True
-                break
-        if not hit:
-            newFaceDelete.append(new[ii])
-        ii = ii+1
-    cmds.delete(newFaceDelete)
-    cmds.delete(faces)
-    cmds.select(newMesh)
-    cmds.xform(cp=True)
-
-    return newMesh
-
-def createCameraUVProj():
-    sel = cmds.ls(sl=True)
-    if sel:
-        for node in sel:
-            if cmds.polyEvaluate(node, fc=True) == 0:
-                cmds.select(node+'.f[*]', add=True)
-        cmds.polyProjection(cmds.ls(sl=True), ch=True, type='Planar', ibd=True, kir=True, md='c')
-
-def averageNormals():
-    try:
-        cmds.polyNormalPerVertex(ufn=True)
-        cmds.polyAverageNormal(
-                                prenormalize=False,
-                                allowZeroNormal=False,
-                                postnormalize=True,
-                                distance=0.1,
-                                replaceNormalXYZ=(1,0,0))
-    except:
-        cmds.polyAverageNormal(
-                                prenormalize=False,
-                                allowZeroNormal=False,
-                                postnormalize=True,
-                                distance=0.1,
-                                replaceNormalXYZ=(1,0,0))
        
 def setPerspSetting():
     if cmds.ls('perspShape'):
@@ -358,22 +239,6 @@ def selectSetting():
         cmds.select(SETTINGS.get(settingText[0]))
     except:
         print 'failed to select setting...'
-
-def makeTube():
-    """
-    makes a simple tube mesh
-    """
-    mesh = cmds.polyTorus(r=2, sr=0.2,  sx=50, sy=4, tw=45)
-    cmds.setAttr(mesh[0]+'.sy', 5)
-
-def softEdgeSelection(angle=normalAngle, history=True):
-    """
-    unlock normals and soft edge
-    """
-    sel = cmds.ls(sl=True)
-    for node in sel:
-        cmds.polyNormalPerVertex(node, ufn=True)
-        cmds.polySoftEdge(node, angle=angle, ch=history)
         
 def invertSelection():
     """invert selection"""
@@ -390,15 +255,6 @@ def replaceXformSel():
         translate = cmds.xform(node, ws=True, t=True, q=True)
         rotation = cmds.xform(node, ws=True, ro=True, q=True)
         cmds.xform(dup, t=translate, ro=rotation)
-
-def mergeUVs():
-    """merge selected uvs"""
-    mel.eval('polyPerformAction "polyMergeUV -d 1" v 0;')
-    mel.eval('changeSelectMode -component;')
-    mel.eval('setComponentPickMask "Point" true;')
-    mel.eval('selectType -ocm -alc false;')
-    mel.eval('selectType -ocm -vertex true;')
-    mel.eval('selectType -sf false -se false -suv false -cv false;')
 
 def selectInsideFaces():
     """select all the edges inside an object except the border."""
@@ -478,34 +334,36 @@ def unwrapTerrain(sel):
         unfoldAndRotate(sel)
 
 def proMode():
-    """pro mode"""
+    """
+    pro mode
+    """
     mel.eval('ToggleUIElements')
 
 def freezeHistory():
-    """freezeHistory"""
-    mel.eval('delete -ch;makeIdentity -apply true -t 1 -r 1 -s 1 -n 0;')
+    """
+    freeze transfoms and delete history
+    """
+    cmds.makeIdentity(apply=True, t=1, r=1, s=1, n=0)
+    cmds.delete(ch=True)
 
 def freezeCenterPivot():
-    """freezeCenterPivot"""
-    mel.eval('delete -ch;xform -cp;makeIdentity -apply true -t 1 -r 1 -s 1 -n 0;')
+    """
+    freeze transfoms, delete history and center pivot
+    """
+    cmds.makeIdentity(apply=True, t=1, r=1, s=1, n=0)
+    cmds.delete(ch=True)
+    cmds.xform(cp=True)
 
 def centerPivot():
-    """centerPivot"""
-    mel.eval('xform -cp;')
-
-def mergeVertex():
-    """merge vertex"""
-    sel = cmds.ls(sl=True)
-    if sel:
-        try:
-            for node in sel:
-                cmds.select(node, r=True)
-                cmds.polyMergeVertex(distance=0.01, am=True, ch=True)
-        except:
-            pass
-        cmds.select(sel, r=True)
+    """
+    center pivot
+    """
+    cmds.xform(cp=True)
 
 def getVertexColor():
+    """
+    return a dict of vertex and their color
+    """
     selection = cmds.ls(sl=True)
     colors = {}
     for obj in selection:
@@ -516,7 +374,9 @@ def getVertexColor():
     return colors
 
 def newScriptEditor():
-    """new script editor test"""
+    """
+    simpler script editor test
+    """
     win = cmds.window(t='New Script Editor', menuBar= True, w = 650, h = 300)
     form = cmds.formLayout()
     pane = cmds.paneLayout(configuration='horizontal2', paneSize=[[1,100,40],[2,100,60]])
@@ -744,7 +604,7 @@ def askFlushUndo():
                                  db='Yes',
                                  cb='No',
                                  ds='No')
-                                
+
     if confirm == "Yes":
         print "flushUndo..."
         cmds.flushUndo()
@@ -759,31 +619,6 @@ def switchHighlightedSelection():
     panel = cmds.getPanel(wf=True)
     cmds.modelEditor(panel, edit=True, sel=not cmds.modelEditor(panel, query=True, sel=True))
     headsUpDisplayMessage('Selection highlight: '+str(cmds.modelEditor(panel, query=True, sel=True)))
-
-def transferVertices(meshes=[], preserveUVs=True):
-    
-    dateStart = str(time.strftime('%d/%m/%y at %H:%M:%S'))
-    
-    if len(meshes) == 2:
-        verticesRange1 = int(cmds.ls(meshes[0]+".vtx[*]")[0].split(":")[-1][:-1])
-        verticesRange2 = int(cmds.ls(meshes[1]+".vtx[*]")[0].split(":")[-1][:-1])
-        if verticesRange1 == verticesRange2:
-            for vertex in range(verticesRange1+1):
-                vertexName1 = meshes[0]+".vtx["+str(vertex)+"]"
-                vertexName2 = meshes[1]+".vtx["+str(vertex)+"]"
-                xform1 = cmds.xform(vertexName1, q=True, ws=True, t=True)
-                xform2 = cmds.xform(vertexName2, q=True, ws=True, t=True)
-                #print " > moving", meshes[0], "vtx", vertex, "to", xform2
-                cmds.select(vertexName1, r = True)
-                cmds.move(xform2[0], xform2[1], xform2[2], ws=True, puv=preserveUVs)
-        
-        else:
-            cmds.warning("The selection doesn't have the same vertex count !")
-    else:
-        cmds.warning("Please select 2 objects !")
-        
-    dateEnd = str(time.strftime('%d/%m/%y at %H:%M:%S'))
-    print " > Process started at", dateStart, "and ended at", dateEnd
 
 def toggleNormals():
     #toggle normals
@@ -817,84 +652,6 @@ def setDefaultMaterial():
     cmds.modelEditor(panel, edit=True, useDefaultMaterial=not cmds.modelEditor(panel, query=True, useDefaultMaterial=True))
     headsUpDisplayMessage('Default material: '+str(cmds.modelEditor(panel, query=True, useDefaultMaterial=True)))
 
-def tweakMultiComponents():
-    cmds.selectType(meshComponents=True)
-
-def bufMove():
-    """enter the Buf move vertex mode"""
-    cmds.selectMode(component=True)
-    cmds.selectMode(object=True)
-    sel = cmds.ls(sl=True)
-    # enter the move mode and set on vertex
-    if sel:
-        shape = cmds.listRelatives(sel[0])
-        if cmds.nodeType(shape) == 'nurbsCurve':
-            try:
-                cmds.delete(sel, ch=True)
-                cmds.selectMode(component=True)
-                activePanel = cmds.getPanel(withFocus=True)
-                cmds.modelEditor(activePanel, e=True, manipulators=False)
-                cmds.setToolTo('moveSuperContext')
-                cmds.selectType(alc=0)
-                cmds.selectType(controlVertex=1)
-                cmds.selectPref(clickDrag=True)
-            except:
-                pass
-
-        if cmds.nodeType(shape) == 'mesh':
-            try:
-                cmds.delete(sel, ch=True)
-                cmds.selectMode(component=True)
-                activePanel = cmds.getPanel(withFocus=True)
-                cmds.modelEditor(activePanel, e=True, manipulators=False)
-                cmds.setToolTo('moveSuperContext')
-                cmds.selectType(alc=0)
-                cmds.selectType(vertex=1)
-                cmds.selectPref(clickDrag=True)
-            except:
-                pass
-        else:
-            try:
-                cmds.delete(sel, ch=True)
-                cmds.selectMode(component=True)
-                activePanel = cmds.getPanel(withFocus=True)
-                cmds.modelEditor(activePanel, e=True, manipulators=False)
-                cmds.setToolTo('moveSuperContext')
-                cmds.selectType(alc=0)
-                cmds.selectType(vertex=1)
-                cmds.selectPref(clickDrag=True)
-            except:
-                pass
-        #cmds.selectPref(useDepth = True)
-
-def bufMoveMulti():
-    """enter the Buf move vertex mode"""
-    try:
-        cmds.selectMode(object=True)
-        selection = cmds.ls(sl=True)
-        cmds.selectMode(component=True)
-        cmds.selectMode(object=True)
-        cmds.selectMode(component=True)
-        for node in selection:
-            cmds.delete(node, ch=True)
-            mel.eval('doMenuComponentSelection("'+node+'", "meshComponents");')
-
-        activePanel = cmds.getPanel(withFocus=True)
-        cmds.modelEditor(activePanel, e=True, manipulators=False)
-        cmds.setToolTo('moveSuperContext')
-        cmds.selectPref(clickDrag=True)
-    except:
-        pass
-
-def bufMoveRelease():
-    """release the Buf move vertex mode"""
-    activePanel = cmds.getPanel(withFocus=True)
-    cmds.modelEditor(activePanel, e=True, manipulators=True)
-    cmds.setToolTo('moveSuperContext')
-    cmds.selectPref(clickDrag=False)
-    cmds.selectMode(component=True)
-    cmds.selectMode(object=True)
-    #cmds.selectPref(useDepth = False)
 
 def importScene():
     """import scene exported from nuke"""
@@ -997,10 +754,6 @@ def resetPanZoom():
     cmds.setAttr(cameraNode+".zoom", 1)
     cmds.setAttr(cameraNode+".horizontalPan", 0)
     cmds.setAttr(cameraNode+".verticalPan", 0)
-
-def polySplitTool():
-    polysplit = cmds.polySplitCtx()
-    cmds.setToolTo(polysplit)
 
 def selectNgones():
     panel = cmds.getPanel(withFocus=True)

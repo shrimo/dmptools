@@ -45,10 +45,10 @@ class SettingsManager(object):
         if the setting file doesn't exists create it.
         """
         # create the settings file in homepath/.dmptools
-        dmptoolspath = HOMEPATH+'/.dmptools'
-        if not os.path.exists(dmptoolspath):
-            os.mkdir(dmptoolspath)
-        self.settingsfile = dmptoolspath+'/'+name+'.settings'
+        self.dmptoolspath = HOMEPATH+'/.dmptools'
+        if not os.path.exists(self.dmptoolspath):
+            os.mkdir(self.dmptoolspath)
+        self.settingsfile = self.dmptoolspath+'/'+name+'.settings'
         
         # create the setting file if it doesnt exists
         if not os.path.exists(self.settingsfile):
@@ -68,7 +68,6 @@ class SettingsManager(object):
     def clearFile(self, recreate=False):
         """
         clear the settings file and recreate it if 'recreate' == True
-
         """
         if os.path.exists(self.settingsfile):
             print '> removing setting file:', self.settingsfile
@@ -76,6 +75,13 @@ class SettingsManager(object):
         if recreate:
             with open(self.settingsfile, 'w') as FILE:
                 FILE.write('')
+    
+    def getAllSettingsFiles(self):
+        """
+        returns a list of all the settings files
+        found in the settings dir
+        """
+        return [f.replace('.settings', '') for f in os.listdir(self.dmptoolspath) if '.settings' in f]
 
     def add(self, key='', value=None):
         """

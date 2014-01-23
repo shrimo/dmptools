@@ -7,6 +7,9 @@ HELP_PAGE = '!HELP_PAGE!'
 
 # markingMenu items list
 markingMenuItems = [
+#==========================#
+#       COMPASS MENU       #
+#==========================#
     {
         'name':'Combine',
         'subMenu':False,
@@ -28,6 +31,17 @@ markingMenuItems = [
         'command':'import dmptools.tools.symmetry as symmetry;\
             reload(symmetry);symmetry.main()',
     },
+    {
+        'name':'Split edge',
+        'subMenu':False,
+        'position':'W',
+        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.oldSplitEdge()',
+    },
+
+#============================#
+#       VERTICAL MENU        #
+#============================#
     {
         'name':'separator',
         'subMenu':None,
@@ -154,6 +168,183 @@ hotkeysItems = [
             reload(markingMenu);markingMenu.deleteMarkingMenu()");',
     },
     {
+        'name':'createHotkeys',
+        'key':'H',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.main()");',
+    },
+#=========================#
+#     MODELING SECTION    #
+#=========================#
+    {
+        'name':'alignUVsUP',
+        'key':'up',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignUVs(False, False, True, False)");',
+    },
+    {
+        'name':'alignUVsDown',
+        'key':'down',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignUVs(False, False, True, True)");',
+    },
+    {
+        'name':'alignUVsLeft',
+        'key':'left',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignUVs(True, True, False, False)");',
+    },
+    {
+        'name':'alignUVsRight',
+        'key':'right',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignUVs(True, False, False, False)");',
+    },
+    {
+        'name':'createCameraUVProj',
+        'key':'P',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.createCameraUVProj()");',
+    },
+    {
+        'name':'softEdgeSelection',
+        'key':'N',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.softEdgeSelection()");',
+    },
+    {
+        'name':'advanceMove',
+        'key':'Q',
+        'alt':False,
+        'ctrl':False,
+        'release':True,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMove()");',
+        'releaseCommand':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveRelease()");',
+    },
+    {
+        'name':'advanceMoveMulti',
+        'key':'q',
+        'alt':False,
+        'ctrl':False,
+        'release':True,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveMulti()");',
+        'releaseCommand':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveRelease()");',
+    },
+    {
+        'name':'advanceMoveMultiExtrude',
+        'key':'a',
+        'alt':False,
+        'ctrl':False,
+        'release':True,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveMultiExtrude()");',
+        'releaseCommand':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveRelease()");',
+    },
+    {
+        'name':'splitEdge',
+        'key':'A',
+        'alt':False,
+        'ctrl':False,
+        'release':True,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.oldSplitEdge()");',
+        'releaseCommand':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.advanceMoveRelease()");',
+    },
+    {
+        'name':'splitEdgeRing',
+        'key':'A',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.splitEdgeRing()");',
+    },
+    {
+        'name':'mergeVertex',
+        'key':'m',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.mergeVertex()");',
+    },
+    {
+        'name':'mergeUVs',
+        'key':'X',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.mergeUVs()");',
+    },
+#=========================#
+#     DISPLAY SECTION     #
+#=========================#
+    {
+        'name':'setDefaultRenderer',
+        'key':'1',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.setDefaultRenderer()");',
+    },
+    {
+        'name':'setHardwareRenderer',
+        'key':'2',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
+    },
+    {
+        'name':'setViewport2Renderer',
+        'key':'3',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.setViewport2Renderer()");',
+    },
+    {
+        'name':'toggleVertexColorDisplay',
+        'key':'C',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");',
+    },
+
+    {
         'name':'setPreviousRenderVersion',
         'key':'[',
         'alt':True,
@@ -203,172 +394,6 @@ hotkeysItems = [
             reload(fbkUtils);fbkUtils.switchAnimRender()");',
     },
     {
-        'name':'runCommand',
-        'key':'e',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.tools.runCommand as runCommand;\
-            reload(runCommand);runCommand.main(False)");',
-    },
-    {
-        'name':'setNamespace',
-        'key':'N',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setNamespace()");',
-    },
-    {
-        'name':'alignUVsUP',
-        'key':'up',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.alignUVsUP()");',
-    },
-    {
-        'name':'alignUVsDown',
-        'key':'down',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.alignUVsDown()");',
-    },
-    {
-        'name':'alignUVsLeft',
-        'key':'left',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.alignUVsLeft()");',
-    },
-    {
-        'name':'alignUVsRight',
-        'key':'right',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.alignUVsRight()");',
-    },
-    {
-        'name':'namespaceEditor',
-        'key':'n',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openNamespaceEditor()");',
-    },
-    {
-        'name':'openNodeEditor',
-        'key':'3',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openNodeEditor()");',
-    },
-    {
-        'name':'createCameraUVProj',
-        'key':'P',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.createCameraUVProj()");',
-    },
-    {
-        'name':'switchColors',
-        'key':'c',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchColors()");',
-    },
-    {
-        'name':'softEdgeSelection',
-        'key':'N',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.softEdgeSelection()");',
-    },
-    {
-        'name':'invertSelection',
-        'key':'I',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.invertSelection()");',
-    },
-    {
-        'name':'showHotkeysList',
-        'key':'H',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.showHotkeysList()");',
-    },
-    {
-        'name':'createHotkeys',
-        'key':'H',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.main()");',
-    },
-    {
-        'name':'bufMove',
-        'key':'a',
-        'alt':False,
-        'ctrl':False,
-        'release':True,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMove()");',
-        'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");',
-    },
-    {
-        'name':'bufMoveMulti',
-        'key':'q',
-        'alt':False,
-        'ctrl':False,
-        'release':True,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveMulti()");',
-        'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.bufMoveRelease()");',
-    },
-    {
-        'name':'hideSelectionSwitch',
-        'key':'h',
-        'alt':False,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.hideSelSwitch()");',
-    },
-    {
-        'name':'isolateSelection',
-        'key':'h',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.isolateSelection()");',
-    },
-    {
         'name':'toggleNormals',
         'key':'n',
         'alt':True,
@@ -405,6 +430,23 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setDefaultMaterial()");',
     },
     {
+        'name':'switchLight',
+        'key':'l',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchLight()");',
+    },
+    {
+        'name':'switchHighlightedSelection',
+        'key':'f',
+        'alt':True,
+        'ctrl':False,'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchHighlightedSelection()");',
+    },
+    {
         'name':'cameraPanTool',
         'key':'z',
         'alt':True,
@@ -432,57 +474,66 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.resetPanZoom()");',
     },
     {
-        'name':'selectNgones',
-        'key':'q',
+        'name':'isolateSelection',
+        'key':'h',
         'alt':True,
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchSelectNgones()");',
+            reload(mayaCommands);mayaCommands.isolateSelection()");',
     },
+
+#============================#
+#       WINDOWS SECTION      #
+#============================#
     {
-        'name':'selectTriangles',
-        'key':'p',
+        'name':'namespaceEditor',
+        'key':'n',
         'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchSelectTriangles()");',
-    },
-    {
-        'name':'switchLight',
-        'key':'l',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchLight()");',
-    },
-    {
-        'name':'switchHighlightedSelection',
-        'key':'f',
-        'alt':True,
-        'ctrl':False,'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchHighlightedSelection()");',
-    },
-    {
-        'name':'askFlushUndo',
-        'key':'f',
-        'alt':False,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.askFlushUndo()");',
+            reload(mayaCommands);mayaCommands.openNamespaceEditor()");',
     },
     {
-        'name':'saveAs',
-        'key':'S',
-        'alt':False,
+        'name':'openNodeEditor',
+        'key':'3',
+        'alt':True,
         'ctrl':True,
         'release':False,
-        'command':'SaveSceneAs;',
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.openNodeEditor()");',
     },
+    {
+        'name':'showHotkeysList',
+        'key':'H',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.showHotkeysList()");',
+    },
+    {
+        'name':'openUvTextureEditor',
+        'key':'2',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
+    },
+    {
+        'name':'openHypershade',
+        'key':'1',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.openHypershade()");',
+    },
+#===========================#
+#     SELECTION SECTION     #
+#===========================#
     {
         'name':'freezeHistory',
         'key':'F',
@@ -511,76 +562,40 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.centerPivot()");',
     },
     {
-        'name':'setDefaultRenderer',
-        'key':'1',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setDefaultRenderer()");',
-    },
-    {
-        'name':'setHardwareRenderer',
-        'key':'2',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
-    },
-    {
-        'name':'setViewport2Renderer',
-        'key':'3',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.setViewport2Renderer()");',
-    },
-    {
-        'name':'launchConsole',
-        'key':'x',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.launchConsole()");',
-    },
-    {
-        'name':'mergeVertex',
-        'key':'m',
-        'alt':False,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeVertex()");',
-    },
-    {
-        'name':'openUvTextureEditor',
-        'key':'2',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
-    },
-    {
-        'name':'openHypershade',
-        'key':'1',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openHypershade()");',
-    },
-    {
-        'name':'proMode',
-        'key':'F11',
+        'name':'hideSelectionSwitch',
+        'key':'h',
         'alt':False,
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.proMode()");',
+            reload(mayaCommands);mayaCommands.hideSelSwitch()");',
+    },
+    {
+        'name':'invertSelection',
+        'key':'I',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.invertSelection()");',
+    },
+    {
+        'name':'selectNgones',
+        'key':'q',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchSelectNgones()");',
+    },
+    {
+        'name':'selectTriangles',
+        'key':'p',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchSelectTriangles()");',
     },
     {
         'name':'unselectAll',
@@ -590,24 +605,6 @@ hotkeysItems = [
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.unselectAll()");',
-    },
-    {
-        'name':'switchObjectTumble',
-        'key':'Q',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.switchObjectTumble()");',
-    },
-    {
-        'name':'toggleVertexColorDisplay',
-        'key':'C',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");',
     },
     {
         'name':'shortestEdgePath',
@@ -620,14 +617,70 @@ hotkeysItems = [
         'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");',
     },
+#============================#
+#         MISC SECTION       #
+#============================#
     {
-        'name':'mergeUVs',
-        'key':'X',
+        'name':'launchConsole',
+        'key':'x',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.launchConsole()");',
+    },
+    {
+        'name':'askFlushUndo',
+        'key':'f',
         'alt':False,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.mergeUVs()");',
+            reload(mayaCommands);mayaCommands.askFlushUndo()");',
+    },
+    {
+        'name':'saveAs',
+        'key':'S',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'SaveSceneAs;',
+    },
+    {
+        'name':'switchObjectTumble',
+        'key':'Q',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchObjectTumble()");',
+    },
+    {
+        'name':'runCommand',
+        'key':'e',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.tools.runCommand as runCommand;\
+            reload(runCommand);runCommand.main(False)");',
+    },
+    {
+        'name':'setNamespace',
+        'key':'N',
+        'alt':False,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.setNamespace()");',
+    },
+    {
+        'name':'switchColors',
+        'key':'c',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.switchColors()");',
     },
 ]
 
@@ -653,7 +706,7 @@ shelfItems = [
     },
     {
         'name':'HotkeysList',
-        'command':'print "\nright click for full list.", ',
+        'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/hotkeys.png',
         'annotation':'Show the hotkeys list window',
         'menu':True,
@@ -667,7 +720,7 @@ shelfItems = [
     },
     {
         'name':'Terminator',
-        'command':'print "\nright click for full list.", ',
+        'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/Console.xpm',
         'annotation':'Launch a Terminal.',
         'menu':True,
@@ -678,7 +731,7 @@ shelfItems = [
     },
     {
         'name':'Script/Code Editor',
-        'command':'print "\nright click for full list.", ',
+        'command':'print "right click for full list.", ',
         'icon':'text.png',
         'annotation':'Script/Code Editor.',
         'menu':True,
@@ -716,7 +769,7 @@ shelfItems = [
     },
     {
         'name':'Utils',
-        'command':'print "\nutils - right click for full list", ',
+        'command':'print "utils - right click for full list", ',
         'icon':ICONSPATH+'/utils.png',
         'annotation':'utils - right click for full list',
         'menu':True,
@@ -736,7 +789,7 @@ shelfItems = [
     },
     {
         'name':'Framestore utils',
-        'command':'print "\nutils - right click for full list", ',
+        'command':'print "utils - right click for full list", ',
         'icon':ICONSPATH+'/framestore_logo.jpg',
         'annotation':'utils - right click for full list',
         'menu':True,

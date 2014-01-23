@@ -1,6 +1,5 @@
 """
 dmptools for Maya
-
 """
 __author__ = "Michael Havart"
 __copyright__ = "Copyright (C) 2013 Michael Havart"
