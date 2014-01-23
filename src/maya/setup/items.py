@@ -693,26 +693,26 @@ shelfItems = [
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
         'menuItems':[
-            ('initiate dmptools', 'import dmptools.setup.init'),
-            ('github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
+            ('Initialize dmptools', 'import dmptools.setup.init'),
             ('divider2', ''),
-            ('open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
-            ('set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
-            ('set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
+            ('Open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
+            ('Set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
+            ('Set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
         ]
     },
     {
         'name':'separator1'
     },
     {
-        'name':'HotkeysList',
+        'name':'Help',
         'command':'print "right click for full list.", ',
         'icon':ICONSPATH+'/hotkeys.png',
-        'annotation':'Show the hotkeys list window',
+        'annotation':'Help associated commands.',
         'menu':True,
         'menuItems':[
-            ('run dockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=True)'),
-            ('run undockable', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)')
+            ('Show dmptools shortcuts', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)'),
+            ('Open dmptools github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
+            ('Open Maya commands page','import webbrowser;webbrowser.open("http://download.autodesk.com/global/docs/maya2014/en_us/CommandsPython/index.html")'),
         ]
     },
     {
