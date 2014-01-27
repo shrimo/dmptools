@@ -7,22 +7,22 @@ HELP_PAGE = '!HELP_PAGE!'
 
 # markingMenu items list
 markingMenuItems = [
-#==========================#
-#       COMPASS MENU       #
-#==========================#
+    #==========================#
+    #       COMPASS MENU       #
+    #==========================#
     {
         'name':'Combine',
         'subMenu':False,
         'position':'N',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.combine()',
+        'command':'import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.combine()',
     },
     {
         'name':'Separate',
         'subMenu':False,
         'position':'NE',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.faceSeparate()',
+        'command':'import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.faceSeparate()',
     },
     {
         'name':'Symmetry',
@@ -35,13 +35,13 @@ markingMenuItems = [
         'name':'Split edge',
         'subMenu':False,
         'position':'W',
-        'command':'import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.oldSplitEdge()',
+        'command':'import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.oldSplitEdge()',
     },
 
-#============================#
-#       VERTICAL MENU        #
-#============================#
+    #============================#
+    #       VERTICAL MENU        #
+    #============================#
     {
         'name':'separator',
         'subMenu':None,
@@ -144,6 +144,14 @@ markingMenuItems = [
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
     },
     {
+        'name':'Modeling options',
+        'subMenu':False,
+        'position':False,
+        'command':'import dmptools.utils.settingsManagerWindow as settingsManagerWindow;\
+            reload(settingsManagerWindow);settingsManagerWindow.main("maya_modeling");\
+            import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
         'name':'HotkeysList',
         'subMenu':False,
         'position':False,
@@ -176,9 +184,67 @@ hotkeysItems = [
         'command':'python("import dmptools.setup.hotkeys as hotkeys;\
             reload(hotkeys);hotkeys.main()");',
     },
-#=========================#
-#     MODELING SECTION    #
-#=========================#
+    #=========================#
+    #     MODELING SECTION    #
+    #=========================#
+    #{
+    #     next frame ctrl+ +
+    #     previous frame ctrl+ -
+    #},
+    {
+        'name':'alignVerticesMinX',
+        'key':'4',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(True, False, False, False, False, False)");',
+    },
+    {
+        'name':'alignVerticesMaxX',
+        'key':'6',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(False, True, False, False, False, False)");',
+    },
+    {
+        'name':'alignVerticesMinY',
+        'key':'2',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(False, False, True, False, False, False)");',
+    },
+    {
+        'name':'alignVerticesMaxY',
+        'key':'8',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(False, False, False, True, False, False)");',
+    },
+    {
+        'name':'alignVerticesMinZ',
+        'key':'7',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(False, False, False, False, True, False)");',
+    },
+    {
+        'name':'alignVerticesMaxZ',
+        'key':'9',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.alignVertices(False, False, False, False, False, True)");',
+    },
     {
         'name':'alignUVsUP',
         'key':'up',
@@ -216,6 +282,15 @@ hotkeysItems = [
             reload(modeling);modeling.alignUVs(True, False, False, False)");',
     },
     {
+        'name':'symmetry',
+        'key':'s',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.tools.symmetry as symmetry;\
+            reload(symmetry);symmetry.main()");',
+    },
+    {
         'name':'createCameraUVProj',
         'key':'P',
         'alt':False,
@@ -231,11 +306,11 @@ hotkeysItems = [
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.utils.modeling as modeling;\
-            reload(modeling);modeling.softEdgeSelection()");',
+            reload(modeling);modeling.softEdgeSelection(180, True)");',
     },
     {
         'name':'advanceMove',
-        'key':'Q',
+        'key':'A',
         'alt':False,
         'ctrl':False,
         'release':True,
@@ -246,7 +321,7 @@ hotkeysItems = [
     },
     {
         'name':'advanceMoveMulti',
-        'key':'q',
+        'key':'a',
         'alt':False,
         'ctrl':False,
         'release':True,
@@ -257,7 +332,7 @@ hotkeysItems = [
     },
     {
         'name':'advanceMoveMultiExtrude',
-        'key':'a',
+        'key':'q',
         'alt':False,
         'ctrl':False,
         'release':True,
@@ -268,7 +343,7 @@ hotkeysItems = [
     },
     {
         'name':'splitEdge',
-        'key':'A',
+        'key':'Q',
         'alt':False,
         'ctrl':False,
         'release':True,
@@ -279,7 +354,7 @@ hotkeysItems = [
     },
     {
         'name':'splitEdgeRing',
-        'key':'A',
+        'key':'Q',
         'alt':False,
         'ctrl':True,
         'release':False,
@@ -304,9 +379,9 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.modeling as modeling;\
             reload(modeling);modeling.mergeUVs()");',
     },
-#=========================#
-#     DISPLAY SECTION     #
-#=========================#
+    #=========================#
+    #     DISPLAY SECTION     #
+    #=========================#
     {
         'name':'setDefaultRenderer',
         'key':'1',
@@ -482,10 +557,9 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.isolateSelection()");',
     },
-
-#============================#
-#       WINDOWS SECTION      #
-#============================#
+    #============================#
+    #       WINDOWS SECTION      #
+    #============================#
     {
         'name':'namespaceEditor',
         'key':'n',
@@ -495,15 +569,15 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.openNamespaceEditor()");',
     },
-    {
-        'name':'openNodeEditor',
-        'key':'3',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openNodeEditor()");',
-    },
+    #{
+    #    'name':'openNodeEditor',
+    #    'key':'3',
+    #    'alt':True,
+    #    'ctrl':True,
+    #    'release':False,
+    #    'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+    #        reload(mayaCommands);mayaCommands.openNodeEditor()");',
+    #},
     {
         'name':'showHotkeysList',
         'key':'H',
@@ -514,26 +588,26 @@ hotkeysItems = [
             reload(hotkeys);hotkeys.showHotkeysList()");',
     },
     {
-        'name':'openUvTextureEditor',
-        'key':'2',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-            reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
-    },
-    {
         'name':'openHypershade',
-        'key':'1',
+        'key':'0',
         'alt':True,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.openHypershade()");',
     },
-#===========================#
-#     SELECTION SECTION     #
-#===========================#
+    {
+        'name':'openUvTextureEditor',
+        'key':'.',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
+    },
+    #===========================#
+    #     SELECTION SECTION     #
+    #===========================#
     {
         'name':'freezeHistory',
         'key':'F',
@@ -617,9 +691,9 @@ hotkeysItems = [
         'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");',
     },
-#============================#
-#         MISC SECTION       #
-#============================#
+    #============================#
+    #         MISC SECTION       #
+    #============================#
     {
         'name':'launchConsole',
         'key':'x',
@@ -711,6 +785,7 @@ shelfItems = [
         'menu':True,
         'menuItems':[
             ('Show dmptools shortcuts', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)'),
+            ('divider2', ''),
             ('Open dmptools github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
             ('Open Maya commands page','import webbrowser;webbrowser.open("http://download.autodesk.com/global/docs/maya2014/en_us/CommandsPython/index.html")'),
         ]
@@ -819,6 +894,6 @@ shelfItems = [
         ]
     },
     {
-        'name':'separator5'
+        'name':'separator6'
     }
   ]

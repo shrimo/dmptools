@@ -22,6 +22,12 @@ perspFar = 200000
 SETTINGS.add('default_perspNear', perspNear)
 SETTINGS.add('default_perspFar', perspFar)
 
+def nextFrame():
+    cmds.currentTime(cmds.currentTime(q=True)+1)
+
+def previousFrame():
+    cmds.currentTime(cmds.currentTime(q=True)-1)
+
 def getNodesInHierarchy(shapes=False, select=False):
     longList = []
     cmds.select(hi=True)
@@ -214,7 +220,7 @@ def setUserSetting():
         print SETTINGS.get('faceSelection')
 
 def getUserSetting():
-    allSettings = SETTINGS.gets()
+    allSettings = SETTINGS.getAll()
     lines = []
     for item in allSettings:
         lines.append(item.keys()[0])

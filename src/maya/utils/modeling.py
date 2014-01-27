@@ -12,20 +12,44 @@ from dmptools.settings import SettingsManager
 
 SETTINGS = SettingsManager('maya_modeling')
 
-# default values
-normalAngle = 180
-
-# add settings to file
-SETTINGS.add('default_normalAngle', normalAngle)
+def alignVertices(minX, maxX, minY, maxY, minZ, maxZ):
+    """
+    align vertices in 3d
+    """
+    # get the selected vertices from current selection
+    selectedItems = cmds.filterExpand(ex=False, sm=31) # 31 means vertices
+    # get the 3d bounding box of selection
+    bInfo = cmds.polyEvaluate(bc=True)
+    xmin = bInfo[0][0]
+    xmax = bInfo[0][1]
+    ymin = bInfo[1][0]
+    ymax = bInfo[1][1]
+    zmin = bInfo[2][0]
+    zmax = bInfo[2][1]
+    
+    if minX:
+        cmds.move(xmin, moveX=True)
+    if maxX:
+        cmds.move(xmax, moveX=True)
+    if minY:
+        cmds.move(ymin, moveY=True)
+    if maxY:
+        cmds.move(ymax, moveY=True)
+    if minZ:
+        cmds.move(zmin, moveZ=True)
+    if maxZ:
+        cmds.move(zmax, moveZ=True)
 
 def alignUVs(doU, minU, doV, inV):
     """
     align selected uvs based on the one most on top, bottom, left, right
     """
-    selectedItems = cmds.filterExpand(ex=False, sm=35)
+    # get the selected UVs from current selection
+    selectedItems = cmds.filterExpand(ex=False, sm=35) # 35 means UVs
     uvMin = []
     uvMax = []
-    uvInfo = polyEvaluate(bc2=True)
+    # get the 3d bounding box of selection
+    uvInfo = cmds.polyEvaluate(bc2=True)
     uvMin[0] = uvInfo[0]
     uvMin[1] = uvInfo[2]
     uvMax[0] = uvInfo[1]
@@ -74,16 +98,21 @@ def mergeUVs():
     mel.eval('selectType -ocm -vertex true;')
     mel.eval('selectType -sf false -se false -suv false -cv false;')
 
-def softEdgeSelection(angle=normalAngle, history=True):
+def softEdgeSelection(angle=180, history=True):
     """
     unlock normals and soft edge 
     """
+    normalAngle = SETTINGS.get('default_normal_angle')
+    if normalAngle == None:
+        normalAngle = angle
+        SETTINGS.add('default_normal_angle', normalAngle)
+
     selection = cmds.ls(sl=True)
     for node in selection:
         # unlock
         cmds.polyNormalPerVertex(node, ufn=True)
         # soften
-        cmds.polySoftEdge(node, angle=angle, ch=history)
+        cmds.polySoftEdge(node, angle=normalAngle, ch=history)
 
 def averageNormals():
     """
@@ -300,6 +329,7 @@ def advanceMoveMultiExtrude():
     enter a mutlicomponents click and drag extrude mode
     """
     advanceMoveMulti()
+    # enters extrude mode
     mel.eval('nexOpt -e manipType extrude;dR_updateCommandPanel();dR_addRepeatManip("extrude");')
 
 def advanceMoveRelease():
@@ -325,14 +355,39 @@ def splitEdgeRing():
     """
     mel.eval("SplitEdgeRingTool;")
     
-def splitEdgeRingRelease(followFlow):
+def splitEdgeRingRelease(flow=False, flowValue=0.5, smoothingAngle=35):
     """
     default edge ring tool release mode
-    """  
+    """
+    # check for default values saved in preferences (settings)
+    followFlow = SETTINGS.get('egde_split_flow')
+    if not 'followFlow' in locals():
+        followFlow = flow
+        SETTINGS.add('egde_split_flow', followFlow)
+    followFlowValue = SETTINGS.get('egde_split_flow_value')
+    if not 'followFlowValue' in locals():
+        followFlowValue = flowValue
+        SETTINGS.add('egde_split_flow_value', followFlowValue)
+    smoothingValue = SETTINGS.get('egde_split_smoothing_value')
+    if not 'smoothingValue' in locals():
+        smoothingValue = smoothingAngle
+        SETTINGS.add('egde_split_smoothing_value', smoothingValue)
+
     if followFlow:
-        cmds.polySplitRing(ch=True, splitType=1, weight=0.5, smoothingAngle=35, fixQuads=True, insertWithEdgeFlow=True, adjustEdgeFlow=0.5)
+        cmds.polySplitRing(ch=True,
+                        splitType=1,
+                        weight=0.5,
+                        smoothingAngle=smoothingValue,
+                        fixQuads=True,
+                        insertWithEdgeFlow=True,
+                        adjustEdgeFlow=followFlowValue)
     else:
-        cmds.polySplitRing(ch=True, splitType=1, weight=0.5, smoothingAngle=35, fixQuads=True, insertWithEdgeFlow=False)
+        cmds.polySplitRing(ch=True,
+                        splitType=1,
+                        weight=0.5,
+                        smoothingAngle=smoothingValue,
+                        fixQuads=True,
+                        insertWithEdgeFlow=False)
 
     advanceMoveRelease()
 

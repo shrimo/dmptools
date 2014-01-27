@@ -61,8 +61,27 @@ def showHotkeysList(dockable):
         namePart1 = 'key:  '+str(key)+['\tctrl' if ctl else '\t'][0]+['\talt' if alt else '\t'][0]+['\tshift' if shift else '\t'][0]
         appendName = namePart1+'\t'+str(name)
         cmds.textScrollList('hotkeysScrollList', e=True, append=appendName, dcc=executeHotkey, ann='double click to execute the command')
-
-    cmds.formLayout(form, e=True, attachForm = [(txt, 'top', 5),(txt, 'bottom', 5), (txt, 'left', 5), (txt, 'right', 5)])
+    if dockable:
+        closeButton = cmds.button('hotkeys_close_button',
+                    label="Close",
+                    c='cmds.deleteUI("'+controlName+'", control=True)')
+    else:
+        closeButton = cmds.button('hotkeys_close_button',
+                    label="Close",
+                    c='cmds.deleteUI("'+windowName+'", window=True)')
+    cmds.formLayout(form, e=True,
+                        attachForm=[
+                                        (txt, 'top', 5),
+                                        (txt, 'left', 5),
+                                        (txt, 'right', 5),
+                                        (closeButton, 'left', 5),
+                                        (closeButton, 'right', 5),
+                                        (closeButton, 'bottom', 5),
+                                    ],
+                        attachControl=[
+                                        (txt, "bottom", 5, closeButton)
+                                    ]
+                    )
     if dockable:
         cmds.dockControl(controlName, label='dmptools hotkeys', floating=True, area='right', content=windowName)
     else:
