@@ -10,7 +10,7 @@ import maya.cmds as cmds
 
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager('maya')
+SETTINGS = SettingsManager('maya_main')
 
 def openCommandPort():
     port = 7001

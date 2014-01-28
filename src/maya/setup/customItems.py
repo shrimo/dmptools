@@ -2,7 +2,7 @@ import maya.cmds as cmds
 
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager('dmptoolsShelf')
+SETTINGS = SettingsManager('maya_dmptools_shelf')
 PARENT = 'dmptools_popup_custom'
 WINDOWNAME = 'create_createCustomItem'
 

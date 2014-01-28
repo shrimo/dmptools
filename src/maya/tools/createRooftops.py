@@ -6,7 +6,7 @@ import random
 from pymel.core import PyNode
 
 # for faceSeparate()
-import dmptools.utils.mayaCommands as mayaCommands
+import dmptools.utils.modeling as modeling
 
 # polyExtrude construction history
 HISTORY = False
@@ -117,7 +117,7 @@ def separateShells(selection):
                 cmds.select(selection+'.f[1]')
                 mel.eval('polyConvertToShell;')
                 # separate the selection from the mesh
-                separation = mayaCommands.faceSeparate()
+                separation = modeling.faceSeparate()
                 shells.append(separation)
             except:
                 shells.append(selection)

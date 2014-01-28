@@ -33,7 +33,8 @@ def setHotkey(hotkey):
         cmds.hotkey(k=key, alt=alt, ctl=ctl, releaseName=releaseName)
 
 def showHotkeysList(dockable):
-    """shows the current user hotkeys mapping and its name
+    """
+    shows the current user hotkeys mapping and its name
     """       
     windowName = 'hotkeys_window'
     controlName = 'hotkeys_ctrl'
@@ -88,6 +89,9 @@ def showHotkeysList(dockable):
         cmds.showWindow(windowName)
 
 def executeHotkey():
+    """
+    action of double clicking on item
+    """
     items = HOTKEYS_ITEMS
     itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1]
     command = [item['command'] for item in items if item['name'] == itemName][0]
@@ -95,7 +99,7 @@ def executeHotkey():
 
 def main():
     """
-        create the dmptools hotkeys
+    create the dmptools hotkeys
     """
     defaultPrint('creating hotkeys...')
 

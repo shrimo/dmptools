@@ -77,12 +77,17 @@ def mergeVertex():
     """
     merge selected vertices
     """
+    dist = SETTINGS.get('default_merge_distance')
+    if dist == None:
+        dist = 0.1
+        SETTINGS.add('default_merge_distance', dist)
+
     selection = cmds.ls(sl=True)
     if selection:
         try:
             for node in selection:
                 cmds.select(node, r=True)
-                cmds.polyMergeVertex(distance=0.01, am=True, ch=True)
+                cmds.polyMergeVertex(distance=dist, am=True, ch=True)
         except:
             pass
         cmds.select(selection, r=True)

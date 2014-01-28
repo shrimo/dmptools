@@ -15,7 +15,7 @@ if '!PLATFORM!' == 'Linux':
     from dmptools_misc.linux import fdUtils
 
 # globals
-SETTINGS = SettingsManager('maya')
+SETTINGS = SettingsManager('maya_commands')
 perspNear = 1
 perspFar = 200000
 

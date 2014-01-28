@@ -3,7 +3,7 @@ import fnmatch
 
 from dmptools.settings import SettingsManager
 
-SETTINGS = SettingsManager('batchRename')
+SETTINGS = SettingsManager('maya_batch_rename')
 WINDOWNAME = 'batch_rename'
 CONTROLNAME = 'batch_rename_control'
 
