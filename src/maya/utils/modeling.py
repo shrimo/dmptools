@@ -73,13 +73,13 @@ def makeTube():
     mesh = cmds.polyTorus(r=2, sr=0.2,  sx=50, sy=4, tw=45)
     cmds.setAttr(mesh[0]+'.sy', 5)
 
-def mergeVertex():
+def mergeVertex(defaultValue=0.1):
     """
     merge selected vertices
     """
     dist = SETTINGS.get('default_merge_distance')
     if dist == None:
-        dist = 0.1
+        dist = defaultValue
         SETTINGS.add('default_merge_distance', dist)
 
     selection = cmds.ls(sl=True)
@@ -92,18 +92,23 @@ def mergeVertex():
             pass
         cmds.select(selection, r=True)
 
-def mergeUVs():
+def mergeUVs(defaultValue=1.0):
     """
     merge selected uvs **to translate to python**
     """
-    mel.eval('polyPerformAction "polyMergeUV -d 1" v 0;')
+    dist = SETTINGS.get('default_mergeUVs_distance')
+    if dist == None:
+        dist = defaultValue
+        SETTINGS.add('default_mergeUVs_distance', dist)
+
+    mel.eval('polyPerformAction "polyMergeUV -d '+value+'" v 0;')
     mel.eval('changeSelectMode -component;')
     mel.eval('setComponentPickMask "Point" true;')
     mel.eval('selectType -ocm -alc false;')
     mel.eval('selectType -ocm -vertex true;')
     mel.eval('selectType -sf false -se false -suv false -cv false;')
 
-def softEdgeSelection(angle=180, history=True):
+def softEdgeSelection(defaultAngle=180, history=True):
     """
     unlock normals and soft edge 
     """

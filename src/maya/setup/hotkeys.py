@@ -21,24 +21,26 @@ def setHotkey(hotkey):
     if release:
         releaseName = name+"Release"
         releaseCommand = hotkey['releaseCommand']
-    
-    #create hotkey command
-    cmds.nameCommand(name, sourceType="mel", annotation=name, command=command)
-    if release:
-        cmds.nameCommand(releaseName, sourceType="mel", annotation=releaseName, command=releaseCommand)
-    
-    # set hotkey
-    cmds.hotkey(k=key, alt=alt, ctl=ctl, name=name)    
-    if release:
-        cmds.hotkey(k=key, alt=alt, ctl=ctl, releaseName=releaseName)
+
+    # check if this is not a separator
+    if not 'separator' in command:
+        #create hotkey command
+        cmds.nameCommand(name, sourceType="mel", annotation=name, command=command)
+        if release:
+            cmds.nameCommand(releaseName, sourceType="mel", annotation=releaseName, command=releaseCommand)
+        
+        # set hotkey
+        cmds.hotkey(k=key, alt=alt, ctl=ctl, name=name)    
+        if release:
+            cmds.hotkey(k=key, alt=alt, ctl=ctl, releaseName=releaseName)
 
 def showHotkeysList(dockable):
     """
-    shows the current user hotkeys mapping and its name
+    shows a window with the current user hotkeys mapping and its name
     """       
     windowName = 'hotkeys_window'
     controlName = 'hotkeys_ctrl'
-    try:    
+    try:
         cmds.deleteUI(controlName, control=True)
     except:
         pass
@@ -60,8 +62,12 @@ def showHotkeysList(dockable):
         shift = True if key[0].isupper() else False
         #appendName = 'key:  '+str(key)+'\tctrl:  '+str(ctl)+'\talt:  '+str(alt)+'\t'+str(name)
         namePart1 = 'key:  '+str(key)+['\tctrl' if ctl else '\t'][0]+['\talt' if alt else '\t'][0]+['\tshift' if shift else '\t'][0]
-        appendName = namePart1+'\t'+str(name)
-        cmds.textScrollList('hotkeysScrollList', e=True, append=appendName, dcc=executeHotkey, ann='double click to execute the command')
+        if 'separator' in command:
+            appendName = name
+        else:
+            appendName = namePart1+'\t| '+str(name)
+        cmds.textScrollList('hotkeysScrollList', e=True, append=appendName, dcc=executeHotkey, sc=showHelp, ann='*click to print the help - double click to execute*')
+    
     if dockable:
         closeButton = cmds.button('hotkeys_close_button',
                     label="Close",
@@ -70,6 +76,7 @@ def showHotkeysList(dockable):
         closeButton = cmds.button('hotkeys_close_button',
                     label="Close",
                     c='import maya.cmds as cmds;cmds.deleteUI("'+windowName+'", window=True)')
+    
     cmds.formLayout(form, e=True,
                         attachForm=[
                                         (txt, 'top', 5),
@@ -83,17 +90,27 @@ def showHotkeysList(dockable):
                                         (txt, "bottom", 5, closeButton)
                                     ]
                     )
+    # create a dockable window if dockable is true
     if dockable:
         cmds.dockControl(controlName, label='dmptools hotkeys', floating=True, area='right', content=windowName)
     else:
         cmds.showWindow(windowName)
+
+def showHelp():
+    """
+    prints out the help for the selected item
+    """
+    items = HOTKEYS_ITEMS
+    itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1].replace('| ', '')
+    help = [item['help'] for item in items if item['name'] == itemName][0]
+    print help,
 
 def executeHotkey():
     """
     action of double clicking on item
     """
     items = HOTKEYS_ITEMS
-    itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1]
+    itemName = cmds.textScrollList('hotkeysScrollList', q=True, si=True)[0].split('\t')[-1].replace('| ', '')
     command = [item['command'] for item in items if item['name'] == itemName][0]
     mel.eval(command)
 
@@ -104,7 +121,7 @@ def main():
     defaultPrint('creating hotkeys...')
 
     for hotKey in HOTKEYS_ITEMS:
-            setHotkey(hotKey)
+        setHotkey(hotKey)
     # save hotkeys pref files
     cmds.savePrefs(hotkeys=True)
 

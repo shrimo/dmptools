@@ -19,9 +19,9 @@ def appendSettingsItems(SHELF_ITEMS):
     for setting in SettingsManager('maya_main').getAllSettingsFiles():
         if setting:
             if not '~' in setting:
-                menuList.append((setting.replace('_', ' '), 'import dmptools.utils.settingsManagerWindow as settingsManagerWindow;\
-                            reload(settingsManagerWindow);\
-                            settingsManagerWindow.main("'+setting+'")'))
+                menuList.append((setting.replace('_', ' '), 'import dmptools.setup.settingsWindow as settingsWindow;\
+                            reload(settingsWindow);\
+                            settingsWindow.main("'+setting+'")'))
 
     if menuList:
         item = {
@@ -192,9 +192,20 @@ markingMenuItems = [
 ]
 
 # hotkeys list
+
 hotkeysItems = [
     {
-        'name':'dmptoolsMarkingMenu',
+        'name':'_____________________________MAIN______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
+    {
+        'name':'dmptools_marking_menu',
+        'help':'Shows the dmptools marking menu.', 
         'key':'n',
         'alt':False,
         'ctrl':False,
@@ -205,7 +216,8 @@ hotkeysItems = [
             reload(markingMenu);markingMenu.deleteMarkingMenu()");',
     },
     {
-        'name':'createHotkeys',
+        'name':'reassign_dmptools_hotkeys',
+        'help':'Reassign the dmptools hotkeys.', 
         'key':'H',
         'alt':True,
         'ctrl':True,
@@ -213,15 +225,31 @@ hotkeysItems = [
         'command':'python("import dmptools.setup.hotkeys as hotkeys;\
             reload(hotkeys);hotkeys.main()");',
     },
-    #=========================#
-    #     MODELING SECTION    #
-    #=========================#
-    #{
-    #     next frame ctrl+ +
-    #     previous frame ctrl+ -
-    #},
     {
-        'name':'alignVerticesMinX',
+        'name':'show_hotkeys_ist',
+        'help':'Opens the dmptools hotkeys summary window',
+        'key':'H',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
+            reload(hotkeys);hotkeys.showHotkeysList()");',
+    },
+    #=====================================================================#
+    #                      MODELING SECTION    #
+    #=====================================================================#
+    {
+        'name':'_____________________________MODELING______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
+    {
+        'name':'align_selected_vertices_-X',
+        'help':'Align selected component vertices to the minimal X axis value.', 
         'key':'4',
         'alt':True,
         'ctrl':True,
@@ -230,7 +258,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(True, False, False, False, False, False)");',
     },
     {
-        'name':'alignVerticesMaxX',
+        'name':'align_selected_vertices_+X',
+        'help':'Align selected component vertices to the maximal X axis value.', 
         'key':'6',
         'alt':True,
         'ctrl':True,
@@ -239,7 +268,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, True, False, False, False, False)");',
     },
     {
-        'name':'alignVerticesMinY',
+        'name':'align_selected_vertices_-Y',
+        'help':'Align selected component vertices to the minimal Y axis value.', 
         'key':'2',
         'alt':True,
         'ctrl':True,
@@ -248,7 +278,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, True, False, False, False)");',
     },
     {
-        'name':'alignVerticesMaxY',
+        'name':'align_selected_vertices_+Y',
+        'help':'Align selected component vertices to the maximal Y axis value.', 
         'key':'8',
         'alt':True,
         'ctrl':True,
@@ -257,7 +288,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, False, True, False, False)");',
     },
     {
-        'name':'alignVerticesMinZ',
+        'name':'align_selected_vertices_-Z',
+        'help':'Align selected component vertices to the minimal Z axis value.', 
         'key':'7',
         'alt':True,
         'ctrl':True,
@@ -266,7 +298,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, False, False, True, False)");',
     },
     {
-        'name':'alignVerticesMaxZ',
+        'name':'align_selected_vertices_+Z',
+        'help':'Align selected component vertices to the maximal Z axis value.', 
         'key':'9',
         'alt':True,
         'ctrl':True,
@@ -275,7 +308,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, False, False, False, True)");',
     },
     {
-        'name':'alignUVsUP',
+        'name':'align_selected_UVs_up',
+        'help':'Align selected UVs to the maximal V axis value.', 
         'key':'up',
         'alt':False,
         'ctrl':True,
@@ -284,7 +318,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignUVs(False, False, True, False)");',
     },
     {
-        'name':'alignUVsDown',
+        'name':'align_selected_UVs_down',
+        'help':'Align selected UVs to the minimal V axis value.', 
         'key':'down',
         'alt':False,
         'ctrl':True,
@@ -293,7 +328,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignUVs(False, False, True, True)");',
     },
     {
-        'name':'alignUVsLeft',
+        'name':'align_selected_UVs_left',
+        'help':'Align selected UVs to the minimal U axis value.', 
         'key':'left',
         'alt':False,
         'ctrl':True,
@@ -302,7 +338,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignUVs(True, True, False, False)");',
     },
     {
-        'name':'alignUVsRight',
+        'name':'align_selected_UVs_right',
+        'help':'Align selected UVs to the maximal U axis value.', 
         'key':'right',
         'alt':False,
         'ctrl':True,
@@ -311,7 +348,8 @@ hotkeysItems = [
             reload(modeling);modeling.alignUVs(True, False, False, False)");',
     },
     {
-        'name':'symmetry',
+        'name':'symmetry_tool',
+        'help':'Opens the dmptools symmetry tool.',
         'key':'s',
         'alt':True,
         'ctrl':False,
@@ -320,7 +358,8 @@ hotkeysItems = [
             reload(symmetry);symmetry.main()");',
     },
     {
-        'name':'createCameraUVProj',
+        'name':'create_uv_proj_from_camera',
+        'help':'Creates a uv proj on selected mesh from the current camera.',
         'key':'P',
         'alt':False,
         'ctrl':True,
@@ -329,16 +368,18 @@ hotkeysItems = [
             reload(modeling);modeling.createCameraUVProj()");',
     },
     {
-        'name':'softEdgeSelection',
+        'name':'soften_harden_edge',
+        'help':'Smooth selected edges with default value (180) or the one stored in dmptools settings.',
         'key':'N',
         'alt':True,
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.utils.modeling as modeling;\
-            reload(modeling);modeling.softEdgeSelection(180, True)");',
+            reload(modeling);modeling.softEdgeSelection()");',
     },
     {
-        'name':'advanceMove',
+        'name':'advance_move',
+        'help':'Enters the advance move selection mode.',
         'key':'A',
         'alt':False,
         'ctrl':False,
@@ -349,7 +390,8 @@ hotkeysItems = [
             reload(modeling);modeling.advanceMoveRelease()");',
     },
     {
-        'name':'advanceMoveMulti',
+        'name':'advance_move_multi',
+        'help':'Enters the advance move multi component selection mode.',
         'key':'a',
         'alt':False,
         'ctrl':False,
@@ -360,7 +402,8 @@ hotkeysItems = [
             reload(modeling);modeling.advanceMoveRelease()");',
     },
     {
-        'name':'advanceMoveMultiExtrude',
+        'name':'advance_extrude_multi',
+        'help':'Enters the extrude multi component mode. *need to update with multiple selection*',
         'key':'q',
         'alt':False,
         'ctrl':False,
@@ -371,7 +414,8 @@ hotkeysItems = [
             reload(modeling);modeling.advanceMoveRelease()");',
     },
     {
-        'name':'splitEdge',
+        'name':'split_edge_tool',
+        'help':'Split edge tool.',
         'key':'Q',
         'alt':False,
         'ctrl':False,
@@ -382,7 +426,8 @@ hotkeysItems = [
             reload(modeling);modeling.advanceMoveRelease()");',
     },
     {
-        'name':'splitEdgeRing',
+        'name':'split_edge_ring_tool',
+        'help':'Split edge ring tool.',
         'key':'Q',
         'alt':False,
         'ctrl':True,
@@ -391,7 +436,8 @@ hotkeysItems = [
             reload(modeling);modeling.splitEdgeRing()");',
     },
     {
-        'name':'mergeVertex',
+        'name':'merge_vertices',
+        'help':'Merge selected vertices with default value (0.1) or the one stored in dmptools settings.',
         'key':'m',
         'alt':False,
         'ctrl':True,
@@ -400,7 +446,8 @@ hotkeysItems = [
             reload(modeling);modeling.mergeVertex()");',
     },
     {
-        'name':'mergeUVs',
+        'name':'merge_uvs',
+        'help':'Merge selected UVs with default value (0.1) or the one stored in dmptools settings.',
         'key':'X',
         'alt':False,
         'ctrl':True,
@@ -408,11 +455,21 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.modeling as modeling;\
             reload(modeling);modeling.mergeUVs()");',
     },
-    #=========================#
-    #     DISPLAY SECTION     #
-    #=========================#
+    #=====================================================================#
+    #                      DISPLAY SECTION    #
+    #=====================================================================#
     {
-        'name':'setDefaultRenderer',
+        'name':'_____________________________DISPLAY______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
+    {
+        'name':'set_default_renderer',
+        'help':'Set the viewport display to the default renderer.',
         'key':'1',
         'alt':True,
         'ctrl':False,
@@ -421,7 +478,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setDefaultRenderer()");',
     },
     {
-        'name':'setHardwareRenderer',
+        'name':'set_hardware_renderer',
+        'help':'Set the viewport display to the hardware renderer.',
         'key':'2',
         'alt':True,
         'ctrl':False,
@@ -430,7 +488,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
     },
     {
-        'name':'setViewport2Renderer',
+        'name':'set_viewport2.0_renderer',
+        'help':'Set the viewport display to the viewport2.0 renderer.',
         'key':'3',
         'alt':True,
         'ctrl':False,
@@ -439,7 +498,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setViewport2Renderer()");',
     },
     {
-        'name':'toggleVertexColorDisplay',
+        'name':'toggle_vertex_color_display',
+        'help':'Toggle vertex color display on selected obejcts.',
         'key':'C',
         'alt':True,
         'ctrl':False,
@@ -447,58 +507,9 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.toggleVertexColorDisplay()");',
     },
-
     {
-        'name':'setPreviousRenderVersion',
-        'key':'[',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', True, True)");',
-    },
-    {
-        'name':'setNextRenderVersion',
-        'key':']',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', True, True)");',
-    },
-    {
-        'name':'setPreviousRenderDisplayVersion',
-        'key':'{',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False, True)");',
-    },
-    {
-        'name':'setNextRenderDisplayVersion',
-        'key':'}',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', False, True)");',
-    },
-    {
-        'name':'setLatestVersion',
-        'key':']',
-        'alt':True,
-        'ctrl':True,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setLatestVersion(\'render\', False, False)");',
-    },
-    {
-        'name':'switchFbkResolution',
-        'key':'G',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;\
-            reload(fbkUtils);fbkUtils.switchAnimRender()");',
-    },
-    {
-        'name':'toggleNormals',
+        'name':'toggle_normals',
+        'help':'Toggle normal display on selected object.',
         'key':'n',
         'alt':True,
         'ctrl':False,
@@ -507,7 +518,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.toggleNormals()");',
     },
     {
-        'name':'setWireframe',
+        'name':'toggle_wireframe',
+        'help':'Toggle wireframe on shaded.',
         'key':'w',
         'alt':True,
         'ctrl':False,
@@ -516,7 +528,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setWireframe()");',
     },
     {
-        'name':'setBackfaceCulling',
+        'name':'toggle_backface_culling',
+        'help':'Toggle backface culling.',
         'key':'B',
         'alt':True,
         'ctrl':False,
@@ -525,7 +538,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setBackfaceCulling()");',
     },
     {
-        'name':'setDefaultMaterial',
+        'name':'toggle_default_material',
+        'help':'Toggle default material.',
         'key':'d',
         'alt':True,
         'ctrl':False,
@@ -534,7 +548,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setDefaultMaterial()");',
     },
     {
-        'name':'switchLight',
+        'name':'toggle_all_lights',
+        'help':'Toggle between default lights and all lights.',
         'key':'l',
         'alt':True,
         'ctrl':False,
@@ -543,7 +558,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.switchLight()");',
     },
     {
-        'name':'switchHighlightedSelection',
+        'name':'toggle_highlighted_selection',
+        'help':'Toggle highlighted selection.',
         'key':'f',
         'alt':True,
         'ctrl':False,'release':False,
@@ -551,7 +567,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.switchHighlightedSelection()");',
     },
     {
-        'name':'cameraPanTool',
+        'name':'camera_pan_tool',
+        'help':'Enters the camera pan tool.',
         'key':'z',
         'alt':True,
         'ctrl':False,
@@ -560,7 +577,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.cameraPanTool()");',
     },
     {
-        'name':'cameraZoomTool',
+        'name':'camera_zoom_tool',
+        'help':'Enters the camera zoom tool.',
         'key':'Z',
         'alt':True,
         'ctrl':False,
@@ -569,7 +587,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.cameraZoomTool()");',
     },
     {
-        'name':'resetPanZoom',
+        'name':'reset_pan_zoom',
+        'help':'Reset camera pan zoom tool.',
         'key':'Z',
         'alt':True,
         'ctrl':True,
@@ -578,7 +597,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.resetPanZoom()");',
     },
     {
-        'name':'isolateSelection',
+        'name':'isolate_selection',
+        'help':'Toggle isolate selection.',
         'key':'h',
         'alt':True,
         'ctrl':False,
@@ -586,11 +606,21 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.isolateSelection()");',
     },
-    #============================#
-    #       WINDOWS SECTION      #
-    #============================#
+    #=====================================================================#
+    #                      WINDOWS SECTION    #
+    #=====================================================================#
     {
-        'name':'namespaceEditor',
+        'name':'_____________________________WINDOWS______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
+    {
+        'name':'namespace_editor',
+        'help':'Opens the namespace editor.',
         'key':'n',
         'alt':True,
         'ctrl':True,
@@ -598,26 +628,9 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.openNamespaceEditor()");',
     },
-    #{
-    #    'name':'openNodeEditor',
-    #    'key':'3',
-    #    'alt':True,
-    #    'ctrl':True,
-    #    'release':False,
-    #    'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
-    #        reload(mayaCommands);mayaCommands.openNodeEditor()");',
-    #},
     {
-        'name':'showHotkeysList',
-        'key':'H',
-        'alt':True,
-        'ctrl':False,
-        'release':False,
-        'command':'python("import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.showHotkeysList()");',
-    },
-    {
-        'name':'openHypershade',
+        'name':'hypershade',
+        'help':'Opens the hypershade.',
         'key':'0',
         'alt':True,
         'ctrl':True,
@@ -626,7 +639,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.openHypershade()");',
     },
     {
-        'name':'openUvTextureEditor',
+        'name':'uv_texture_editor',
+        'help':'Opens the uv texture editor.',
         'key':'.',
         'alt':True,
         'ctrl':True,
@@ -634,9 +648,18 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.openUvTextureEditor()");',
     },
-    #===========================#
-    #     SELECTION SECTION     #
-    #===========================#
+    #=====================================================================#
+    #                      SELECTION SECTION    #
+    #=====================================================================#
+    {
+        'name':'_____________________________SELECTION______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
     {
         'name':'freezeHistory',
         'key':'F',
@@ -720,9 +743,18 @@ hotkeysItems = [
         'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.shortestEdgePathRelease()");',
     },
-    #============================#
-    #         MISC SECTION       #
-    #============================#
+    #=====================================================================#
+    #                              MISC SECTION    #
+    #=====================================================================#
+    {
+        'name':'_____________________________MISC______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
     {
         'name':'launchConsole',
         'key':'x',
@@ -784,6 +816,73 @@ hotkeysItems = [
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.switchColors()");',
+    },
+    #=====================================================================#
+    #                              FRAMESTORE SECTION    #
+    #=====================================================================#
+    {
+        'name':'_____________________________FRAMESTORE______________________________________',
+        'help':'',
+        'key':'-',
+        'alt':'',
+        'ctrl':'',
+        'release':False,
+        'command':'print "separator"',
+    },
+    {
+        'name':'setPreviousRenderVersion',
+        'help':'setPreviousRenderVersion',
+        'key':'[',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', True, True)");',
+    },
+    {
+        'name':'setNextRenderVersion',
+        'help':'setNextRenderVersion',
+        'key':']',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', True, True)");',
+    },
+    {
+        'name':'setPreviousRenderDisplayVersion',
+        'help':'setPreviousRenderDisplayVersion',
+        'key':'{',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setPreviousVersion(\'render\', False, True)");',
+    },
+    {
+        'name':'setNextRenderDisplayVersion',
+        'help':'setNextRenderDisplayVersion',
+        'key':'}',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setNextVersion(\'render\', False, True)");',
+    },
+    {
+        'name':'setLatestVersion',
+        'help':'setLatestVersion',
+        'key':']',
+        'alt':True,
+        'ctrl':True,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.setLatestVersion(\'render\', False, False)");',
+    },
+    {
+        'name':'switchFbkResolution',
+        'help':'switchFbkResolution',
+        'key':'G',
+        'alt':True,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;\
+            reload(fbkUtils);fbkUtils.switchAnimRender()");',
     },
 ]
 
