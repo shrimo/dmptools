@@ -33,7 +33,7 @@ def buildUI(settingsName):
     cmds.setParent('..')
     closeButton = cmds.button(settingsName+'_close_button',
                     label="Close",
-                    c='cmds.deleteUI("'+settingsWindow+'", window=True)')
+                    c='import maya.cmds as cmds;cmds.deleteUI("'+settingsWindow+'", window=True)')
 
     cmds.formLayout(form, e=True,
                     attachForm=[

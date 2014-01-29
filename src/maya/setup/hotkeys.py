@@ -65,11 +65,11 @@ def showHotkeysList(dockable):
     if dockable:
         closeButton = cmds.button('hotkeys_close_button',
                     label="Close",
-                    c='cmds.deleteUI("'+controlName+'", control=True)')
+                    c='import maya.cmds as cmds;cmds.deleteUI("'+controlName+'", control=True)')
     else:
         closeButton = cmds.button('hotkeys_close_button',
                     label="Close",
-                    c='cmds.deleteUI("'+windowName+'", window=True)')
+                    c='import maya.cmds as cmds;cmds.deleteUI("'+windowName+'", window=True)')
     cmds.formLayout(form, e=True,
                         attachForm=[
                                         (txt, 'top', 5),
