@@ -370,12 +370,22 @@ hotkeysItems = [
     {
         'name':'soften_harden_edge',
         'help':'Smooth selected edges with default value (180) or the one stored in dmptools settings.',
-        'key':'N',
-        'alt':True,
+        'key':'n',
+        'alt':False,
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.utils.modeling as modeling;\
             reload(modeling);modeling.softEdgeSelection()");',
+    },
+    {
+        'name':'unlock_harden_edge',
+        'help':'Unlock and harden selected edges.',
+        'key':'N',
+        'alt':False,
+        'ctrl':False,
+        'release':False,
+        'command':'python("import dmptools.utils.modeling as modeling;\
+            reload(modeling);modeling.unlockAndHarden()");',
     },
     {
         'name':'advance_move',

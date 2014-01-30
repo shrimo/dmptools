@@ -108,21 +108,30 @@ def mergeUVs(defaultValue=1.0):
     mel.eval('selectType -ocm -vertex true;')
     mel.eval('selectType -sf false -se false -suv false -cv false;')
 
-def softEdgeSelection(defaultAngle=180, history=True):
+def softEdgeSelection(unlockAndHarden=180, history=True):
     """
     unlock normals and soft edge 
     """
     normalAngle = SETTINGS.get('default_normal_angle')
     if normalAngle == None:
-        normalAngle = angle
+        normalAngle = unlockAndHarden
         SETTINGS.add('default_normal_angle', normalAngle)
+    if cmds.ls(sl=True):
+        newSel = cmds.polyListComponentConversion(fv=True, ff=True, fuv=True, fvf=True, te=True, vfa=True)
+        if newSel:
+            cmds.select(newSel)
+        #cmds.polyNormalPerVertex(ufn=True)
+        cmds.polySoftEdge(angle=normalAngle, ch=history)
 
-    selection = cmds.ls(sl=True)
-    for node in selection:
-        # unlock
-        cmds.polyNormalPerVertex(node, ufn=True)
-        # soften
-        cmds.polySoftEdge(node, angle=normalAngle, ch=history)
+def unlockAndHarden():
+    """
+    comverts selected components to vertices, unlocks and harden
+    """
+    if cmds.ls(sl=True):
+        newSel = cmds.polyListComponentConversion(ff=True, fe=True, fuv=True, fvf=True, tv=True)
+        cmds.select(newSel)
+        cmds.polyNormalPerVertex(ufn=True)
+        cmds.polySoftEdge(angle=0, ch=False)
 
 def averageNormals():
     """
