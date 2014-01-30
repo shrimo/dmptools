@@ -26,7 +26,7 @@ def get_camera_info(node):
     return camera_info
 
 def bake_camera(node):
-        print '\nbaking camera '+str(node)+'...', 
+        print 'baking camera '+str(node)+'...', 
         camera_info = get_camera_info(node)
 
         newCamera = cmds.camera()
@@ -52,7 +52,7 @@ def bake_camera(node):
             cmds.setKeyframe(newCamera[1]+'.verticalFilmAperture')
             cmds.setKeyframe(newCamera[1]+'.horizontalFilmOffset')
             cmds.setKeyframe(newCamera[1]+'.verticalFilmOffset')
-        print '\ncreated '+str(newCamera)+',',
+        print 'created '+str(newCamera)+',',
 
 def main():
     selection = cmds.ls(sl=True)
@@ -67,4 +67,4 @@ def main():
     if node:
         bake_camera(node)
     else:
-        print '\nplease select a camera or go to an active 3d viewport.',
+        print 'please select a camera or go to an active 3d viewport.',

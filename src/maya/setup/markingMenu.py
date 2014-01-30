@@ -56,6 +56,7 @@ def buildMenu(item):
             )
     else:
         if name == 'separator':
+            print 'separator'
             cmds.menuItem(
                 divider=True
                 )

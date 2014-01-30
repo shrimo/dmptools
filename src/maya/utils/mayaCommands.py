@@ -61,6 +61,8 @@ def getLenFd(printR=True):
         return len(fdUtils.getOpenedFiles())
 
 def openCharcoalEditor():
+    if not "CharcoalEditor" in cmds.pluginInfo(query=True, listPlugins=True):
+        cmds.loadPlugin('CharcoalEditor')      
     mel.eval('charcoalEditor;')
 
 def openHypergraph():
@@ -429,6 +431,31 @@ def newScriptEditor():
         )
     
     cmds.showWindow()
+
+def floatingOutputReporter():
+    """
+    standalone script editor output floating window
+    """
+    #windowName = cmds.window(t='floating output', w = 650, h = 300)
+    controlName = 'dmptools_output_control'
+    try:
+        cmds.deleteUI(controlName, control=True)
+    except:
+        pass
+    form = cmds.formLayout()
+
+    # output reporter
+    reporter = cmds.cmdScrollFieldReporter('reporter')
+    cmds.formLayout(form, e=True,
+            attachForm=\
+                [
+                    (reporter, "top", 5),
+                    (reporter, "bottom", 5),
+                    (reporter, "left", 5),
+                    (reporter, "right", 5),
+                ]
+        )
+    cmds.dockControl(controlName, label='floating output', floating=True, area='right', content=form)
 
 def launchTerminal():
     cmd = 'gnome-terminal'

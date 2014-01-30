@@ -77,14 +77,8 @@ markingMenuItems = [
     },
 
     #============================#
-    #       VERTICAL MENU        #
+    #         MAIN MENU          #
     #============================#
-    {
-        'name':'separator',
-        'subMenu':None,
-        'position':None,
-        'command':None
-    },
     {
         'name':'MayaToNuke',
         'subMenu':False,
@@ -115,6 +109,12 @@ markingMenuItems = [
         'command':'import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.launchSublimeText();\
             import dmptools.setup.markingMenu as mm;mm.deleteMarkingMenu()',
+    },
+    {
+        'name':'separator',
+        'subMenu':None,
+        'position':None,
+        'command':None
     },
     {
         'name':'newScriptEditor',
@@ -206,7 +206,7 @@ hotkeysItems = [
     {
         'name':'dmptools_marking_menu',
         'help':'Shows the dmptools marking menu.', 
-        'key':'n',
+        'key':'j',
         'alt':False,
         'ctrl':False,
         'release':True,
@@ -248,7 +248,7 @@ hotkeysItems = [
         'command':'print "separator"',
     },
     {
-        'name':'align_selected_vertices_-X',
+        'name':'align_selected_vertices_minX',
         'help':'Align selected component vertices to the minimal X axis value.', 
         'key':'4',
         'alt':True,
@@ -258,7 +258,7 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(True, False, False, False, False, False)");',
     },
     {
-        'name':'align_selected_vertices_+X',
+        'name':'align_selected_vertices_maxX',
         'help':'Align selected component vertices to the maximal X axis value.', 
         'key':'6',
         'alt':True,
@@ -268,7 +268,7 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, True, False, False, False, False)");',
     },
     {
-        'name':'align_selected_vertices_-Y',
+        'name':'align_selected_vertices_minY',
         'help':'Align selected component vertices to the minimal Y axis value.', 
         'key':'2',
         'alt':True,
@@ -278,7 +278,7 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, True, False, False, False)");',
     },
     {
-        'name':'align_selected_vertices_+Y',
+        'name':'align_selected_vertices_maxY',
         'help':'Align selected component vertices to the maximal Y axis value.', 
         'key':'8',
         'alt':True,
@@ -288,7 +288,7 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, False, True, False, False)");',
     },
     {
-        'name':'align_selected_vertices_-Z',
+        'name':'align_selected_vertices_minZ',
         'help':'Align selected component vertices to the minimal Z axis value.', 
         'key':'7',
         'alt':True,
@@ -298,7 +298,7 @@ hotkeysItems = [
             reload(modeling);modeling.alignVertices(False, False, False, False, True, False)");',
     },
     {
-        'name':'align_selected_vertices_+Z',
+        'name':'align_selected_vertices_maxZ',
         'help':'Align selected component vertices to the maximal Z axis value.', 
         'key':'9',
         'alt':True,
@@ -671,7 +671,8 @@ hotkeysItems = [
         'command':'print "separator"',
     },
     {
-        'name':'freezeHistory',
+        'name':'freeze_delete_history',
+        'help':'Freeze transforms and delete history.',
         'key':'F',
         'alt':True,
         'ctrl':False,
@@ -680,7 +681,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.freezeHistory()");',
     },
     {
-        'name':'freezeHistoryCenterPivot',
+        'name':'freeze_delete_history_pivot',
+        'help':'Freeze transforms, delete history and center pivot.',
         'key':'F',
         'alt':True,
         'ctrl':True,
@@ -689,7 +691,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.freezeCenterPivot()");',
     },
     {
-        'name':'centerPivot',
+        'name':'center_pivot',
+        'help':'Center pivot of selected objects.',
         'key':'F',
         'alt':False,
         'ctrl':True,
@@ -698,7 +701,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.centerPivot()");',
     },
     {
-        'name':'hideSelectionSwitch',
+        'name':'toggle_visibility',
+        'help':'Toggle visibility of selected objects.',
         'key':'h',
         'alt':False,
         'ctrl':False,
@@ -707,7 +711,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.hideSelSwitch()");',
     },
     {
-        'name':'invertSelection',
+        'name':'invert_selection',
+        'help':'Invert selection.',
         'key':'I',
         'alt':False,
         'ctrl':True,
@@ -716,7 +721,8 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.invertSelection()");',
     },
     {
-        'name':'selectNgones',
+        'name':'select_ngones',
+        'help':'Select polygon with more than 4 edges.',
         'key':'q',
         'alt':True,
         'ctrl':False,
@@ -726,6 +732,7 @@ hotkeysItems = [
     },
     {
         'name':'selectTriangles',
+        'help':'Select triangles.',
         'key':'p',
         'alt':True,
         'ctrl':False,
@@ -988,16 +995,19 @@ shelfItems = [
         'menu':True,
         'menuItems':[
             ('maya to nuke', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)'),
-            ('batch rename', 'import dmptools.tools.batchRename as batchRename;batchRename.main(False)'),
-            ('arc system', 'import dmptools.tools.arcSystem as arcSystem;arcSystem.main()'),
-            ('create rooftops', 'import dmptools.tools.createRooftops as createRooftops;createRooftops.main()'),
-            ('run command', 'import dmptools.tools.runCommand as runCommand;runCommand.main(False)'),
-            ('ratio calculator', 'import dmptools.tools.ratioCalculator as ratioCalculator;ratioCalculator.main()'),
-            ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;symmetry.main()'),
-            ('uv tiles manager', 'import dmptools.tools.uvManager as uvManager;uvManager.main()'),
-            ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;bakeUdimTiles.main()'),
-            ('fix clip planes', 'import dmptools.utils.mayaCommands as mayaCommands;mayaCommands.fixClipPlanes()'),
-            ('bake camera', 'import dmptools.tools.bakeCamera as bakeCamera;bakeCamera.main()'),
+            ('batch rename', 'import dmptools.tools.batchRename as batchRename;reload(batchRename);batchRename.main(False)'),
+            ('display color', 'import dmptools.tools.displayColor as displayColor;reload(displayColor);displayColor.main()'),
+            ('arc system', 'import dmptools.tools.arcSystem as arcSystem;reload(arcSystem);arcSystem.main()'),
+            ('create rooftops', 'import dmptools.tools.createRooftops as createRooftops;reload(createRooftops);createRooftops.main()'),
+            ('ratio calculator', 'import dmptools.tools.ratioCalculator as ratioCalculator;reload(ratioCalculator);ratioCalculator.main()'),
+            ('run command', 'import dmptools.tools.runCommand as runCommand;reload(runCommand);runCommand.main(False)'),
+            ('symmetry tool', 'import dmptools.tools.symmetry as symmetry;reload(symmetry);symmetry.main()'),
+            ('uv tiles manager', 'import dmptools.tools.uvManager as uvManager;reload(uvManager);uvManager.main()'),
+            ('floating output', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.floatingOutputReporter()'),
+            ('divider1', ''),
+            ('bake udim tiles', 'import dmptools.tools.bakeUdimTiles as bakeUdimTiles;reload(bakeUdimTiles);bakeUdimTiles.main()'),
+            ('fix clip planes', 'import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.fixClipPlanes()'),
+            ('bake camera', 'import dmptools.tools.bakeCamera as bakeCamera;reload(bakeCamera);bakeCamera.main()'),
         ]
     },
     {
