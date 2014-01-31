@@ -2,62 +2,78 @@ from maya import cmds, mel
 
 from dmptools.settings import SettingsManager
 
-def buildUI(settingsName):
-    S = SettingsManager(settingsName)
-    settings = S.getAll()
-    # create ui
-    if cmds.window(settingsName, exists=True):
-        cmds.deleteUI(settingsName, window=True)
-    settingsWindow = cmds.window(settingsName,
-                        t='dmptools | '+settingsName+' Settings',
-                        w=80,
-                        h=60)
+def buildUI():
+    """
+    build a window containing all the settings from the dmptools module
+    """
+    S = SettingsManager('maya_main')
+    mainSettings = [setting for setting in S.getAllSettingsFiles() if 'maya' in setting]
+    mainSettings.remove('maya_main')
+
+    windowName = 'dmptools_settings_window'
+    if cmds.window(windowName, exists=True):
+        cmds.deleteUI(windowName, window=True)
+
+    settingsWindow = cmds.window(windowName,
+                        t='dmptools settings',
+                        w=220,
+                        h=120)
 
     form = cmds.formLayout()
-    #colLayout = cmds.columnLayout(adj=True, columnAttach=('both', 5))
-    colLayout = cmds.scrollLayout(cr=True)
+    scrollLayout = cmds.scrollLayout(cr=True)
 
-    # creating attibutes based on type of value
-    for setting in settings:
-        if type(setting.values()[0]).__name__ in ['str', 'unicode']:
-            strAttribute(setting)
-        if type(setting.values()[0]).__name__ == 'float':
-            floatAttribute(setting)
-        if type(setting.values()[0]).__name__ == 'int':
-            floatAttribute(setting)
-        if type(setting.values()[0]).__name__ == 'bool':
-            boolAttribute(setting)
-        if type(setting.values()[0]).__name__ in ['list', 'tuple']:
-            strAttribute(setting)
+    for mainSetting in mainSettings:
+        cmds.frameLayout(mainSetting+'settings_frmLayout',
+                            label=mainSetting.replace('maya_', '').replace('_', ' '),
+                            cll=True,
+                            cl=True,
+                            bv=False,
+                            annotation='Settings for '+mainSetting.replace('maya_', '').replace('_', ' '))
+
+        # creating attibutes based on type of value
+        settings = SettingsManager(mainSetting).getAll()
+        for setting in settings:
+            if type(setting.values()[0]).__name__ in ['str', 'unicode']:
+                strAttribute(mainSetting, setting)
+            if type(setting.values()[0]).__name__ == 'float':
+                floatAttribute(mainSetting, setting)
+            if type(setting.values()[0]).__name__ == 'int':
+                floatAttribute(mainSetting, setting)
+            if type(setting.values()[0]).__name__ == 'bool':
+                boolAttribute(mainSetting, setting)
+            if type(setting.values()[0]).__name__ in ['list', 'tuple']:
+                strAttribute(mainSetting, setting)
+
+        cmds.setParent('..')
 
     cmds.setParent('..')
-    closeButton = cmds.button(settingsName+'_close_button',
+    closeButton = cmds.button(windowName+'_close_button',
                     label="Close",
-                    c='import maya.cmds as cmds;cmds.deleteUI("'+settingsWindow+'", window=True)')
+                    c='import maya.cmds as cmds;cmds.deleteUI("'+windowName+'", window=True)')
+    cmds.setParent('..')
 
     cmds.formLayout(form, e=True,
                     attachForm=[
-                                    (colLayout, 'top', 5),
-                                    (colLayout, 'left', 5),
-                                    (colLayout, 'right', 5),
+                                    (scrollLayout, 'top', 5),
+                                    (scrollLayout, 'left', 5),
+                                    (scrollLayout, 'right', 5),
                                     (closeButton, 'left', 5),
                                     (closeButton, 'right', 5),
                                     (closeButton, 'bottom', 5),
                                 ],
                     attachControl=[
-                                    (colLayout, "bottom", 5, closeButton)
+                                    (scrollLayout, "bottom", 5, closeButton)
                                 ]
                 )
 
-    # displays the window
-    cmds.showWindow(settingsWindow)
+    cmds.showWindow(windowName)
 
-def strAttribute(setting):
+def strAttribute(mainSetting, setting):
     cmds.textFieldGrp(str(setting.keys()[0])+'_attribute',
                     label=str(setting.keys()[0]).replace('_', ' '),
                     text=str(setting.values()[0]),
                     editable=True,
-                    cc=updateStrAttr
+                    cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateStrAttr('"+mainSetting+"')"
                     )
 
 def updateStrAttr(*argv):
@@ -66,26 +82,26 @@ def updateStrAttr(*argv):
         newValue = cmds.textFieldGrp(str(setting.keys()[0])+'_attribute', text=True, q=True)
         SETTINGS.add(setting.keys()[0], newValue)
 
-def floatAttribute(setting):
+def floatAttribute(mainSetting, setting):
     cmds.floatFieldGrp(str(setting.keys()[0])+'_attribute',
                     numberOfFields=1,
                     label=str(setting.keys()[0]).replace('_', ' '),
                     value1=setting.values()[0],
-                    cc=updateFloatAttr
+                    cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateFloatAttr('"+mainSetting+"')"
                     )
 
-def updateFloatAttr(*argv):
-    SETTINGS = SettingsManager(settingsName)
+def updateFloatAttr(setting):
+    SETTINGS = SettingsManager(setting)
     for setting in SETTINGS.getAll():
         newValue = cmds.floatFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
         SETTINGS.add(setting.keys()[0], newValue[0])
 
-def intAttribute(setting):
+def intAttribute(mainSetting, setting):
     cmds.intFieldGrp(str(setting.keys()[0])+'_attribute',
                     numberOfFields=1,
                     label=str(setting.keys()[0]).replace('_', ' '),
                     value1=setting.values()[0],
-                    cc=updateIntAttr
+                    cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateIntAttr('"+mainSetting+"')"
                     )
 
 def updateIntAttr(*argv):
@@ -94,12 +110,12 @@ def updateIntAttr(*argv):
         newValue = cmds.intFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
         SETTINGS.add(setting.keys()[0], newValue)
 
-def boolAttribute(setting):
+def boolAttribute(mainSetting, setting):
     cmds.checkBoxGrp(str(setting.keys()[0])+'_attribute',
                         numberOfCheckBoxes=1,
                         label=str(setting.keys()[0]).replace('_', ' '),
                         v1=setting.values()[0],
-                        cc=updateBoolAttribute
+                        cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateBoolAttribute('"+mainSetting+"')"
                         )
 
 def updateBoolAttribute(*argv):

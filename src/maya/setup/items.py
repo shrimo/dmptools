@@ -8,40 +8,6 @@ from dmptools.settings import SettingsManager
 ICONSPATH = '!MAYA_SHELF!'
 HELP_PAGE = '!HELP_PAGE!'
 
-def appendSettingsItems(SHELF_ITEMS):
-    """
-    returns a list of setting items if they exists 
-    """
-    itemsToCrop = SHELF_ITEMS[0:3]
-    croppedList = SHELF_ITEMS[4:]
-
-    menuList = []
-    for setting in SettingsManager('maya_main').getAllSettingsFiles():
-        if setting:
-            if not '~' in setting:
-                menuList.append((setting.replace('_', ' '), 'import dmptools.setup.settingsWindow as settingsWindow;\
-                            reload(settingsWindow);\
-                            settingsWindow.main("'+setting+'")'))
-
-    if menuList:
-        item = {
-                'name':'Settings',
-                'command':'print "settings - right click for full list", ',
-                'icon':ICONSPATH+'/options.png',
-                'annotation':'Settings for various dmptools modules',
-                'menu':True,
-                'menuItems':menuList
-            }
-        itemSeparator = {
-            'name':'separator_options'
-            }
-        itemsToCrop.append(item)
-        itemsToCrop.append(itemSeparator)
-
-    itemsToCrop.extend(croppedList)
-
-    return itemsToCrop
-
 # markingMenu items list
 markingMenuItems = [
     #==========================#
@@ -498,7 +464,7 @@ hotkeysItems = [
             reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
     },
     {
-        'name':'set_viewport2.0_renderer',
+        'name':'set_viewport2_0_renderer',
         'help':'Set the viewport display to the viewport2.0 renderer.',
         'key':'3',
         'alt':True,
@@ -907,12 +873,14 @@ hotkeysItems = [
 shelfItems = [
     {
         'name':'dmptools shelf',
-        'command':'import dmptools.setup.shelf as shelf;shelf.main()',
+        'command':'import dmptools.setup.shelf as shelf;reload(shelf);shelf.main()',
         'icon':ICONSPATH+'/refresh.png',
         'annotation':'Rebuild the dmptools shelf - right click for options.',
         'menu':True,
         'menuItems':[
             ('Initialize dmptools', 'import dmptools.setup.init'),
+            ('Rebuild the dmptools shelf', 'import dmptools.setup.shelf as shelf;reload(shelf);shelf.main()'),
+            ('Reassign the dmptools hotkeys', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.main()'),
             ('divider2', ''),
             ('Open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
             ('Set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
@@ -921,6 +889,16 @@ shelfItems = [
     },
     {
         'name':'separator_main'
+    },
+    {
+        'name':'Settings',
+        'command':'import dmptools.setup.settingsWindow as settingsWindow;reload(settingsWindow);settingsWindow.buildUI()',
+        'icon':ICONSPATH+'/options.png',
+        'annotation':'Settings of dmptools.',
+        'menu':True,
+        'menuItems':[
+            ('dmptools settings', 'import dmptools.setup.settingsWindow as settingsWindow;reload(settingsWindow);settingsWindow.buildUI()'),
+        ]
     },
     {
         'name':'Help',
@@ -972,18 +950,6 @@ shelfItems = [
             ('Launch Nuke','import dmptools.utils.mayaCommands as mayaCommands;reload(mayaCommands);mayaCommands.launchNuke()'),
         ]
     },
-# deprecated maya to nuke button. moved to the Utils menu item list
-#    {
-#        'name':'mayaToNuke',
-#        'command':'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(False)',
-#        'icon':ICONSPATH+'/MayaToNuke.xpm',
-#        'annotation':'Maya to Nuke Exporter.',
-#        'menu':True,
-#        'menuItems':[
-#            ('run dockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=True)'),
-#            ('run undockable', 'import dmptools.tools.mayaToNuke.launcher as mayaToNukeLauncher;mayaToNukeLauncher.main(dockable=False)')
-#        ]
-#    },
     {
         'name':'separator_utils'
     },
