@@ -199,7 +199,7 @@ hotkeysItems = [
         'ctrl':False,
         'release':False,
         'command':'python("import dmptools.setup.hotkeys as hotkeys;\
-            reload(hotkeys);hotkeys.showHotkeysList()");',
+            reload(hotkeys);hotkeys.showHotkeysList(True)");',
     },
     #=====================================================================#
     #                      MODELING SECTION    #
@@ -864,8 +864,7 @@ hotkeysItems = [
         'alt':True,
         'ctrl':False,
         'release':False,
-        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;\
-            reload(fbkUtils);fbkUtils.switchAnimRender()");',
+        'command':'python("import dmptools_misc.framestore.maya.fbkUtils as fbkUtils;reload(fbkUtils);fbkUtils.switchAnimRender()");',
     },
 ]
 

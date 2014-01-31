@@ -380,15 +380,15 @@ def splitEdgeRingRelease(flow=False, flowValue=0.5, smoothingAngle=35):
     """
     # check for default values saved in preferences (settings)
     followFlow = SETTINGS.get('egde_split_flow')
-    if not 'followFlow' in locals():
+    if followFlow == None:
         followFlow = flow
         SETTINGS.add('egde_split_flow', followFlow)
     followFlowValue = SETTINGS.get('egde_split_flow_value')
-    if not 'followFlowValue' in locals():
+    if followFlowValue == None:
         followFlowValue = flowValue
         SETTINGS.add('egde_split_flow_value', followFlowValue)
     smoothingValue = SETTINGS.get('egde_split_smoothing_value')
-    if not 'smoothingValue' in locals():
+    if smoothingValue == None:
         smoothingValue = smoothingAngle
         SETTINGS.add('egde_split_smoothing_value', smoothingValue)
 

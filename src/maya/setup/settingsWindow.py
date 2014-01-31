@@ -76,12 +76,15 @@ def strAttribute(mainSetting, setting):
                     cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateStrAttr('"+mainSetting+"')"
                     )
 
-def updateStrAttr(*argv):
-    SETTINGS = SettingsManager(settingsName)
+def updateStrAttr(mainSetting):
+    SETTINGS = SettingsManager(mainSetting)
     for setting in SETTINGS.getAll():
-        newValue = cmds.textFieldGrp(str(setting.keys()[0])+'_attribute', text=True, q=True)
-        SETTINGS.add(setting.keys()[0], newValue)
-
+        try:
+            newValue = cmds.textFieldGrp(str(setting.keys()[0])+'_attribute', text=True, q=True)
+            SETTINGS.add(setting.keys()[0], newValue)
+        except:
+            pass
+            
 def floatAttribute(mainSetting, setting):
     cmds.floatFieldGrp(str(setting.keys()[0])+'_attribute',
                     numberOfFields=1,
@@ -90,11 +93,14 @@ def floatAttribute(mainSetting, setting):
                     cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateFloatAttr('"+mainSetting+"')"
                     )
 
-def updateFloatAttr(setting):
-    SETTINGS = SettingsManager(setting)
+def updateFloatAttr(mainSetting):
+    SETTINGS = SettingsManager(mainSetting)
     for setting in SETTINGS.getAll():
-        newValue = cmds.floatFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
-        SETTINGS.add(setting.keys()[0], newValue[0])
+        try:
+            newValue = cmds.floatFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
+            SETTINGS.add(setting.keys()[0], newValue[0])
+        except:
+            pass
 
 def intAttribute(mainSetting, setting):
     cmds.intFieldGrp(str(setting.keys()[0])+'_attribute',
@@ -104,11 +110,14 @@ def intAttribute(mainSetting, setting):
                     cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateIntAttr('"+mainSetting+"')"
                     )
 
-def updateIntAttr(*argv):
-    SETTINGS = SettingsManager(settingsName)
+def updateIntAttr(mainSetting):
+    SETTINGS = SettingsManager(mainSetting)
     for setting in SETTINGS.getAll():
-        newValue = cmds.intFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
-        SETTINGS.add(setting.keys()[0], newValue)
+        try:
+            newValue = cmds.intFieldGrp(str(setting.keys()[0])+'_attribute', value=True, q=True)
+            SETTINGS.add(setting.keys()[0], newValue)
+        except:
+            pass
 
 def boolAttribute(mainSetting, setting):
     cmds.checkBoxGrp(str(setting.keys()[0])+'_attribute',
@@ -118,11 +127,14 @@ def boolAttribute(mainSetting, setting):
                         cc="import dmptools.setup.settingsWindow as settingsWindow;settingsWindow.updateBoolAttribute('"+mainSetting+"')"
                         )
 
-def updateBoolAttribute(*argv):
-    SETTINGS = SettingsManager(settingsName)
+def updateBoolAttribute(mainSetting):
+    SETTINGS = SettingsManager(mainSetting)
     for setting in SETTINGS.getAll():
-        newValue = cmds.checkBoxGrp(str(setting.keys()[0])+'_attribute', value1=True, q=True)
-        SETTINGS.add(setting.keys()[0], newValue)
+        try:
+            newValue = cmds.checkBoxGrp(str(setting.keys()[0])+'_attribute', value1=True, q=True)
+            SETTINGS.add(setting.keys()[0], newValue)
+        except:
+            pass
 
 def main(name):
     global SETTINGS
