@@ -438,8 +438,8 @@ def main():
     else:
         print 'Error: maya path not found!'
     # print the file and line count
-    # files = lineCounter()
-    # print '>>>', len(files[0]), 'files, ', files[1], 'lines'
+    #files = lineCounter()
+    #print '>>>', len(files[0]), 'files, ', files[1], 'lines'
     print ' >> installed at', str(time.strftime('%H:%M:%S the %d/%m/%y'))
 
 if __name__ == '__main__':
@@ -454,7 +454,7 @@ if __name__ == '__main__':
     # run the install
     else:
         main()
-        # ask to press enter if the install.py file is executed by hand
+        # ask to press enter if the file is executed by hand
         try:
             raw_input("\npress enter to continue...")
         except:
