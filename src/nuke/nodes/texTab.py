@@ -40,10 +40,13 @@ def texTab():
 
     checkBox = nuke.Boolean_Knob("texConvertCheckbox","Do Convertion")
     checkBox.setValue(False)
-    sMode = nuke.Enumeration_Knob("sMode","sMode",['black','periodic','clamp'])
-    tMode = nuke.Enumeration_Knob("tMode","tMode",['black','periodic','clamp'])
+    pattern = nuke.Enumeration_Knob("pattern","pattern",['diagonal','single','all'])
+    format = nuke.Enumeration_Knob("format","format",['openexr','pixar','tiff'])
+    mode = nuke.Enumeration_Knob("mode","mode",['black','periodic','clamp'])
     resizeMenu = nuke.Enumeration_Knob("resize","resize",['up-', 'up','down-','down', 'round-', 'round', 'none'])
     filterMenu = nuke.Enumeration_Knob("filter","filter",['box',
+        'point', 'triangle', 'sinc', 'gaussian', 'gaussian-soft', 'catmull-rom', 'mitchell', 'cubic', 'lanczos', 'bessel', 'blackman-harris'])
+    mipfilterMenu = nuke.Enumeration_Knob("mipfilter","mipfilter",['box',
         'point', 'triangle', 'sinc', 'gaussian', 'gaussian-soft', 'catmull-rom', 'mitchell', 'cubic', 'lanczos', 'bessel', 'blackman-harris'])
     otherFlags = nuke.EvalString_Knob('otherFlags', 'Other Flags', '')
     # separator
@@ -62,10 +65,12 @@ def texTab():
     # add knobs
     node.addKnob(tab)
     node.addKnob(checkBox)
-    node.addKnob(sMode)
-    node.addKnob(tMode)
+    node.addKnob(pattern)
+    node.addKnob(format)
+    node.addKnob(mode)
     node.addKnob(resizeMenu)
     node.addKnob(filterMenu)
+    node.addKnob(mipfilterMenu)
     node.addKnob(otherFlags)
     node.addKnob(separator1)
     node.addKnob(checkText)
@@ -116,16 +121,18 @@ def texConvert():
         ext = fileIn.split('.')[-1]
         fileOut = fileIn.replace('/%s/' %ext,'/tex/').replace('.%s' %ext,'.tex').replace('.####.','.%s.' %currentFrame).replace('.%4d.','.%s.' %currentFrame)
         
-        sMode = node.knob('sMode').value()
-        tMode = node.knob('tMode').value()
+        mode = node.knob('mode').value()
+        pattern = node.knob('pattern').value()
+        format = node.knob('format').value()
         resize = node.knob('resize').value()
         filterValue = node.knob('filter').value()
+        mipfilter = node.knob('mipfilter').value()
         otherFlags = node.knob('otherFlags').value()
         
-        if resize == 'none':
-            command = 'txmake -verbose -float -smode %s -tmode %s -resize %s %s %s %s\n' %(sMode, tMode, resize, otherFlags, fileIn, fileOut)
-        else:
-            command = 'txmake -verbose -float -smode %s -tmode %s -resize %s -filter %s %s %s %s\n' %(sMode, tMode, resize, filterValue, otherFlags, fileIn, fileOut)
+        #if resize == 'none':
+        #    command = 'txmake -verbose -float -pattern %s -mode %s -resize %s %s %s %s\n' %(pattern, format, mode, resize, otherFlags, fileIn, fileOut)
+        #else:
+        command = 'txmake -verbose -float -pattern %s -mode %s -format %s -resize %s -filter %s -mipfilter %s %s %s %s\n' %(pattern, mode, format, resize, filterValue, mipfilter, otherFlags, fileIn, fileOut)
         print '> converting tex...'
         print command
         popObj = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

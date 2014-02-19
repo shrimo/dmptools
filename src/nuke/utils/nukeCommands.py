@@ -767,6 +767,7 @@ def executeSelection(firstFrame=nuke.frame(), lastFrame=nuke.frame()):
     if nodes:
         try:
             for node in nodes:
+                nuke.frame(firstFrame)
                 print "executing", node.name(), nuke.frame()
                 print 'writing', node['file'].getValue()
                 nuke.execute(node, firstFrame, lastFrame)
