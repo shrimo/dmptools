@@ -25,5 +25,5 @@ UNINSTALL:
     - execute uninstall.py from an explorer in the dmptools root OR run in a command shell run 'python uninstall.py' or 'python install.py uninstall'
 
 RESULT:
-    - Maya: You should see a new shelf 'dmptools' and the marking menu of the tools is mapped to the 'n' key.
+    - Maya: You should see a new shelf 'dmptools' and the marking menu of the tools is mapped to the 'j' key.
     - Nuke: You should see a new toolbar 'dmptools' on the left toolbar.
