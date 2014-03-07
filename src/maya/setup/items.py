@@ -879,11 +879,6 @@ shelfItems = [
         'menuItems':[
             ('Initialize dmptools', 'import dmptools.setup.init'),
             ('Rebuild the dmptools shelf', 'import dmptools.setup.shelf as shelf;reload(shelf);shelf.main()'),
-            ('Reassign the dmptools hotkeys', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.main()'),
-            ('divider2', ''),
-            ('Open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
-            ('Set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
-            ('Set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
         ]
     },
     {
@@ -896,7 +891,12 @@ shelfItems = [
         'annotation':'Settings of dmptools.',
         'menu':True,
         'menuItems':[
-            ('dmptools settings', 'import dmptools.setup.settingsWindow as settingsWindow;reload(settingsWindow);settingsWindow.buildUI()'),
+            ('Settings', 'import dmptools.setup.settingsWindow as settingsWindow;reload(settingsWindow);settingsWindow.buildUI()'),
+            ('divider2', ''),
+            ('Reassign the dmptools hotkeys', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.main()'),
+            ('Open maya command port', 'import dmptools.setup.mayaSettings as mayaSettings;mayaSettings.openCommandPort()'),
+            ('Set Custom Settings', 'import dmptools.setup.mayaSettings as ms;ms.setCustomSettings()'),
+            ('Set Default Settings', 'import dmptools.setup.mayaSettings as ms;ms.setDefaultSettings()'),
         ]
     },
     {
