@@ -1,5 +1,7 @@
 from maya import cmds
 
+WINDOWNAME = 'dmptools_display_color_window'
+
 def overrideColor():
     colorIndex = cmds.palettePort('dmptools_display_color', setCurCell=True, q=True)
     for node in cmds.ls(sl=True):
@@ -9,13 +11,12 @@ def overrideColor():
         cmds.setAttr(nodeShape+".overrideColor", colorIndex)
 
 def ui():
-    windowName = 'dmptools_display_color_window'
     try:
-        cmds.deleteUI(windowName, window=True)
+        cmds.deleteUI(WINDOWNAME, window=True)
     except:
         pass
 
-    cmds.window(windowName, title="Display Color Override", rtf=True, sizeable=False)        
+    cmds.window(WINDOWNAME, title="Display Color Override", rtf=True, sizeable=False)        
     colLayout = cmds.columnLayout(adj=True)
     
     columns = 16
@@ -41,7 +42,7 @@ def ui():
                    edit=True,
                    rgbValue=(0, 0.6, 0.6, 0.6))
 
-    cmds.showWindow(windowName)
+    cmds.showWindow(WINDOWNAME)
 
 def main():
     ui()

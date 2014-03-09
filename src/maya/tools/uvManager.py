@@ -1,5 +1,7 @@
 from maya import cmds
 
+WINDOWNAME = 'uvTileManagerWindow'
+
 def offsetUVTop(*args):
     value = float(cmds.textField('uvTileManager', text=True, q=True))
     cmds.polyEditUV(u=0, v=value)
@@ -17,9 +19,9 @@ def offsetUVRight(*args):
     cmds.polyEditUV(u=value, v=0)
 
 def ui():
-    if cmds.window('uvTileManagerWindow', exists=True):
-        cmds.deleteUI('uvTileManagerWindow', window=True)
-    win = cmds.window('uvTileManagerWindow', t='UV tile manager', w=180, h=180, s=False)
+    if cmds.window(WINDOWNAME, exists=True):
+        cmds.deleteUI(WINDOWNAME, window=True)
+    win = cmds.window(WINDOWNAME, t='UV tile manager', w=180, h=180, s=False)
 
     mainForm = cmds.formLayout()
     #midForm = cmds.formLayout()

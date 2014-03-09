@@ -1,10 +1,12 @@
 import maya.cmds as cmds
 
+WINDOWNAME = 'camConstraintUI'
+
 class CamConstraintUI:
 
     def __init__(self):
         self.cameras = self.getSceneCameras()
-        self.UIName='camConstraintUI'
+        self.UIName = WINDOWNAME
         self.UI = self.createUI()
         self.menuUI = ''
         cmds.showWindow(self.UI)        

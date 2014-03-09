@@ -2,6 +2,9 @@ import subprocess
 
 import maya.cmds as cmds
 
+WINDOWNAME = 'runCommandWin'
+CONTROLNAME = 'runCommandCtrl'
+
 def run(value=None):
     # get the value from the textfield 
     value = cmds.textField('runCmd_input', q=True, text=True)
@@ -21,18 +24,16 @@ def ui(dockable):
     """
         run command main UI
     """
-    windowName = 'runCommandWin'
-    controlName = 'runCommandCtrl'
     try:
-        cmds.deleteUI(windowName, window=True)
+        cmds.deleteUI(WINDOWNAME, window=True)
     except:
         pass
     try:
-        cmds.deleteUI(controlName, control=True)
+        cmds.deleteUI(CONTROLNAME, control=True)
     except:
         pass
     
-    cmds.window(windowName, t='run a command')
+    cmds.window(WINDOWNAME, t='run a command')
     form = cmds.formLayout()
     inputText = cmds.textField('runCmd_input', editable=True, text='', enterCommand=run, changeCommand=run)
     checkBox = cmds.checkBox('runCmd_chkbx', value=True, label='output')
@@ -59,9 +60,9 @@ def ui(dockable):
         attachForm=[(checkBox, 'bottom', 5),
                     (checkBox, 'right', 5)])
     if dockable:
-        cmds.dockControl(controlName, label='Run Command', floating=True, area='right', content=windowName)
+        cmds.dockControl(CONTROLNAME, label='Run Command', floating=True, area='right', content=WINDOWNAME)
     else:
-        cmds.showWindow(windowName)
+        cmds.showWindow(WINDOWNAME)
     
 def main(dockable):
     ui(dockable)

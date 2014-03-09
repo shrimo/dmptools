@@ -1,6 +1,8 @@
 import maya.cmds as cmds
 import maya.mel as mel
 
+WINDOWNAME = 'separateUI'
+
 class Extract(object):
     def __init__(self):
         self.original = cmds.ls(sl=True)
@@ -44,7 +46,7 @@ class Extract(object):
         cmds.delete(original)
         cmds.delete(original_mesh)
         # close the ui at the end
-        cmds.deleteUI('separateUI')
+        cmds.deleteUI(WINDOWNAME)
 
         print '> done.'
 
@@ -116,19 +118,19 @@ class Extract(object):
         sel = cmds.ls(sl=True)
         if sel:
             self.original = sel
-            cmds.window('separateUI', t='Separate: '+self.original[0], e=True)
+            cmds.window(WINDOWNAME, t='Separate: '+self.original[0], e=True)
 
     def closeUI(self, *args):
         """close the UI"""
-        cmds.deleteUI('separateUI')
+        cmds.deleteUI(WINDOWNAME)
 
     def UI(self, mesh):
 
         # delete window if exists
-        if cmds.window('separateUI', exists=True):
-            cmds.deleteUI('separateUI', window=True)
+        if cmds.window(WINDOWNAME, exists=True):
+            cmds.deleteUI(WINDOWNAME, window=True)
         
-        win = cmds.window('separateUI', t='Separate: '+mesh, s=False)
+        win = cmds.window(WINDOWNAME, t='Separate: '+mesh, s=False)
         form = cmds.formLayout()
         separator1 = cmds.separator('separator1', style='single')
         polycount = cmds.textFieldGrp('polycount',

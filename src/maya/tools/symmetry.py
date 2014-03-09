@@ -1,6 +1,8 @@
 import maya.cmds as cmds
 import maya.mel as mel
 
+WINDOWNAME = 'sym_window'
+
 class Symmetry(object):
     def __init__(self):
         pass
@@ -89,10 +91,10 @@ class Symmetry(object):
         cmds.select(newSelection)
         
     def UI(self):
-        if cmds.window('sym_window', exists=True):
-            cmds.deleteUI('sym_window', window=True)
+        if cmds.window(WINDOWNAME, exists=True):
+            cmds.deleteUI(WINDOWNAME, window=True)
 
-        window = cmds.window('sym_window', t='Mirror Geo: select Axis')
+        window = cmds.window(WINDOWNAME, t='Mirror Geo: select Axis')
         cmds.columnLayout(adjustableColumn=True)
         bright, dark = 0.4, 0.3
         cmds.iconTextButton(style='textOnly',

@@ -7,7 +7,7 @@ in the user respective folders.
 
 USE:
     Platforms: Windows, Linux
-    Warning: All commands has to be executed from the root of the dmptools root directory.
+    Warning: All commands have to be executed from the root of the dmptools root directory.
 
     install:
     > python install.py
@@ -89,7 +89,7 @@ del(LISTDIR)
 # platform globals
 if PLATFORM == 'Windows':
     HOMEPATH = os.getenv('USERPROFILE')
-    GOOGLEDRIVE_PATH = HOMEPATH+'/google drive/code/python/'
+    GOOGLEDRIVE_PATH = HOMEPATH+'/drive/code/python/'
     # nuke windows globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)

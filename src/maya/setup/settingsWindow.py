@@ -2,6 +2,8 @@ from maya import cmds, mel
 
 from dmptools.settings import SettingsManager
 
+WINDOWNAME = 'dmptools_settings_window'
+
 def buildUI():
     """
     build a window containing all the settings from the dmptools module
@@ -10,11 +12,10 @@ def buildUI():
     mainSettings = [setting for setting in S.getAllSettingsFiles() if 'maya' in setting]
     mainSettings.remove('maya_main')
 
-    windowName = 'dmptools_settings_window'
-    if cmds.window(windowName, exists=True):
-        cmds.deleteUI(windowName, window=True)
+    if cmds.window(WINDOWNAME, exists=True):
+        cmds.deleteUI(WINDOWNAME, window=True)
 
-    settingsWindow = cmds.window(windowName,
+    settingsWindow = cmds.window(WINDOWNAME,
                         t='dmptools settings',
                         w=220,
                         h=120)
@@ -47,9 +48,9 @@ def buildUI():
         cmds.setParent('..')
 
     cmds.setParent('..')
-    closeButton = cmds.button(windowName+'_close_button',
+    closeButton = cmds.button(WINDOWNAME+'_close_button',
                     label="Close",
-                    c='import maya.cmds as cmds;cmds.deleteUI("'+windowName+'", window=True)')
+                    c='import maya.cmds as cmds;cmds.deleteUI("'+WINDOWNAME+'", window=True)')
     cmds.setParent('..')
 
     cmds.formLayout(form, e=True,
@@ -66,7 +67,7 @@ def buildUI():
                                 ]
                 )
 
-    cmds.showWindow(windowName)
+    cmds.showWindow(WINDOWNAME)
 
 def strAttribute(mainSetting, setting):
     cmds.textFieldGrp(str(setting.keys()[0])+'_attribute',

@@ -908,6 +908,7 @@ shelfItems = [
         'menuItems':[
             ('Show dmptools shortcuts', 'import dmptools.setup.hotkeys as hotkeys;reload(hotkeys);hotkeys.showHotkeysList(dockable=False)'),
             ('divider2', ''),
+            ('Reset windows locations', 'import dmptools.utils.checkWindowsLocation as checkWindowsLocation;reload(checkWindowsLocation);checkWindowsLocation.main()'), 
             ('Open dmptools github page','import webbrowser;webbrowser.open("'+HELP_PAGE+'")'),
             ('Open Maya commands page','import webbrowser;webbrowser.open("http://download.autodesk.com/global/docs/maya2014/en_us/CommandsPython/index.html")'),
         ]
