@@ -52,7 +52,7 @@ class CreateArcs(object):
         if PLATFORM == "Linux":
             filepath = "/tmp"
         if PLATFORM == "Windows":
-            filepath = "C:/tmp"
+            filepath = os.getenv('TEMP')
         
         # convert arcSystem dict to str
         arcSystemStr = "raw dict: "+str(arcSystem)+"\n"
@@ -204,7 +204,8 @@ class CreateArcs(object):
         curveonsurface = cmds.curveOnSurface(extrudesurface, append=False, uv=(0, 0))
         
         y = 0.0
-        for i in range(surfaceCV):
+
+        for i in range(int(surfaceCV)):
             y += curveMaxValue/surfaceCV
             x = math.fmod(y*2*surfaceCV/curveMaxValue, 8)
             #print x, y
