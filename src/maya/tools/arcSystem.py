@@ -204,7 +204,7 @@ class CreateArcs(object):
         curveonsurface = cmds.curveOnSurface(extrudesurface, append=False, uv=(0, 0))
         
         y = 0.0
-        for i in range(surfaceCV):
+        for i in range(int(surfaceCV)):
             y += curveMaxValue/surfaceCV
             x = math.fmod(y*2*surfaceCV/curveMaxValue, 8)
             #print x, y
