@@ -90,6 +90,7 @@ del(LISTDIR)
 if PLATFORM == 'Windows':
     HOMEPATH = os.getenv('USERPROFILE')
     GOOGLEDRIVE_PATH = HOMEPATH+'/drive/code/python/'
+    TEMPPATH = os.getenv('TEMP')
     # nuke windows globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
@@ -102,6 +103,7 @@ if PLATFORM == 'Windows':
 if PLATFORM == 'Linux':
     HOMEPATH = os.getenv('HOME')
     GOOGLEDRIVE_PATH = HOMEPATH+'/drive/code/python/'
+    TEMPPATH = os.getenv('TMP')
     # nuke Linux globals
     NUKE_PATH = HOMEPATH+'/.nuke/'
     IS_NUKE_EXISTS = os.path.exists(NUKE_PATH)
@@ -125,6 +127,7 @@ REPLACEMENTS = \
         '!HOMEPATH!'            : HOMEPATH,
         '!GOOGLEDRIVE_PATH!'    : GOOGLEDRIVE_PATH,
         '!HELP_PAGE!'           : __github__,
+        '!TEMPPATH!'            : TEMPPATH,
 
         # maya
         '!MAYA_GLOBAL!'         : MAYA_GLOBAL,
