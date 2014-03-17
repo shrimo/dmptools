@@ -608,7 +608,7 @@ hotkeysItems = [
         'name':'hypershade',
         'help':'Opens the hypershade.',
         'key':'0',
-        'alt':True,
+        'alt':False,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
@@ -618,7 +618,7 @@ hotkeysItems = [
         'name':'uv_texture_editor',
         'help':'Opens the uv texture editor.',
         'key':'.',
-        'alt':True,
+        'alt':False,
         'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
