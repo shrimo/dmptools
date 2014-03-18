@@ -447,8 +447,8 @@ hotkeysItems = [
         'name':'set_default_renderer',
         'help':'Set the viewport display to the default renderer.',
         'key':'1',
-        'alt':True,
-        'ctrl':False,
+        'alt':False,
+        'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.setDefaultRenderer()");',
@@ -457,8 +457,8 @@ hotkeysItems = [
         'name':'set_hardware_renderer',
         'help':'Set the viewport display to the hardware renderer.',
         'key':'2',
-        'alt':True,
-        'ctrl':False,
+        'alt':False,
+        'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.setHardwareRenderer()");',
@@ -467,8 +467,8 @@ hotkeysItems = [
         'name':'set_viewport2_0_renderer',
         'help':'Set the viewport display to the viewport2.0 renderer.',
         'key':'3',
-        'alt':True,
-        'ctrl':False,
+        'alt':False,
+        'ctrl':True,
         'release':False,
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.setViewport2Renderer()");',
