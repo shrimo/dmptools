@@ -49,7 +49,33 @@ def getComponentFromTexture(textureNode, component='color'):
         return componentTexturePath
     else:
         cmds.warning('Cannot find component texture file.')
-        
+
+def createShader(textureNode, shaderType='blinn', fromColour=False, fromNormal=True, fromSpecular=True):
+
+    if fromColour and fromNormal and fromSpecular:
+        raise UserWarning('You have to choose which component to start from')
+    if not fromColour and not fromNormal and not fromSpecular:
+        raise UserWarning('You have to choose which component to start from')
+    if not fromColour and fromNormal and fromSpecular:
+        raise UserWarning('You have to choose which component to start from')
+       
+    colorTexture = textureNode
+    alphaTexture = textureNode
+    normalTexture = textureNode
+    specularTexture = textureNode
+    
+    if shaderType == 'blinn':
+        # createShader and shadingGroup
+        shader = cmds.shadingNode('blinn', asShader=True)
+        shadingGroup = cmds.sets(shader)
+    if fromColour and fromSpecular:
+        # create bump/normal node
+        bumpNode = cmds.shadingNode('bump2d', asUtility=True)
+        cmds.setAttr(bumpNode+'.bumpInterp', 1)
+        # connect normal map to bump node
+        cmds.connectAttr(normalTexture+'.outAlpha', bumpNode+'.bumpValue')
+        # connect bump to shader
+        cmds.connectAttr(bumpNode+'.outNormal', shader+'.normalCamera')
 
 def main():
     selection = cmds.ls(sl=True)
@@ -61,3 +87,6 @@ def main():
     normal = getComponentFromTexture(node, 'normal')
     newTextureFile = cmds.shadingNode('file', asTexture=True)
     cmds.setAttr(newTextureFile+'.fileTextureName', t, type="string")
+
+
+    createShader('spark01_1', 'blinn', False, True, False)

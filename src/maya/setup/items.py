@@ -582,6 +582,19 @@ hotkeysItems = [
         'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
             reload(mayaCommands);mayaCommands.isolateSelection()");',
     },
+    {
+        'name':'light_selection',
+        'help':'Toggle light selection.',
+        'key':'l',
+        'alt':False,
+        'ctrl':False,
+        'release':True,
+        'command':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.lightingMode()");',
+        'releaseCommand':'python("import dmptools.utils.mayaCommands as mayaCommands;\
+            reload(mayaCommands);mayaCommands.lightingModeRelease()");',
+
+    },
     #=====================================================================#
     #                      WINDOWS SECTION    #
     #=====================================================================#

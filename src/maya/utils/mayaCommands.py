@@ -853,6 +853,10 @@ def setAllLight():
     activePanel = cmds.getPanel(wf=True)
     cmds.modelEditor(activePanel, edit=True, displayLights='all')
 
+def setSelectedLights():
+    activePanel = cmds.getPanel(wf=True)
+    cmds.modelEditor(activePanel, edit=True, displayLights='selected')
+
 def switchLight():
     global switchlight
     try:
@@ -874,3 +878,30 @@ def lockPickNodes(lock=True):
         except:
             cmds.warning("cannot lockPick this node: "+str(node))
             
+def lightingMode():
+    light = 'dmptools_temp_directional_light'
+    sel = cmds.ls(sl=True)
+    if not sel:
+        raise UserWarning('Please select something!')
+
+    if not cmds.ls(light):
+        light = cmds.directionalLight(name='dmptools_temp_directional_light')
+    selM = cmds.xform(sel[0], q=True, matrix=True)
+    lightT = cmds.listRelatives(light, p=True)[0]
+
+    cmds.setAttr(light+'.locatorScale', 0.01)
+    cmds.xform(lightT, matrix=selM)
+    
+    rotateCtx = cmds.manipRotateContext()
+    cmds.setToolTo(rotateCtx)
+    
+    setSelectedLights()
+
+def lightingModeRelease():
+    # light = 'dmptools_temp_directional_light'
+    # if cmds.ls(light):
+    #     cmds.delete(light)
+
+    cmds.select(clear=True)
+
+    setDefaultLight()
